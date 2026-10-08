@@ -2,7 +2,7 @@
 
 This section highlights the key points in porting TensorFlow 2.6.5 scripts. If you want to get quick experience of the whole process, see  [Manual Porting and Training](../sample_ref/manual_porting_and_training.md). If some APIs mentioned in the porting are not described in the following sections, see  [TF Adapter 2.6 API Reference](../../apiref/README.md)  for more information.
 
-By learning this section, you will learn how to port TensorFlow 2.6.5 scripts to the  AI processor  for training and functionality check. For details about accuracy and performance tuning, see  [Accuracy Tuning](../accuracy_debugging/accuracy_debugging.md)  and  [Performance Tuning](../performance_tuning/performance_tuning.md).
+By learning this section, you will learn how to port TensorFlow 2.6.5 scripts to the AI processor for training and functionality check. For details about accuracy and performance tuning, see [Accuracy Tuning](../accuracy_debugging/accuracy_debugging.md) and [Performance Tuning](../performance_tuning/performance_tuning.md).
 
 ## Adding the @tf.function Decorator
 
@@ -130,7 +130,7 @@ If you wish to train 100 steps each time  **loop_train**  is called, you can set
 - Set the  **NPU_LOOP_SIZE**  environment variable before starting training.
 
     ```bash
-    export NPU_LOOP_SIZE=100 
+    export NPU_LOOP_SIZE=100
     ```
 
 - Insert a call to  [npu.set_npu_loop_size](../../apiref/npu-set_npu_loop_size.md)  \(pass  **100**  as the loop size\) before the  **loop_train**  call in your Python script.
@@ -147,10 +147,10 @@ remaining_steps = 100  # Number of remaining steps
 base_loop_size = 30  # Benchmark NPU loop size
 npu.set_npu_loop_size(base_loop_size)
 while remaining_steps >= base_loop_size:  # Offload based on benchmark loop size until the number of remaining steps is less than one loop.
-    loop_train(train_iterator, tf.constant(base_loop_size))    
+    loop_train(train_iterator, tf.constant(base_loop_size))
     remaining_steps -= base_loop_size
 if remaining_steps > 0:  # Process the remainder steps as a smaller NPU loop size.
-    npu.set_npu_loop_size(remaining_steps)    
+    npu.set_npu_loop_size(remaining_steps)
     loop_train(train_iterator, tf.constant(remaining_steps))
 ```
 
@@ -186,22 +186,22 @@ Compared with single NPU training, distributed NPU training requires the followi
         ```python
          # Import npu at the beginning of the script to use the npu.distribute.shard_and_rebatch API.
          import npu_device as npu
-        
+
           if input_context:
             logging.info(
                 'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
                 input_context.input_pipeline_id, input_context.num_input_pipelines)
             # Original shard logic. Shard is not performed, as training is performed in single-CPU mode.
-            dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id) 
+            dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id)
           # Shard logic added by the NPU. The dataset and global batch will be sharded based on the number of clusters.
-          dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size) 
+          dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
         ```
 
     - For a dataset from NumPy arrays, call related NumPy methods to shard the dataset and global batch. For example:
 
         ```python
         (x_train, _), (x_test, _) = keras.datasets.mnist.load_data(os.path.join(args.data_path, 'mnist.npz'))
-        
+
         # Evenly divide the dataset based on the number of devices.
         x_trains = np.split(x_train, args.rank_size)
         # Obtain the dataset shard by device ID.
@@ -210,7 +210,7 @@ Compared with single NPU training, distributed NPU training requires the followi
         x_test = x_tests[args.device_id]
         # Shard the global batch.
         batch_size = args.batch_size // args.rank_size
-        
+
         mnist_digits = np.concatenate([x_train, x_test], axis=0)
         mnist_digits = np.expand_dims(mnist_digits, -1).astype("float32") / 255
         ```

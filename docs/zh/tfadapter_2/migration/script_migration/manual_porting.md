@@ -45,7 +45,7 @@ npu.open接口的详细说明可参见[npu.open](../../apiref/npu-open.md)。
 
 ### 迁移说明
 
-通常，用户原始脚本在使用混合精度提升性能时，会使用LossScaleOptimizer保证精度，浮点计算溢出模式为“饱和模式”的场景下，由于NPU上浮点溢出的行为是全局标志置位而非产生Inf或NaN的输出，所以您需要使用NPU提供的[npu.train.optimizer.NpuLossScaleOptimizer](../../apiref/npu-train-optimizer-NpuLossScaleOptimizer.md)以获取正确的溢出检测结果。
+通常，用户原始脚本在使用混合精度提升性能时，会使用LossScaleOptimizer保证精度，浮点计算溢出模式为“饱和模式”的场景下，由于NPU上浮点溢出的行为是全局标志置位而非产生Inf或NaN的输出，所以您需要使用NPU提供的[npu.train.optimizer.NpuLossScaleOptimizer](../../apiref/npu-train-optimizer-npulossscaleoptimizer.md)以获取正确的溢出检测结果。
 
 npu.train.optimizer.NpuLossScaleOptimizer使用方法与tf.keras.mixed_precision.LossScaleOptimizer完全一致，使用细节可参考[链接](https://www.tensorflow.org/api_docs/python/tf/keras/mixed_precision/LossScaleOptimizer)。
 
@@ -130,7 +130,7 @@ def loop_train(iterator, steps):
 - 在启动训练前通过NPU_LOOP_SIZE的环境变量设置：
 
     ```bash
-    export NPU_LOOP_SIZE=100 
+    export NPU_LOOP_SIZE=100
     ```
 
 - 在Python脚本调用loop_train前调用[npu.set_npu_loop_size](../../apiref/npu-set_npu_loop_size.md)设置，然后就可以调用loop_train，并传入循环次数100：
@@ -147,10 +147,10 @@ remaining_steps = 100  # 剩余步数
 base_loop_size = 30  # 基准npu loop size
 npu.set_npu_loop_size(base_loop_size)
 while remaining_steps >= base_loop_size:  # 按照基准loop循环下沉训练，直到剩余Steps数不足一次loop
-    loop_train(train_iterator, tf.constant(base_loop_size))    
+    loop_train(train_iterator, tf.constant(base_loop_size))
     remaining_steps -= base_loop_size
 if remaining_steps > 0:  # 如果还有未处理的数据，调整为一个较小的npu loop size处理
-    npu.set_npu_loop_size(remaining_steps)    
+    npu.set_npu_loop_size(remaining_steps)
     loop_train(train_iterator, tf.constant(remaining_steps))
 ```
 
@@ -186,22 +186,22 @@ NPU上执行分布式，相较于单卡NPU训练，主要有三部分的额外�
         ```python
          # 由于需要使用npu.distribute.shard_and_rebatch接口，在脚本开头import npu
          import npu_device as npu
-        
+
           if input_context:
             logging.info(
                 'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
                 input_context.input_pipeline_id, input_context.num_input_pipelines)
             # 原始的shard逻辑，因为以单机CPU方式启动，所以不会进行实际的shard
-            dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id) 
+            dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id)
           # NPU添加的shard逻辑，会根据集群数量，对数据集和全局batch进行切分
-          dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size) 
+          dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
         ```
 
     - 当数据集为Numpy数组时，需要调用numpy方法手工对数据集和全局batch进行切分，例如：
 
         ```python
         (x_train, _), (x_test, _) = keras.datasets.mnist.load_data(os.path.join(args.data_path, 'mnist.npz'))
-        
+
         # 根据设备数量均分数据集
         x_trains = np.split(x_train, args.rank_size)
         # 按设备编号取对应的数据集分片
@@ -210,7 +210,7 @@ NPU上执行分布式，相较于单卡NPU训练，主要有三部分的额外�
         x_test = x_tests[args.device_id]
         # 对全局batch进行切片
         batch_size = args.batch_size // args.rank_size
-        
+
         mnist_digits = np.concatenate([x_train, x_test], axis=0)
         mnist_digits = np.expand_dims(mnist_digits, -1).astype("float32") / 255
         ```
