@@ -144,8 +144,8 @@ This section describes how to start TF Serving. Replace the example paths with y
 
     | Option | Description |
     | --- | --- |
-    | --port | Uses the GPRC mode for communication. |
-    | --rest_api_port | Uses the HTTP/REST API mode for communication. If set to 0, this option does not take effect. In addition, the specified port number must be different from that of the GPRC mode. |
+    | --port | Uses the gRPC mode for communication. |
+    | --rest_api_port | Uses the HTTP/REST API mode for communication. If set to 0, this option does not take effect. In addition, the specified port number must be different from that of the gRPC mode. |
     | --model_config_file | Imports multiple models. The file must be in the same directory as the models and --platform_config_file configuration file. |
     | --model_config_file_poll_wait_seconds | Sets the interval for updating the --model_config_file configuration file. When the service is enabled, the models written to --model_config_file are updated in real time and loaded to the server.<br>Unit: s. |
     | --model_name | Loads a single model. The value is the parent directory name of the version directory where the model is located. |

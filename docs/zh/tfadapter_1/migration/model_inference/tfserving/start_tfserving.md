@@ -2,7 +2,7 @@
 
 本节介绍启动TF Serving的操作方法，实际操作时请根据实际路径进行替换。本文中举例路径均需要确保安装用户具有读或读写权限。
 
-1. 在任意目录下新建“tf_serving_test“文件夹（本节以$HOME目录为例），并在文件夹中创建配置文件config.cfg并添加如下内容。具体字段可参考[session配置](../../../apiref/session_config/README.md)。
+1. 在任意目录下新建“tf_serving_test”文件夹（本节以$HOME目录为例），并在文件夹中创建配置文件config.cfg并添加如下内容。具体字段可参考[session配置](../../../apiref/session_config/README.md)。
 
     ```text
     platform_configs {
@@ -52,7 +52,7 @@
     }
     ```
 
-2. （可选）加载多个模型时，在“tf_serving_test“文件夹中创建模型导入配置文件models.config并添加如下内容。
+2. （可选）加载多个模型时，在“tf_serving_test”文件夹中创建模型导入配置文件models.config并添加如下内容。
 
     此处以inception_v3_flowers、inception_v4和inception_v4_imagenet三个模型为例，请根据实际情况自行替换。
 
@@ -76,7 +76,7 @@
     }
     ```
 
-3. 在“tf_serving_test“路径下放置训练好的**SavedModel模型**，参见如下目录。
+3. 在“tf_serving_test”路径下放置训练好的**SavedModel模型**，参见如下目录。
 
     ```text
     squeezenext/ 
@@ -93,7 +93,7 @@
     > 如需提升TF Serving部署性能，可将SavedModel格式的模型转换为.om格式的模型，详情请参见[SavedModel模型转换om模型](common_operation.md#SavedModel模型转换om模型)。使用.om格式的模型进行在线推理时，不支持精度比对中Data Dump功能。
 
 4. 配置环境变量
-    1. 将“npu_bridge“路径添加至“LD_LIBRARY_PATH“环境变量。
+    1. 将“npu_bridge”路径添加至“LD_LIBRARY_PATH”环境变量。
 
         ```bash
         export LD_LIBRARY_PATH=${TFPLUGIN_INSTALL_PATH}/npu_bridge:$LD_LIBRARY_PATH
@@ -101,7 +101,7 @@
 
         其中$\{TFPLUGIN_INSTALL_PATH\}为TF Adapter软件包安装路径。
 
-    2. 将“tf_adapter“路径添加至“LD_LIBRARY_PATH“环境变量。
+    2. 将“tf_adapter”路径添加至“LD_LIBRARY_PATH”环境变量。
 
         ```bash
         export LD_LIBRARY_PATH=$HOME/serving-1.15.0/third_party/tf_adapter:$LD_LIBRARY_PATH
