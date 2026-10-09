@@ -15,6 +15,8 @@
 from keras.layers import core
 from keras.utils import generic_utils
 from keras import backend
+from keras.engine import keras_tensor
+from tensorflow.python.util import nest
 
 _API_NAME_ATTR = 'npu_api_names'
 _name_to_npu_symbol_map = dict()
