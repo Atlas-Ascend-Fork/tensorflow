@@ -125,5 +125,5 @@ Scope fusion patterns (either built-in or custom) are classified into the follow
 Example:
 
 ```python
-npu.global_options().nable_scope_fusion_passes="ScopeLayerNormPass,ScopeClipBoxesPass"
+npu.global_options().enable_scope_fusion_passes="ScopeLayerNormPass,ScopeClipBoxesPass"
 ```

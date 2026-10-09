@@ -125,5 +125,5 @@ npu.global_options().is_tailing_optimization=True
 配置示例：
 
 ```python
-npu.global_options().nable_scope_fusion_passes="ScopeLayerNormPass,ScopeClipBoxesPass"
+npu.global_options().enable_scope_fusion_passes="ScopeLayerNormPass,ScopeClipBoxesPass"
 ```
