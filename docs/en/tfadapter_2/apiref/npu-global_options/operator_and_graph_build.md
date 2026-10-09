@@ -67,7 +67,7 @@ For details about ASCEND_CACHE_PATH, see [Environment Variables](https://www.hia
 Example:
 
 ```python
-npu.global_options().op_compiler_cache_dir="/home/test/ernel_cache"
+npu.global_options().op_compiler_cache_dir="/home/test/kernel_cache"
 ```
 
 ## aicore_num

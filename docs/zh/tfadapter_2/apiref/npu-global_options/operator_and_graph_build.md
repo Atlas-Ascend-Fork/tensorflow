@@ -56,7 +56,7 @@ npu.global_options().op_compiler_cache_mode="enable"
 
 路径支持大小写字母（a-z，A-Z）、数字（0-9）、下划线（_）、中划线（-）、点（.）、中文字符。
 
-如果参数指定的路径存在且有效，则在指定的路径下自动创建子目录ernel_cache；如果指定的路径不存在但路径有效，则先自动创建目录，然后在该径下自动创建子目录kernel_cache。
+如果参数指定的路径存在且有效，则在指定的路径下自动创建子目录kernel_cache；如果指定的路径不存在但路径有效，则先自动创建目录，然后在该径下自动创建子目录kernel_cache。
 
 算子编译缓存文件存储优先级为：
 
@@ -67,7 +67,7 @@ npu.global_options().op_compiler_cache_mode="enable"
 配置示例：
 
 ```python
-npu.global_options().op_compiler_cache_dir="/home/test/ernel_cache"
+npu.global_options().op_compiler_cache_dir="/home/test/kernel_cache"
 ```
 
 ## aicore_num
