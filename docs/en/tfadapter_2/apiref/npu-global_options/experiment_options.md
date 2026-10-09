@@ -62,7 +62,7 @@ This option applies to static and dynamic shape graph scenarios. You can enable 
 
 - **cv**, Parallel execution of Cube and Vector operators is enabled.
 - **LoadBalance:n**, Load balancing algorithm that distributes all operators evenly across n streams for execution. Here, n represents the maximum number of streams, which must be a positive integer within the range [1, 64]. If n exceeds the number of available cores, performance may degrade.
-- **MainStream:n**，Main stream algorithm that executes serial operators on the main stream, while other parallelizable operators are distributed across other streams. Here, n represents the maximum number of streams, which must be a positive integer within the range [1, 64]. If n exceeds the number of available cores, performance may degrade.
+- **MainStream:n**, Main stream algorithm that executes serial operators on the main stream, while other parallelizable operators are distributed across other streams. Here, n represents the maximum number of streams, which must be a positive integer within the range [1, 64]. If n exceeds the number of available cores, performance may degrade.
 - The default value is empty, meaning Cube and Vector operators are executed serially.
 
 > [!NOTE]NOTE
