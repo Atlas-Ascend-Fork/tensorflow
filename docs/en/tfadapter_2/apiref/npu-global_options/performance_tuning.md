@@ -19,7 +19,7 @@ For a small network (for example, ResNet-18), you are advised to set this option
 
 Whether to enable small channel optimization. If it is enabled, performance benefits are generated at the convolutional layers with channel size ≤ 4.
 
-- 0: disabled This function is disabled by default in the training scenario (graph_run_mode is 1). You are advised not to enable this function in the training scenario.
+- 0: disabled. This function is disabled by default in the training scenario (graph_run_mode is 1). You are advised not to enable this function in the training scenario.
 - 1: enabled. This is the default option that cannot be modified for the online inference scenario (graph_run_mode is 0).
   > [!NOTE]NOTE
   > After this function is enabled, performance gains can be obtained only on the ResNet-50, ResNet-101, and ResNet-152 networks. For other networks, the performance may deteriorate.

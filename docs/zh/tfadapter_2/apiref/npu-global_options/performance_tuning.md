@@ -19,8 +19,8 @@ npu.global_options().hcom_parallel=True
 
 是否使能small channel的优化，使能后在channel<=4的卷积层会有性能收益。
 
-- 0：关闭。训练（graph_run_mode为1）场景下默认关闭，且训练场景下不建用户开启。
-- 1：使能。在线推理（graph_run_mode为0）场景下不支持用户配置，默认使。
+- 0：关闭。训练（graph_run_mode为1）场景下默认关闭，且训练场景下不建议用户开启。
+- 1：使能。在线推理（graph_run_mode为0）场景下不支持用户配置，默认使能。
   > [!NOTE]说明
   > 该参数使能后，当前只在ResNet50、ResNet101、ResNet152网络模型能获得性能收益。其他网络模型性能可能会下降，用户根据实际情况决定是否使能该参数。
 
