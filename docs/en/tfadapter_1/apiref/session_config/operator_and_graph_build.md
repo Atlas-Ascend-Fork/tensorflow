@@ -91,7 +91,7 @@ NOTE:
   vector_core_cnt=48
   ```
 
-- In static shape scenarios, if an existing operator binary is reused during model compilation (that is, jit_compile set to false), aicore_num does not take effect.
+- In static shape scenarios, if an existing operator binary is reused during model compilation (that is, jit_compile is set to false), aicore_num does not take effect.
 
 Example:
 
