@@ -48,7 +48,7 @@ Dump文件保存路径。enable_dump或enable_dump_debug为True时，该参数�
 配置示例：
 
 ```python
-npu.global_options().dump_config.dump_path = "/home/HwHiAiUser/utput"
+npu.global_options().dump_config.dump_path = "/home/HwHiAiUser/output"
 ```
 
 ## dump_config.dump_step

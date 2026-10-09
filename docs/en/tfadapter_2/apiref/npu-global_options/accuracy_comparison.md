@@ -48,7 +48,7 @@ Create the specified path in advance in the environment (either container or hos
 Example:
 
 ```python
-npu.global_options().dump_config.dump_path = "/home/HwHiAiUser/utput"
+npu.global_options().dump_config.dump_path = "/home/HwHiAiUser/output"
 ```
 
 ## dump_config.dump_step
