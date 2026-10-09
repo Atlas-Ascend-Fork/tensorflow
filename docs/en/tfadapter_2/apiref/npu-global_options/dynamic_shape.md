@@ -4,7 +4,7 @@
 
 Whether to allow AI CPU operators and AI Core operators to run in parallel in a dynamic shape graph.
 
-In a dynamic shape graph, when this parameter is enabled, the system automatically identifies AI CPU operators that can be concurrently executed with the AI Core operators in the graph. Operators of different engines are distributed to different flows to implement parallel execution among multiple engines, improving resource utilization and dynamic shape execution performance.
+In a dynamic shape graph, when this parameter is enabled, the system automatically identifies AI CPU operators that can be concurrently executed with the AI Core operators in the graph. Operators of different engines are distributed to different streams to implement parallel execution among multiple engines, improving resource utilization and dynamic shape execution performance.
 
 - 1: AI CPU operators and AI Core operators are allowed to run in parallel.
 - 0 (default): AI CPU operators are not separately distributed.

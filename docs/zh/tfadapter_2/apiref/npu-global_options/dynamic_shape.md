@@ -4,7 +4,7 @@
 
 动态shape图中，是否允许AI CPU算子和AI Core算子并行运行。
 
-动态shape图中，开关开启时，系统自动识别图中可以和AI Core并发的AI CPU算，不同引擎的算子下发到不同流上，实现多引擎间的并行，从而提升资源利用效和动态shape执行性能。
+动态shape图中，开关开启时，系统自动识别图中可以和AI Core并发的AI CPU算子，不同引擎的算子下发到不同流上，实现多引擎间的并行，从而提升资源利用效率和动态shape执行性能。
 
 - 1：允许AI CPU和AI Core算子间的并行运行。
 - 0（默认值）：AI CPU算子不会单独分流。
@@ -19,7 +19,7 @@ npu.global_options().ac_parallel_enable="1"
 
 是否需要泛化图中所有的输入shape。
 
-- True：将所有的输入shape泛化为-1，如果是静态shape图，则会泛化为动态hape图。
+- True：将所有的输入shape泛化为-1，如果是静态shape图，则会泛化为动态shape图。
 - False（默认值）：不泛化输入shape。
 
 配置示例：
