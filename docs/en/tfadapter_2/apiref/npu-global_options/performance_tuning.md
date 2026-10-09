@@ -75,7 +75,7 @@ Generally, you do not need to set this option. It is used if you need to adjust 
 Example:
 
  ```python
- npu.global_options().op_precision_mode="/home/test/op_precision.ni"
+ npu.global_options().op_precision_mode="/home/test/op_precision.ini"
  ```
 
 ## stream_max_parallel_num

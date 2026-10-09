@@ -75,7 +75,7 @@ npu.global_options().enable_small_channel=1
  配置示例：
 
  ```python
- npu.global_options().op_precision_mode="/home/test/op_precision.ni"
+ npu.global_options().op_precision_mode="/home/test/op_precision.ini"
  ```
 
 ## stream_max_parallel_num
