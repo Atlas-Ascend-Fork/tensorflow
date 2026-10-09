@@ -29,8 +29,8 @@ This API needs to be called before the network script is executed.
 ```python
 import tensorflow as tf
 import npu_device as npu
-# Initialize the NPU as the default device.
-npu.open().as_default()
 # Enable the AI Core task early start mode.
 npu.npu_device.set_schedule_aicore_task_early(True)
+# Initialize the NPU as the default device.
+npu.open().as_default()
 ```

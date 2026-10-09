@@ -29,8 +29,8 @@ def set_schedule_aicore_task_early(value)
 ```python
 import tensorflow as tf
 import npu_device as npu
-# 初始化NPU为默认设备
-npu.open().as_default()
 # 开启AI Core任务提前下发模式
 npu.npu_device.set_schedule_aicore_task_early(True)
+# 初始化NPU为默认设备
+npu.open().as_default()
 ```
