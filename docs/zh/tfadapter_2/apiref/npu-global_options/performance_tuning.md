@@ -93,7 +93,7 @@ AICPU/AICORE引擎的并行度默认为1，取值范围为：\[1,13\]。
 配置示例：
 
 ```python
-npu.global_options().stream_max_parallel_num="DNN_VM_AICPU:10,IcoreEngine:1"
+npu.global_options().stream_max_parallel_num="DNN_VM_AICPU:10,AIcoreEngine:1"
 ```
 
 ## is_tailing_optimization

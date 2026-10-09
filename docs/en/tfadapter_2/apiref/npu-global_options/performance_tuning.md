@@ -93,7 +93,7 @@ The parallelism of the AICPU/AICORE engine defaults to 1, with a valid range of 
 Example:
 
 ```python
-npu.global_options().stream_max_parallel_num="DNN_VM_AICPU:10,IcoreEngine:1"
+npu.global_options().stream_max_parallel_num="DNN_VM_AICPU:10,AIcoreEngine:1"
 ```
 
 ## is_tailing_optimization
