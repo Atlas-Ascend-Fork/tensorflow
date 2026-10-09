@@ -91,7 +91,7 @@ config = NPURunConfig(op_compiler_cache_dir="/home/test/kernel_cache")
   vector_core_cnt=48
   ```
 
-- 静态shape场景下，如果模型编译时复用了已有算子二进制文件（即“jit_compile”参数设为“fasle”），“aicore_num”参数不生效。
+- 静态shape场景下，如果模型编译时复用了已有算子二进制文件（即“jit_compile”参数设为“false”），“aicore_num”参数不生效。
 
   配置示例：
 
