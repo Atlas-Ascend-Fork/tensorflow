@@ -45,7 +45,7 @@ Click  [here](https://www.tensorflow.org/api_docs/python/tf/data/Dataset)  for m
 
 ### Description
 
-Generally, LossScaleOptimizer is used to prevent numeric underflow in mixed precision mode. In the saturation mode, as a floating-point range error on the NPU is reported as a global error instead of returning Inf or NaN, you are advised to use  [npu.train.optimizer.NpuLossScaleOptimizer](../../apiref/npu-train-optimizer-npulossscaleoptimizer.md)  provided by the NPU to obtain the correct overflow/underflow detection result.
+Generally, LossScaleOptimizer is used to preserve accuracy while improving performance with mixed precision. In saturation mode, NPU floating-point overflow sets a global flag instead of producing Inf or NaN, so use the NPU-provided [npu.train.optimizer.NpuLossScaleOptimizer](../../apiref/npu-train-optimizer-npulossscaleoptimizer.md) to obtain correct overflow detection results.
 
 The usage of  **npu.train.optimizer.NpuLossScaleOptimizer**  is the same as that of  [tf.keras.mixed_precision.LossScaleOptimizer](https://www.tensorflow.org/api_docs/python/tf/keras/mixed_precision/LossScaleOptimizer).
 
