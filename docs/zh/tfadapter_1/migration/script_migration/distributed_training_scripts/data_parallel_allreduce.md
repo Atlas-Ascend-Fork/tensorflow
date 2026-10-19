@@ -36,7 +36,7 @@ AllReduce是主流的数据并行架构，各个节点按照算法协同工作�
     迁移后：
 
     ```python
-    config = tf.estimator.NPURunConfig(
+    config = NPURunConfig(
       session_config=session_config,
       save_checkpoints_secs=60*60*24)
     ```

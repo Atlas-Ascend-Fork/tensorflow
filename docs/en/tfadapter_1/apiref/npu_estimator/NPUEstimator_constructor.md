@@ -41,7 +41,7 @@ from npu_bridge.npu_init import *
 self._classifier=NPUEstimator(
   model_fn=cnn_model_fn,
   model_dir=self._model_dir,
-  config=tf.estimator.NPURunConfig(
+  config=NPURunConfig(
       save_checkpoints_steps=50 if get_rank_id() == 0 else 0,
       keep_checkpoint_max=1))
 ```

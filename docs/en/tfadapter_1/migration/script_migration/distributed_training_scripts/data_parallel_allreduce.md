@@ -36,7 +36,7 @@ During distributed training, you can use the TensorFlow APIs to split datasets. 
     After porting
 
     ```python
-    config = tf.estimator.NPURunConfig(
+    config = NPURunConfig(
       session_config=session_config,
       save_checkpoints_secs=60*60*24)
     ```
