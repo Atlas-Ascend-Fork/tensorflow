@@ -19,7 +19,7 @@ import shutil
 import util_global
 import pandas as pd
 from visit_by_ast import get_tf_enume
-from visit_by_ast import get_unsupport_api
+from visit_by_ast import get_unsupported_api
 from log import logger_failed_report
 from log import logger_api_brief_report
 
@@ -101,13 +101,13 @@ def check_warning(lineno, api_msg):
     """Raise warning when api is related to element range check"""
     pattern = r'tf.*.is_finite'
     if re.match(pattern, api_msg):
-        doc_msg = "{}, chapter: {}".format(
-            '"TensorFlow model migration and training', '"tf.is_finite manual migration" and "Loss Scale"')
+        doc_msg = "{}, chapter: {}.".format(
+            '"TensorFlow model migration and training"', '"tf.is_finite manual migration" and "Loss Scale"')
         content = "".join([util_global.get_value('path', ''), ":", str(lineno), ", You used tensorflow api: ",
-                           api_msg, ", It is suggested to use npu api. Please refer to the online document: ",
+                           api_msg, ". It is suggested to use the NPU API. Please refer to the online document: ",
                            doc_msg])
         os.system("cd .")
-        print("".join(["\033[1;33mWARNING\033[0m:", content]), flush=True)
+        print("".join(["\033[1;33mWARNING\033[0m: ", content]), flush=True)
         logger_failed_report.info(content)
 
 
@@ -115,27 +115,28 @@ def log_failed_api(lineno, api_msg, is_third_party):
     """Log message for NPU unsupported APIs"""
     os.system("cd .")
     if is_third_party:
-        content = "".join([util_global.get_value('path', ''), ":", str(lineno), ", NPU Unsupport API: ", api_msg,
-                           ", Please modify user scripts manually."])
-        print("".join(["\033[1;31mERROR\033[0m:", content]), flush=True)
+        content = "".join([util_global.get_value('path', ''), ":", str(lineno), ", NPU Unsupported API: ", api_msg,
+                           ". Please modify the user script manually."])
+        print("".join(["\033[1;31mERROR\033[0m: ", content]), flush=True)
 
     elif api_msg.startswith("hvd"):
-        doc_msg = "{}, chapter: {}".format(
-            '"TensorFlow model migration and training', '"Horovod script migration example"')
-        content = "".join([util_global.get_value('path', ''), ":", str(lineno), ", NPU Unsupport API: ", api_msg,
-                           ", Please refer to the online document: ", doc_msg])
-        print("".join(["\033[1;33mWARNING\033[0m:", content]), flush=True)
+        doc_msg = "{}, chapter: {}.".format(
+            '"TensorFlow model migration and training"', '"Horovod script migration example"')
+        content = "".join([util_global.get_value('path', ''), ":", str(lineno), ", NPU Unsupported API: ", api_msg,
+                           ". Please refer to the online document: ", doc_msg])
+        print("".join(["\033[1;33mWARNING\033[0m: ", content]), flush=True)
 
     elif api_msg.startswith("tf.is_"):
-        doc_msg = "{}, chapter: {}".format(
-            '"TensorFlow model migration and training', '"tf.is_finite manual migration" and "Loss Scale"')
-        content = "".join([util_global.get_value('path', ''), ":", str(lineno), ", NPU Unsupport API: ", api_msg,
-                           ", Please refer to the online document: ", doc_msg])
-        print("".join(["\033[1;33mWARNING\033[0m:", content]), flush=True)
+        doc_msg = "{}, chapter: {}.".format(
+            '"TensorFlow model migration and training"', '"tf.is_finite manual migration" and "Loss Scale"')
+        content = "".join([util_global.get_value('path', ''), ":", str(lineno), ", NPU Unsupported API: ", api_msg,
+                           ". Please refer to the online document: ", doc_msg])
+        print("".join(["\033[1;33mWARNING\033[0m: ", content]), flush=True)
 
     else:
-        content = "".join([util_global.get_value('path', ''), ":", str(lineno), ", NPU Unsupport API: ", api_msg])
-        print("".join(["\033[1;31mERROR\033[0m:", content]), flush=True)
+        content = "".join([util_global.get_value('path', ''), ":", str(lineno), ", NPU Unsupported API: ", api_msg,
+                           ". Please replace it with an NPU supported API."])
+        print("".join(["\033[1;31mERROR\033[0m: ", content]), flush=True)
     logger_failed_report.info(content)
 
 
@@ -204,17 +205,17 @@ def scan_file(path, file_name, api, lineno):
                     log_failed_api(lineno[i], class_name, is_third_party=False)
 
     # record unsupported api
-    (unsupport, unsupport_module, lineno) = get_unsupport_api(os.path.join(path, file_name))
-    for i in range(len(unsupport)):
+    (unsupported_apis, unsupported_modules, lineno) = get_unsupported_api(os.path.join(path, file_name))
+    for i in range(len(unsupported_apis)):
         script_name.append(file_name)
-        code_api.append(unsupport[i])
+        code_api.append(unsupported_apis[i])
         code_line.append(lineno[i])
-        code_module.append(unsupport_module[i])
+        code_module.append(unsupported_modules[i])
         support_type.append('不支持（无迁移方案，建议用户不使用）')
         migrate_advice.append('第三方非TF官网API，暂不支持')
 
         # print error message for unsupported api
-        log_failed_api(lineno[i], unsupport[i], is_third_party=True)
+        log_failed_api(lineno[i], unsupported_apis[i], is_third_party=True)
 
     analyse_result = pd.DataFrame({'脚本文件名': script_name, '代码行': code_line,
                                    '模块名': code_module, 'API名': code_api,

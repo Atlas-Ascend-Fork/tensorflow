@@ -75,13 +75,13 @@ class VisitAttr(ast.NodeVisitor):
         self.generic_visit(node)
 
 
-class VisitUnsupportImport(ast.NodeVisitor):
+class VisitUnsupportedImport(ast.NodeVisitor):
     """Class for visiting python ast import node"""
     def __init__(self):
         self.imports = []
         self.import_modules = []
         self.modules = []
-        self.unsupport = ['cupy', 'cupyx', 'pynvml']
+        self.unsupported = ['cupy', 'cupyx', 'pynvml']
 
     def visit_ImportFrom(self, node):
         """Visit importfrom node"""
@@ -92,7 +92,7 @@ class VisitUnsupportImport(ast.NodeVisitor):
                 classes = value.name.split('.')
                 if len(self.modules) == 0:
                     break
-                if self.modules[0] in self.unsupport:
+                if self.modules[0] in self.unsupported:
                     self.imports.append(classes[0])
                     self.import_modules.append(self.modules[0])
         self.generic_visit(node)
@@ -104,7 +104,7 @@ class VisitUnsupportImport(ast.NodeVisitor):
                 self.modules = value.name.split('.')
                 if len(self.modules) == 0:
                     break
-                if self.modules[0] in self.unsupport:
+                if self.modules[0] in self.unsupported:
                     self.import_modules.append(self.modules[0])
                     if value.asname is not None:
                         self.imports.append(value.asname)
@@ -172,13 +172,13 @@ def get_tf_enume(file_name, enume_list):
     return api, lineno
 
 
-def get_unsupport_api(file_name):
+def get_unsupported_api(file_name):
     """
     Args:
         file_name: script file
 
     Returns:
-        list objects containing the unsupport apis and module extracted from file_name
+        list objects containing the unsupported apis and module extracted from file_name
         and corrosponding line number
     """
     with open(file_name, 'r', encoding='utf-8') as file:
@@ -186,21 +186,21 @@ def get_unsupport_api(file_name):
     tree = ast.parse(source)
     visitor = VisitCall()
     visitor.visit(tree)
-    unsupportor = VisitUnsupportImport()
-    unsupportor.visit(tree)
+    unsupported_visitor = VisitUnsupportedImport()
+    unsupported_visitor.visit(tree)
 
-    # get unsupport api
+    # get unsupported api
     api = []
     lineno = []
     module = []
     for i in range(len(visitor.call_nodes)):
         imports = visitor.call_nodes[i].split('.')[0]
-        if imports in unsupportor.imports or visitor.call_nodes[i].startswith('nvml'):
+        if imports in unsupported_visitor.imports or visitor.call_nodes[i].startswith('nvml'):
             if visitor.call_nodes[i].startswith('nvml'):
                 module.append('pynvml')
             else:
-                index = unsupportor.imports.index(imports)
-                module.append(unsupportor.import_modules[index])
+                index = unsupported_visitor.imports.index(imports)
+                module.append(unsupported_visitor.import_modules[index])
             api.append(visitor.call_nodes[i])
             lineno.append(visitor.line_nos[i])
     return api, module, lineno

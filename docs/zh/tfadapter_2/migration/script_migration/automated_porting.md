@@ -98,16 +98,19 @@
 - failed_report.txt：记录迁移过程中的报错信息以及不支持的api，例如：
 
     ```text
-    Finish convert file: /root/ast_test/hvd/model_lib.py
-    /root/ast_test/hvd/test.py:3, NPU Unsupported API: hvd.allreduce
+    # 表示test.py第4行使用的API在NPU上不支持，且无迁移方案，需用户更换为支持的API
+    /root/models/examples/test/test.py:4, NPU Unsupported API: tf.compat.v1.enable_eager_execution. Please replace it with an NPU supported API.
+    # 表示test.py第5行使用了第三方非TF官网API，需用户手工修改脚本
+    /root/models/examples/test/test.py:5, NPU Unsupported API: cupy.array. Please modify the user script manually.
     ```
 
 - api_analysis_report.xlsx：API支持度分析报告，用户可根据修改建议修改训练脚本。
+- need_migration_doc.txt：需要用户手工迁移的API。
 - api_brief_report.txt：汇总脚本中API支持度统计结果，例如：
 
     ```text
     # 未去重的统计结果，分类和API支持度表中的一致
-     1.In brief: Total API: 231, in which Support: 222, Unsupport: 2,No operator is involved: 0, Analysing: 0
+     1.In brief: Total API: 231, in which Support: 222, API support after migration: 3, Network training support after migration: 2, Not support but no impact on migration: 1, Not support or recommended: 2, Compatible: 1, Deprecated: 0, Analysing: 0
      # 去重后的统计结果，分类和API支持度表中的一致
-     2.After eliminate duplicate: Total API: 98, in which Support: 92, Unsupport or recommended: 1, No operator is involved: 0, Analysing: 0
+     2.After eliminate duplicate: Total API: 98, in which Support: 92, API support after migration: 2, Network training support after migration: 1, Not support but no impact on migration: 1, Not support or recommended: 1, Compatible: 1, Deprecated: 0, Analysing: 0
     ```

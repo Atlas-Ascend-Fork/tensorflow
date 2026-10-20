@@ -80,3 +80,37 @@ Before porting a model to the  AI processor, prepare a model developed in Tensor
     - After the porting is complete, check the resultant script and porting report.
 
       ![](../figures/migration_end_info.png)
+
+      - If no **failed_report.txt** file is generated, the ported model can generally be trained directly on the AI processor. You can try to run the training. If the training fails, analyze the porting report in detail, modify the training script as needed, and then run the training again. If the training still fails, raise an issue in this source code repository.
+      - If a **failed_report.txt** file is generated, modify the training script based on the error messages first, and then run the training.
+
+## Porting Report Description
+
+- success_report.txt: records all modifications that the tool makes to the script. For example:
+
+    ```text
+    # Indicates that a header reference is added to line 3 of adain.py.
+    /root/models/examples/adain/adain.py:3 import npu_device as npu
+    # Indicates that the NPU virtual device initialization is added to line 4 of adain.py.
+    /root/models/examples/adain/adain.py:4 npu.open().as_default()
+    ```
+
+- failed_report.txt: records the error messages generated during porting and the APIs that are not supported. For example:
+
+    ```text
+    # Indicates that the API on line 4 of test.py is not supported on the AI processor and has no porting solution. Replace it with a supported API.
+    /root/models/examples/test/test.py:4, NPU Unsupported API: tf.compat.v1.enable_eager_execution. Please replace it with an NPU supported API.
+    # Indicates that line 5 of test.py uses a third-party API that is not from the official TensorFlow website. Modify the script manually.
+    /root/models/examples/test/test.py:5, NPU Unsupported API: cupy.array. Please modify the user script manually.
+    ```
+
+- api_analysis_report.xlsx: API support analysis report. You can modify the training script based on the modification suggestions.
+- need_migration_doc.txt: APIs that you need to port manually.
+- api_brief_report.txt: summarizes the API support statistics of the script. For example:
+
+    ```text
+    # Statistics before deduplication. The categories are the same as those in the API support list.
+     1.In brief: Total API: 231, in which Support: 222, API support after migration: 3, Network training support after migration: 2, Not support but no impact on migration: 1, Not support or recommended: 2, Compatible: 1, Deprecated: 0, Analysing: 0
+     # Statistics after deduplication. The categories are the same as those in the API support list.
+     2.After eliminate duplicate: Total API: 98, in which Support: 92, API support after migration: 2, Network training support after migration: 1, Not support but no impact on migration: 1, Not support or recommended: 1, Compatible: 1, Deprecated: 0, Analysing: 0
+    ```
