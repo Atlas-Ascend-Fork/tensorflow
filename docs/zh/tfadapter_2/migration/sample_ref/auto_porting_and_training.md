@@ -150,8 +150,7 @@
 1. 准备包含两个Device的rank table资源信息配置文件，文件名举例：rank_table_2p.json，配置文件举例：
 
     > [!NOTE]说明
-    > 不同型号的AI处理器，其rank table文件的配置格式可能有所不同，以下内容仅作为示例参考，如需了解详细rank table配置说明，请参考《[HCCL集合通信库用户指南](https://hiascend.com/document/redirect/CannCommunityHcclUg
-    )》中的“相关参考 \> 集群信息配置”章节。
+    > 不同型号的AI处理器，其rank table文件的配置格式可能有所不同，以下内容仅作为示例参考，如需了解详细rank table配置说明，请参考《[HCCL集合通信库用户指南](https://hiascend.com/document/redirect/CannCommunityHcclUg)》中的“相关参考 \> 集群信息配置”章节。
 
     ```json
     { 

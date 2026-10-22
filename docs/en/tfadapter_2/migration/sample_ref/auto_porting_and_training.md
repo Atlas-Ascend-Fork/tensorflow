@@ -89,7 +89,7 @@ The following describes how to use the tool to port a ResNet-50 network.
     Ensure that the single-device rank table resource configuration file contains only one device resource. Assume that the file is named  **rank_table_1p.json**. The following provides a file template.
 
     > [!NOTE]NOTE
-    > The rank table file format may vary with the  AI processor  model. The following information is for reference only. For details about the rank table configuration, see  Reference \> Cluster Information Configuration  in  [Huawei Collective Communication Library \(HCCL\)](https://hiascend.com/document/redirect/CannCommunityHcclUg).
+    > The rank table file format may vary with the  AI processor  model. The following information is for reference only. For details about the rank table configuration, see  Reference \> Cluster Information Configuration  in  [Huawei Collective Communication Library \(HCCL\)](https://hiascend.com/en/document/redirect/CannCommunityHcclUg).
 
     ```json
     {
