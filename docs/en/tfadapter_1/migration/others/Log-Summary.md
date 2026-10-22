@@ -15,7 +15,7 @@ with tf.control_dependencies([print_op]):
 ```
 
 > [!NOTE]NOTE
-> **NpuEstimator**  does not support the Print operator to specify  **output_stream**. By default, data is flushed to  **stderr**.
+> **NPUEstimator**  does not support the Print operator to specify  **output_stream**. By default, data is flushed to  **stderr**.
 
 In  **sess.run**  mode, the dequeue thread is not started when the log information is returned to the host. Therefore, you can add the following code to start the dequeue thread separately to obtain the buffered Log information.
 

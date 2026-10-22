@@ -15,7 +15,7 @@ with tf.control_dependencies([print_op]):
 ```
 
 > [!NOTE]说明
-> NpuEstimator不支持Print算子指定output_stream，默认落盘在stderr。
+> NPUEstimator不支持Print算子指定output_stream，默认落盘在stderr。
 
 而在sess.run模式下，Log信息回传到Host时不会启动dequeue线程，因此需要用户添加以下代码，单独启动dequeue线程，用于取出缓存的Log信息：
 
