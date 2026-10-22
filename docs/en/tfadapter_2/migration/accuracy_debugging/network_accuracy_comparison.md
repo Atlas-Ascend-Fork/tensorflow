@@ -67,12 +67,12 @@ You can use the TensorFlow debugger \(**tfdbg_ascend**\) to generate .npy files.
 
         ```python
         # define callbacks
-                callbacks = [
-                    ModelCheckpoint(
-                        f'models/model_epochs-{epochs}_batch-{batch_size}_loss-{loss_function}_{Mask2FaceModel.get_datetime_string()}.h5'),
-                    LossHistory(batch_size),
-                    DumpConfig()
-                ]
+        callbacks = [
+            ModelCheckpoint(
+                f'models/model_epochs-{epochs}_batch-{batch_size}_loss-{loss_function}_{Mask2FaceModel.get_datetime_string()}.h5'),
+            LossHistory(batch_size),
+            DumpConfig()
+        ]
 
         # fit the model
         history = self.model.fit(train_dataset, validation_data=valid_dataset, epochs=1, callbacks=callbacks, verbose=2)
