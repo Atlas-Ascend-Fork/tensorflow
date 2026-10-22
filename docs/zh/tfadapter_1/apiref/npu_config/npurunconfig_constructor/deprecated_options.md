@@ -227,7 +227,7 @@ config = NPURunConfig(dynamic_inputs_shape_range="getnext:[128 ,3~5, 2~128, -1],
 
     **注意：**
     - 当存在不同输入shape的子图时，由于dynamic_inputs_shape_range是针对于单张图的配置属性，因此可能会导致执行异常，建议使用[set_graph_exec_config](../../npu_util/set_graph_exec_config.md)以支持动态输入场景。
-    - 若网络脚本中未指定placeholder的name，则placeholder会按照会如下格式命名：
+    - 若网络脚本中未指定placeholder的name，则placeholder会按照如下格式命名：
 
       xxx_0, xxx_1, xxx_2, ……
       

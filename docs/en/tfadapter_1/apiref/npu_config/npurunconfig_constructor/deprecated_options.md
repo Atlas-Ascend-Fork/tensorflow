@@ -217,9 +217,7 @@ Precautions:
     y = tf.placeholder(tf.int32, name='a')
     ```
 
-    The network inputs are sorted in alphabetical order of the name fields,
-
-    that is, the first input of the network is y (with shape range \[3\~6\]) and the second input is x (with shape range \[3\~5\]). When configuring the dynamic ranges in dynamic_inputs_shape_range, the ordering must be preserved.
+    The network inputs are sorted in alphabetical order of the name fields. That is, the first input of the network is y (with shape range \[3\~6\]) and the second input is x (with shape range \[3\~5\]). When configuring the dynamic ranges in dynamic_inputs_shape_range, the ordering must be preserved.
 
     ```python
     config = NPURunConfig(dynamic_inputs_shape_range = "data:[3~6],[3~5]")
