@@ -28,7 +28,7 @@ This section details how to run a ported TensorFlow training script on a single 
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
 
     export JOB_ID=10087        # User-defined training job ID. Only letters, digits, hyphens (-), and underscores (_) are supported. You are advised not to use a numeric ID starting with 0.
-    export ASCEND_DEVICE_ID=0  # Logical ID of the Ascend AI ProcessorAI processorSoCNPU IP accelerator, optional in single-device training and defaulted to 0, indicating that training is performed on device 0.
+    export ASCEND_DEVICE_ID=0  # Logical ID of the Ascend AI Processor; optional in single-device training, defaults to 0.
     ```
 
 2. \(Optional\) Configure environment variables for auxiliary functions.
