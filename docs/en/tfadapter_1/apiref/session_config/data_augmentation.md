@@ -2,7 +2,7 @@
 
 ## local_rank_id
 
-Rank ID of the current process, used in data parallel processing. The main process deduplicates the data and distributes the deduplicated data to the devices of other processes for forward and backward propagation.
+Rank ID of the current process, used in data parallel processing. The main process deduplicates the data and distributes the result to the devices of other processes for forward and backward propagation.
 
 ![](../figures/local_rank_id.png)
 
