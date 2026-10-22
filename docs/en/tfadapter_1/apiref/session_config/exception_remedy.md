@@ -11,7 +11,7 @@ You can set the timeout interval if the default value does not meet your require
 - For the Atlas A2 products, the value range is [0, 2147483647], in seconds. The default value is 1836. The value 0 indicates that the session never times out.
 - For the Atlas training products, the value range is (0, 17340], in seconds. The default value is 1836.
 
-  Note: For the Atlas training products, actual timeout interval set in the system = (Value of this parameter // 68) × 68 (unit: s). If the parameter value is less than 68, 68s is used by default.
+  Note: For the Atlas training products, the actual timeout interval set in the system = (Value of this parameter // 68) × 68 (unit: s). If the parameter value is less than 68, 68s is used by default.
 
   For example, if hccl_timeout is set to 600, the actual timeout interval set in the system is 544s (600 // 68 × 68 = 8 × 68).
 
