@@ -86,7 +86,7 @@ To disable all fusion patterns at a time, refer to this configuration file examp
 Notes:
 
 1. Some built-in fusion patterns are not switchable due to functionality restrictions and these fusion patterns will remain enabled despite user's switch settings.
-2. To disable all fusion patterns except selected ones, refer to the following example. (That is, the priority of a single fusion pattern configured in the configuration file is higher than that of "ALL".){
+2. To disable all fusion patterns except selected ones, refer to the following example. (That is, the priority of a single fusion pattern configured in the configuration file is higher than that of "ALL".)
 
     ```text
     {

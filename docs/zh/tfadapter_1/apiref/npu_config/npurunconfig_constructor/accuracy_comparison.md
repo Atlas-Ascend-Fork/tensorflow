@@ -44,7 +44,7 @@ config = NPURunConfig(quant_dumpable="1")
 config = NPURunConfig(fusion_switch_file="/home/test/fusion_switch.cfg")
 ```
 
-配置文件样例fusion_switch.cfg如下所示_，_on表示开启，off表示关闭。
+配置文件样例fusion_switch.cfg如下所示，on表示开启，off表示关闭。
 
 ```text
 {
