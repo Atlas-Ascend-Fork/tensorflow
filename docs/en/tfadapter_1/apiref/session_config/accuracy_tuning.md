@@ -16,7 +16,7 @@ A string for the operator precision mode.
 
   The system selects a processing mode based on the operator type for AI Core operators supporting both float32 and float16.
 
-  - For cube operators, the system processes the computation based on the operator implementation.The preferred input data type is float16 and the output data type is float32.If the float16 input data and float32 output data types are not supported, set both the input and output data types to float32.If the float32 input and output data types are not supported, set both the input and output data types to float16.If the float16 input and output data types are not supported, an error is reported.
+  - For cube operators, the system processes the computation based on the operator implementation. The preferred input data type is float16 and the output data type is float32.If the float16 input data and float32 output data types are not supported, set both the input and output data types to float32.If the float32 input and output data types are not supported, set both the input and output data types to float16.If the float16 input and output data types are not supported, an error is reported.
   1. The preferred input data type is float16 and the output data type is float32.
   2. If the float16 input data and float32 output data types are not supported, set both the input and output data types to float32.
   3. If the float32 input and output data types are not supported, set both the input and output data types to float16.

@@ -198,7 +198,7 @@ ops_info.json中可以指定算子类型，多个算子使用英文逗号分隔�
 
 **说明：上述配置文件样例中展示的算子仅作为参考，请基于实际硬件环境和具体的算子内置优化策略进行配置。**
 
-混合精度场景下算子的**内置优化策略**可在“CANN软件安装目录/opp/built-in/op_impl/ai_core/tbe/config/<soc_version\>/aic-<soc_version\>-ops-info-<opType\>.json“文件中查询，例如：
+混合精度场景下算子的**内置优化策略**可在“CANN软件安装目录/opp/built-in/op_impl/ai_core/tbe/config/<soc_version\>/aic-<soc_version\>-ops-info-<opType\>.json”文件中查询，例如：
 
 ```json
 "Conv2D":{
