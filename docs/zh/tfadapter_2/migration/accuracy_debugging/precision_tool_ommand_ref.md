@@ -157,7 +157,7 @@
     # 示例1：
     np.allclose(left, right, atol=al, rtol=rl)
     # 示例2：
-    err_cnt += 1 if abs(data_left[i] - data_right[i]) > (al + rl * abs(data_right[i]))
+    err_cnt += 1 if abs(data_left[i] - data_right[i]) > (al + rl * abs(data_right[i])) else 0
     ```
 
   - -s：可选，保存成txt文件，默认打开。
