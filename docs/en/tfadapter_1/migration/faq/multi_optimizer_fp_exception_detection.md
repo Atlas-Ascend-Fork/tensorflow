@@ -96,7 +96,7 @@ During iterative computing, the Op of two optimizers is added to  **fetch_dict**
 
 ```python
 with tf.Session(config=config) as sess:
-    # tf.io.write_graph(sess.graph, '/home/zhanghy/tfproject/hmr_npu/profiling', 'train.pbtxt')
+    # tf.io.write_graph(sess.graph, '/home/username/tfproject/hmr_npu/profiling', 'train.pbtxt')
     while not should_stop:
         fetch_dict = {
             "summary": self.summary_op_always,
