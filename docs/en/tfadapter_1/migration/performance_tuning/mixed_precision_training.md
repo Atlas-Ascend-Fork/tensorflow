@@ -88,7 +88,7 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
 
 - Automated porting
     1. Check whether  **init_resource**  exists in the ported script.
-        - If it exists, refer to the following example to pass the  **session_config**  configuration to the  **init_resoure**  function and add the  **precision_mode_v2**  parameter to  **session_config**.
+        - If it exists, refer to the following example to pass the  **session_config**  configuration to the  **init_resource**  function and add the  **precision_mode_v2**  parameter to  **session_config**.
 
             ```python
             if __name__ == '__main__':
@@ -103,7 +103,7 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
               close_session(npu_sess)
             ```
 
-            Note that only the configuration options supported in  [initialize_system](../../apiref/npu_ops/initialize_system.md)  can be configured in  **session_config**  of the  **init_resoure**  function. For other functions, configure them in  **config_proto**  of the  **npu_config_proto**  function.
+            Note that only the configuration options supported in  [initialize_system](../../apiref/npu_ops/initialize_system.md)  can be configured in  **session_config**  of the  **init_resource**  function. For other functions, configure them in  **config_proto**  of the  **npu_config_proto**  function.
 
         - If it does not exist, go to the next step.
 
@@ -145,7 +145,7 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
 
 - Automated porting
     1. Check whether  **init_resource**  exists in the ported script.
-        - If it exists, refer to the following example to pass the  **session_config**  configuration to the  **init_resoure**  function and add the  **precision_mode_v2**  parameter to  **session_config**.
+        - If it exists, refer to the following example to pass the  **session_config**  configuration to the  **init_resource**  function and add the  **precision_mode_v2**  parameter to  **session_config**.
 
             ```python
             if __name__ == '__main__':
