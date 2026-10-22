@@ -11,7 +11,7 @@
   - The following is an example of enabling data preprocessing offload in  **sess.run**:
 
     ```python
-    custom_op.parameter_map["enable_data_pre_proc"].b = True 
+    custom_op.parameter_map["enable_data_pre_proc"].b = True
     ```
 
   - The following is an example of enabling data preprocessing offload in  **NPURunConfig**:
@@ -37,12 +37,12 @@
     custom_op.name = 'NpuOptimizer'
     custom_op.parameter_map["enable_data_pre_proc"].b = True # The GetNext operator offload is a prerequisite for iteration offload.
     custom_op.parameter_map["iterations_per_loop"].i = 10
-    
+
     run_config = tf.estimator.RunConfig(
         train_distribute=distribution_strategy,
         session_config=session_config,       # Add the session_config configuration to the run configuration parameter.
         save_checkpoints_secs=60*60*24)
-    
+
     classifier = tf.estimator.Estimator(
         model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
     ```
@@ -72,7 +72,7 @@ In  **Estimator**  mode, configure  **iterations_per_loop**  in  **NPURunConfig*
 from npu_bridge.npu_init import *
 
 session_config=tf.ConfigProto(allow_soft_placement=True)
-config = NPURunConfig(session_config=session_config, iterations_per_loop=10)  
+config = NPURunConfig(session_config=session_config, iterations_per_loop=10)
 ```
 
 In addition, enable the GetNext operator offload, which is a prerequisite for iteration offload. In  **Estimator**  mode, the GetNext operator offload is enabled by default, that is,  **enable_data_pre_proc**  is set to  **True**  by default. Retain the default setting.
@@ -99,11 +99,11 @@ Find  **npu_config_proto**  in the script, configure  **iterations_per_loop**  i
 from __future__ import print_function
 import input_data
 from npu_bridge.npu_init import *
- 
+
 mnist = input_data.read_data_sets("/test/", one_hot=True)
- 
+
 import tensorflow as tf
- 
+
 # Set the model.
 # Set the learning rate.
 learning_rate = 0.01
@@ -113,26 +113,26 @@ training_epochs = 10
 batch_size = 100
 # Set the number of iterations to display the loss.
 display_step = 1
- 
+
 x = tf.placeholder(tf.float32, [None, 784])
 y = tf.placeholder(tf.float32, [None, 10])
- 
+
 # Set the model parameters.
 W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
- 
+
 # Build the model.
 pred = tf.nn.softmax(tf.matmul(x, W) + b)
- 
+
 # Define the loss function: cross entropy.
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
- 
+
 # Update gradients.
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
- 
+
 # Initialize all variables.
 init = tf.global_variables_initializer()
- 
+
 config = tf.ConfigProto(allow_soft_placement=True)
 custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name =  "NpuOptimizer"
@@ -140,21 +140,21 @@ custom_op.parameter_map["mix_compile_mode"].b = False  # Disable mixed computing
 custom_op.parameter_map["enable_data_pre_proc"].b = True # If the GetNext operator exists on the network, offload it. GetNext operator offload is a prerequisite for iteration offload.
 custom_op.parameter_map["iterations_per_loop"].i = 10 # Determine whether the training iteration is offloaded. Must be equal to iterations_per_loop set in set_iteration_per_loop.
 config = npu_config_proto(config_proto=config)
- 
+
 # Train the model.
 with tf.Session(config=config) as sess:
     sess.run(init)
     # Set the number of iterations per loop to 10 in sess.run mode.
     train_op = util.set_iteration_per_loop(sess, optimizer, 10)  # sess indicates the created TensorFlow session, optimizer indicates the defined gradient update operation, and 10 indicates the number of training iterations on the device.
- 
+
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```
 
@@ -164,11 +164,11 @@ The  [set_iteration_per_loop](../../apiref/npu_util/set_iteration_per_loop.md)  
 from __future__ import print_function
 import input_data
 from npu_bridge.npu_init import *
- 
+
 mnist = input_data.read_data_sets("/test/", one_hot=True)
- 
+
 import tensorflow as tf
- 
+
 # Set the model.
 # Set the learning rate.
 learning_rate = 0.01
@@ -178,26 +178,26 @@ training_epochs = 10
 batch_size = 100
 # Set the number of iterations to display the loss.
 display_step = 1
- 
+
 x = tf.placeholder(tf.float32, [None, 784])
 y = tf.placeholder(tf.float32, [None, 10])
- 
+
 # Set the model parameters.
 W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
- 
+
 # Build the model.
 pred = tf.nn.softmax(tf.matmul(x, W) + b)
- 
+
 # Define the loss function: cross entropy.
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
- 
+
 # Update gradients.
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
- 
+
 # Initialize all variables.
 init = tf.global_variables_initializer()
- 
+
 config = tf.ConfigProto(allow_soft_placement=True)
 custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name =  "NpuOptimizer"
@@ -205,7 +205,7 @@ custom_op.parameter_map["mix_compile_mode"].b = False  # Disable mixed computing
 custom_op.parameter_map["enable_data_pre_proc"].b = True # If the GetNext operator exists on the network, offload it. GetNext operator offload is a prerequisite for iteration offload.
 custom_op.parameter_map["iterations_per_loop"].i = 10  # Used for functional validation. Must be equal to iterations_per_loop set in load_iteration_per_loop_var.
 config = npu_config_proto(config_proto=config)
- 
+
 # Train the model.
 with tf.Session(config=config) as sess:
     sess.run(init)
@@ -218,11 +218,11 @@ with tf.Session(config=config) as sess:
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```
 
@@ -234,11 +234,11 @@ In  **sess.run**  mode, configure the  **iterations_per_loop**  parameter by usi
 from __future__ import print_function
 import input_data
 from npu_bridge.npu_init import *
- 
+
 mnist = input_data.read_data_sets("/test/", one_hot=True)
- 
+
 import tensorflow as tf
- 
+
 # Set the model.
 # Set the learning rate.
 learning_rate = 0.01
@@ -248,26 +248,26 @@ training_epochs = 10
 batch_size = 100
 # Set the number of iterations to display the loss.
 display_step = 1
- 
+
 x = tf.placeholder(tf.float32, [None, 784])
 y = tf.placeholder(tf.float32, [None, 10])
- 
+
 # Set the model parameters.
 W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
- 
+
 # Build the model.
 pred = tf.nn.softmax(tf.matmul(x, W) + b)
- 
+
 # Define the loss function: cross entropy.
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
- 
+
 # Update gradients.
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
- 
+
 # Initialize all variables.
 init = tf.global_variables_initializer()
- 
+
 config = tf.ConfigProto(allow_soft_placement=True)
 custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name =  "NpuOptimizer"
@@ -277,21 +277,21 @@ custom_op.parameter_map["enable_data_pre_proc"].b = True # If the GetNext operat
 custom_op.parameter_map["iterations_per_loop"].i = 10 # Determine whether the training iteration is offloaded. Must be equal to iterations_per_loop set in set_iteration_per_loop.
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
- 
+
 # Train the model.
 with tf.Session(config=config) as sess:
     sess.run(init)
     # Set the number of iterations per loop to 10 in sess.run mode.
     train_op = util.set_iteration_per_loop(sess, optimizer, 10) # sess indicates the created TensorFlow session, optimizer indicates the defined gradient update operation, and 10 indicates the number of training iterations on the device.
- 
+
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```
 
@@ -301,11 +301,11 @@ The  [set_iteration_per_loop](../../apiref/npu_util/set_iteration_per_loop.md)  
 from __future__ import print_function
 import input_data
 from npu_bridge.npu_init import *
- 
+
 mnist = input_data.read_data_sets("/test/", one_hot=True)
- 
+
 import tensorflow as tf
- 
+
 # Set the model.
 # Set the learning rate.
 learning_rate = 0.01
@@ -315,26 +315,26 @@ training_epochs = 10
 batch_size = 100
 # Set the number of iterations to display the loss.
 display_step = 1
- 
+
 x = tf.placeholder(tf.float32, [None, 784])
 y = tf.placeholder(tf.float32, [None, 10])
- 
+
 # Set the model parameters.
 W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
- 
+
 # Build the model.
 pred = tf.nn.softmax(tf.matmul(x, W) + b)
- 
+
 # Define the loss function: cross entropy.
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
- 
+
 # Update gradients.
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
- 
+
 # Initialize all variables.
 init = tf.global_variables_initializer()
- 
+
 config = tf.ConfigProto(allow_soft_placement=True)
 custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name =  "NpuOptimizer"
@@ -343,12 +343,12 @@ custom_op.parameter_map["mix_compile_mode"].b = False  # Disable mixed computing
 custom_op.parameter_map["enable_data_pre_proc"].b = True  # If the GetNext operator exists on the network, offload it. GetNext operator offload is a prerequisite for iteration offload.
 custom_op.parameter_map["iterations_per_loop"].i = 10 # Determine whether the training iteration is offloaded. Must be equal to iterations_per_loop set in load_iteration_per_loop_var.
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
-config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF 
+config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 # Train the model.
 with tf.Session(config=config) as sess:
     sess.run(init)
     # Set the number of iterations per loop to 10 in sess.run mode.
-    iteration = util.IterationPerLoop() 
+    iteration = util.IterationPerLoop()
     train_op = iteration.create_iteration_per_loop_var(optimizer) # optimizer indicates the defined operation for updating gradients.
     tf.train.Supervisor(logdir="/home/xxxx",init_op=init)  # Freeze the graph.
     iteration.load_iteration_per_loop_var(sess, 10)  # Set the number of iterations per loop. sess indicates the created TensorFlow session, and 10 indicates the number of training iterations on the device.
@@ -356,11 +356,11 @@ with tf.Session(config=config) as sess:
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```
 
@@ -390,12 +390,12 @@ from tensorflow.python.keras.applications import ResNet50
 
 # This returns a tensor
 inputs = Input(shape=(224, 224, 3))
- 
+
 # This creates a model that includes
 # the Input layer and three Dense layers
 keras_model = ResNet50(input_tensor=inputs, weights=None, include_top=True)
 keras_model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy')
- 
+
 keras_model.fit_generator(
         train_generator,
         steps_per_epoch=100,
@@ -424,9 +424,9 @@ Original TensorFlow code:
 # Keras reads images from the folder.
 train_datagen = ImageDataGenerator(rescale=1./255,
         horizontal_flip=True)
- 
+
 train_generator = train_datagen.flow_from_directory('data/',
-                                                    target_size=(224, 224, 3),
+                                                    target_size=(224, 224),
                                                     batch_size=32,
                                                     class_mode='sparse')
 ```
@@ -434,15 +434,15 @@ train_generator = train_datagen.flow_from_directory('data/',
 Code after porting:
 
 ```python
- # The function is used to read the image files corresponding to the file names and resize the image files to a unified size.
- def _parse_function(filename, label):
-   image = tf.read_file(filename)
-   image = tf.image.decode_image(image)
-   image = image / 255.0
-   image = tf.image.resize_images(image, [224, 224, 3])
-   image = tf.image.random_flip_left_right(image)
-   return image, label
- 
+# The function is used to read the image files corresponding to the file names and resize the image files to a unified size.
+def _parse_function(filename, label):
+  image = tf.read_file(filename)
+  image = tf.image.decode_image(image)
+  image = image / 255.0
+  image = tf.image.resize_images(image, [224, 224])
+  image = tf.image.random_flip_left_right(image)
+  return image, label
+
 def input_fn():
     # List of image files. The image list needs to be generated by yourself.
     filenames = tf.constant(["/data/image1.jpg", "/data/image2.jpg", ...])
@@ -453,7 +453,7 @@ def input_fn():
     # Now an element in the dataset is (image_resized, label).
     dataset = dataset.map(_parse_function)
     # Now an element in the dataset is (image_resized_batch, label_batch).
-    dataset = dataset.shuffle().batch(32)
+    dataset = dataset.shuffle(buffer_size=1000).batch(32)
     return dataset
 ```
 

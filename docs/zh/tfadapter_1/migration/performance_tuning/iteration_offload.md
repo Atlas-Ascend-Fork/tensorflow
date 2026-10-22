@@ -11,7 +11,7 @@ iterations_per_loop默认为1，配置该参数大于1即可使能训练迭代�
   - sess.run开启数据预处理下沉配置示例：
 
     ```python
-    custom_op.parameter_map["enable_data_pre_proc"].b = True 
+    custom_op.parameter_map["enable_data_pre_proc"].b = True
     ```
 
   - NPURunConfig开启数据预处理下沉配置示例：
@@ -37,12 +37,12 @@ iterations_per_loop默认为1，配置该参数大于1即可使能训练迭代�
     custom_op.name = 'NpuOptimizer'
     custom_op.parameter_map["enable_data_pre_proc"].b = True # GetNext算子下沉是迭代循环下沉的必要条件
     custom_op.parameter_map["iterations_per_loop"].i = 10
-    
+
     run_config = tf.estimator.RunConfig(
         train_distribute=distribution_strategy,
         session_config=session_config,       # 运行配置参数中添加session_config配置
         save_checkpoints_secs=60*60*24)
-    
+
     classifier = tf.estimator.Estimator(
         model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
     ```
@@ -72,7 +72,7 @@ Estimator模式下，通过NPURunConfig中的iterations_per_loop参数配置，�
 from npu_bridge.npu_init import *
 
 session_config=tf.ConfigProto(allow_soft_placement=True)
-config = NPURunConfig(session_config=session_config, iterations_per_loop=10)  
+config = NPURunConfig(session_config=session_config, iterations_per_loop=10)
 ```
 
 同时需要使能GetNext算子下沉，GetNext算子下沉是迭代循环下沉的必要条件。Estimator模式下GetNext算子默认下沉，即enable_data_pre_proc默认为True，无需手工配置。
@@ -99,11 +99,11 @@ session.run模式下，通过[set_iteration_per_loop](../../apiref/npu_util/set_
 from __future__ import print_function
 import input_data
 from npu_bridge.npu_init import *
- 
+
 mnist = input_data.read_data_sets("/test/", one_hot=True)
- 
+
 import tensorflow as tf
- 
+
 # 设置模型
 # 学习率
 learning_rate = 0.01
@@ -113,26 +113,26 @@ training_epochs = 10
 batch_size = 100
 # 每多少次迭代显示一次损失
 display_step = 1
- 
+
 x = tf.placeholder(tf.float32, [None, 784])
 y = tf.placeholder(tf.float32, [None, 10])
- 
+
 # 模型参数
 W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
- 
+
 # 建立模型
 pred = tf.nn.softmax(tf.matmul(x, W) + b)
- 
+
 # 定义损失函数：交叉熵
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
- 
+
 # 梯度更新
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
- 
+
 # 初始化所有变量
 init = tf.global_variables_initializer()
- 
+
 config = tf.ConfigProto(allow_soft_placement=True)
 custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name =  "NpuOptimizer"
@@ -140,21 +140,21 @@ custom_op.parameter_map["mix_compile_mode"].b = False  # 关闭混合计算，�
 custom_op.parameter_map["enable_data_pre_proc"].b = True # 若网络中存在GetNext算子，需要设置GetNext算子下沉，GetNext算子下沉是迭代循环下沉的必要条件
 custom_op.parameter_map["iterations_per_loop"].i = 10 # 此处设置的值和set_iteration_per_loop接口设置的iterations_per_loop参数值保持一致，用于判断是否进行训练迭代下沉
 config = npu_config_proto(config_proto=config)
- 
+
 # 训练模型
 with tf.Session(config=config) as sess:
     sess.run(init)
     # sess.run模式下设置小循环次数为10
     train_op = util.set_iteration_per_loop(sess, optimizer, 10)  # 其中sess为已经创建的TensorFlow会话，optimizer为已定义的更新梯度的操作,10为设置的在Device侧进行训练迭代的次数
- 
+
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```
 
@@ -164,11 +164,11 @@ with tf.Session(config=config) as sess:
 from __future__ import print_function
 import input_data
 from npu_bridge.npu_init import *
- 
+
 mnist = input_data.read_data_sets("/test/", one_hot=True)
- 
+
 import tensorflow as tf
- 
+
 # 设置模型
 # 学习率
 learning_rate = 0.01
@@ -178,26 +178,26 @@ training_epochs = 10
 batch_size = 100
 # 每多少次迭代显示一次损失
 display_step = 1
- 
+
 x = tf.placeholder(tf.float32, [None, 784])
 y = tf.placeholder(tf.float32, [None, 10])
- 
+
 # 模型参数
 W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
- 
+
 # 建立模型
 pred = tf.nn.softmax(tf.matmul(x, W) + b)
- 
+
 # 定义损失函数：交叉熵
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
- 
+
 # 梯度更新
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
- 
+
 # 初始化所有变量
 init = tf.global_variables_initializer()
- 
+
 config = tf.ConfigProto(allow_soft_placement=True)
 custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name =  "NpuOptimizer"
@@ -205,7 +205,7 @@ custom_op.parameter_map["mix_compile_mode"].b = False  # 关闭混合计算，�
 custom_op.parameter_map["enable_data_pre_proc"].b = True # 若网络中存在GetNext算子，需要设置GetNext算子下沉，GetNext算子下沉是迭代循环下沉的必要条件
 custom_op.parameter_map["iterations_per_loop"].i = 10  # 此处设置的值和load_iteration_per_loop_var接口设置的iterations_per_loop参数值保持一致，用于功能校验
 config = npu_config_proto(config_proto=config)
- 
+
 # 训练模型
 with tf.Session(config=config) as sess:
     sess.run(init)
@@ -218,11 +218,11 @@ with tf.Session(config=config) as sess:
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```
 
@@ -234,11 +234,11 @@ session.run模式下，通过[set_iteration_per_loop](../../apiref/npu_util/set_
 from __future__ import print_function
 import input_data
 from npu_bridge.npu_init import *
- 
+
 mnist = input_data.read_data_sets("/test/", one_hot=True)
- 
+
 import tensorflow as tf
- 
+
 # 设置模型
 # 学习率
 learning_rate = 0.01
@@ -248,26 +248,26 @@ training_epochs = 10
 batch_size = 100
 # 每多少次迭代显示一次损失
 display_step = 1
- 
+
 x = tf.placeholder(tf.float32, [None, 784])
 y = tf.placeholder(tf.float32, [None, 10])
- 
+
 # 模型参数
 W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
- 
+
 # 建立模型
 pred = tf.nn.softmax(tf.matmul(x, W) + b)
- 
+
 # 定义损失函数：交叉熵
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
- 
+
 # 梯度更新
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
- 
+
 # 初始化所有变量
 init = tf.global_variables_initializer()
- 
+
 config = tf.ConfigProto(allow_soft_placement=True)
 custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name =  "NpuOptimizer"
@@ -277,21 +277,21 @@ custom_op.parameter_map["enable_data_pre_proc"].b = True # 若网络中存在Get
 custom_op.parameter_map["iterations_per_loop"].i = 10 # 此处设置的值和set_iteration_per_loop接口设置的iterations_per_loop参数值保持一致，用于判断是否进行训练迭代下沉
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
- 
+
 # 训练模型
 with tf.Session(config=config) as sess:
     sess.run(init)
     # sess.run模式下设置小循环次数为10
     train_op = util.set_iteration_per_loop(sess, optimizer, 10) # 其中sess为已经创建的TensorFlow会话，optimizer为已定义的更新梯度的操作,10为设置的在Device侧进行训练迭代的次数
- 
+
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```
 
@@ -301,11 +301,11 @@ with tf.Session(config=config) as sess:
 from __future__ import print_function
 import input_data
 from npu_bridge.npu_init import *
- 
+
 mnist = input_data.read_data_sets("/test/", one_hot=True)
- 
+
 import tensorflow as tf
- 
+
 # 设置模型
 # 学习率
 learning_rate = 0.01
@@ -315,26 +315,26 @@ training_epochs = 10
 batch_size = 100
 # 每多少次迭代显示一次损失
 display_step = 1
- 
+
 x = tf.placeholder(tf.float32, [None, 784])
 y = tf.placeholder(tf.float32, [None, 10])
- 
+
 # 模型参数
 W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
- 
+
 # 建立模型
 pred = tf.nn.softmax(tf.matmul(x, W) + b)
- 
+
 # 定义损失函数：交叉熵
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
- 
+
 # 梯度更新
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
- 
+
 # 初始化所有变量
 init = tf.global_variables_initializer()
- 
+
 config = tf.ConfigProto(allow_soft_placement=True)
 custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name =  "NpuOptimizer"
@@ -343,12 +343,12 @@ custom_op.parameter_map["mix_compile_mode"].b = False  # 关闭混合计算，�
 custom_op.parameter_map["enable_data_pre_proc"].b = True  # 若网络中存在GetNext算子，需要设置GetNext算子下沉，GetNext算子下沉是迭代循环下沉的必要条件
 custom_op.parameter_map["iterations_per_loop"].i = 10  # 此处设置的值和load_iteration_per_loop_var接口设置的iterations_per_loop参数值保持一致，用于判断是否进行训练迭代下沉
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
-config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF 
+config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 # 训练模型
 with tf.Session(config=config) as sess:
     sess.run(init)
     # sess.run模式下设置小循环次数为10
-    iteration = util.IterationPerLoop() 
+    iteration = util.IterationPerLoop()
     train_op = iteration.create_iteration_per_loop_var(optimizer) # optimizer为已定义的更新梯度的操作
     tf.train.Supervisor(logdir="/home/xxxx",init_op=init)  # 冻结图
     iteration.load_iteration_per_loop_var(sess, 10)  # 设置小循环次数，其中sess为已经创建的TensorFlow会话，10为设置的在Device侧进行训练迭代的次数
@@ -356,11 +356,11 @@ with tf.Session(config=config) as sess:
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```
 
@@ -390,12 +390,12 @@ from tensorflow.python.keras.applications import ResNet50
 
 # This returns a tensor
 inputs = Input(shape=(224, 224, 3))
- 
+
 # This creates a model that includes
 # the Input layer and three Dense layers
 keras_model = ResNet50(input_tensor=inputs, weights=None, include_top=True)
 keras_model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy')
- 
+
 keras_model.fit_generator(
         train_generator,
         steps_per_epoch=100,
@@ -424,9 +424,9 @@ TensorFlow原始代码：
 # keras从文件夹中读取图片
 train_datagen = ImageDataGenerator(rescale=1./255,
         horizontal_flip=True)
- 
+
 train_generator = train_datagen.flow_from_directory('data/',
-                                                    target_size=(224, 224, 3),
+                                                    target_size=(224, 224),
                                                     batch_size=32,
                                                     class_mode='sparse')
 ```
@@ -434,15 +434,15 @@ train_generator = train_datagen.flow_from_directory('data/',
 迁移后的代码：
 
 ```python
- # 函数的功能是将filename对应的图片文件读进来，并缩放到统一的大小
- def _parse_function(filename, label):
-   image = tf.read_file(filename)
-   image = tf.image.decode_image(image)
-   image = image / 255.0
-   image = tf.image.resize_images(image, [224, 224, 3])
-   image = tf.image.random_flip_left_right(image)
-   return image, label
- 
+# 函数的功能是将filename对应的图片文件读进来，并缩放到统一的大小
+def _parse_function(filename, label):
+  image = tf.read_file(filename)
+  image = tf.image.decode_image(image)
+  image = image / 255.0
+  image = tf.image.resize_images(image, [224, 224])
+  image = tf.image.random_flip_left_right(image)
+  return image, label
+
 def input_fn():
     # 图片文件的列表，图片的list需要用户自己生成
     filenames = tf.constant(["/data/image1.jpg", "/data/image2.jpg", ...])
@@ -453,7 +453,7 @@ def input_fn():
     # 此时dataset中的一个元素是(image_resized, label)
     dataset = dataset.map(_parse_function)
     # 此时dataset中的一个元素是(image_resized_batch, label_batch)
-    dataset = dataset.shuffle().batch(32)
+    dataset = dataset.shuffle(buffer_size=1000).batch(32)
     return dataset
 ```
 
