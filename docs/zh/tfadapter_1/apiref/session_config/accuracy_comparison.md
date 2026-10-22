@@ -158,7 +158,7 @@ custom_op.parameter_map["quant_dumpable"].s = tf.compat.as_bytes("1")
 custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("/home/test/fusion_switch.cfg")
 ```
 
-配置文件样例fusion_switch.cfg如下所示_，_on表示开启，off表示关闭。
+配置文件样例fusion_switch.cfg如下所示，on表示开启，off表示关闭。
 
 ```text
 {
