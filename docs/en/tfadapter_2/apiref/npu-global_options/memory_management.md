@@ -84,8 +84,8 @@ npu.global_options().external_weight=True
 
 Threshold for fusing and copying multiple discrete pieces of user input data during data transfer from the host to the device. The unit is byte. The minimum value is 0 byte, the maximum value is 33554432 bytes (32 MB), and the default value is 131072 bytes (128 KB). If:
 
-- Size of input data ≤ threshold: The data is fused before transferred from the host to the device.
-- Size of input data > threshold or threshold = 0 (function disabled): The data is not fused before transferred from the host to the device.
+- Size of input data ≤ threshold: The data is fused before being transferred from the host to the device.
+- Size of input data > threshold or threshold = 0 (function disabled): The data is not fused before being transferred from the host to the device.
 
 Assume there are 10 user inputs, including two 100 KB inputs, two 50 KB inputs, and the other inputs greater than 100 KB:
 
