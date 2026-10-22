@@ -50,7 +50,7 @@ npu.global_options().precision_mode_v2="origin"
 > - This parameter cannot be used together with precision_mode. Use precision_mode_v2 instead.
 > - This parameter can be used to set the global precision mode of a network, but it may result in precision issues on particular operators. In this case, you are advised to call [npu.keep_dtype_scope](../npu-keep_dtype_scope.md) to keep the precision of some operators unchanged.
 > - For details about the built-in tuning policy for operators in mixed precision mode, see the description of modify_mixlist.
-> - The Atlas training products does not support the bfloat16 data type.
+> - The Atlas training products do not support the bfloat16 data type.
 
 ## precision_mode
 
@@ -117,7 +117,7 @@ npu.global_options().precision_mode="allow_mix_precision"
 > - This option cannot be used together with precision_mode_v2. precision_mode_v2 is recommended.
 > - This option can be used to set the global precision mode of a network, but it may result in performance or precision problems on particular operators. In this case, you are advised to call [npu.keep_dtype_scope](../npu-keep_dtype_scope.md) to keep the precision of some operators unchanged.
 > - For details about the built-in tuning policy of each operator in mixed precision mode, see the description of the modify_mixlist option.
-> - The Atlas training products does not support the bfloat16 data type.
+> - The Atlas training products do not support the bfloat16 data type.
 
 ## modify_mixlist
 

@@ -48,7 +48,7 @@ npu.global_options().precision_mode_v2="origin"
 > [!NOTE]说明
 >
 > - 该参数不能与“precision_mode”参数同时使用，建议使用precision_mode_v2”参数。
-> - 在使用此参数设置整个网络的精度模式时，可能会存在个别算子存在精度问，此种场景下，建议通过[npu.keep_dtype_scope](../npu-keep_dtype_scope.md)接口设置某些算子保持原图精度。
+> - 在使用此参数设置整个网络的精度模式时，可能会存在个别算子存在精度问题，此种场景下，建议通过[npu.keep_dtype_scope](../npu-keep_dtype_scope.md)接口设置某些算子保持原图精度。
 > - 混合精度场景下算子的内置优化策略可参见“modify_mixlist”参数的详细说。
 > - Atlas训练系列产品不支持bfloat16数据类型。
 
@@ -116,7 +116,7 @@ npu.global_options().precision_mode="allow_mix_precision"
 > [!NOTE]说明
 >
 >- 该参数不能与“precision_mode_v2”参数同时使用，建议使用precision_mode_v2”参数。
->- 在使用此参数设置整个网络的精度模式时，可能会存在个别算子存在精度问，此种场景下，建议通过[npu.keep_dtype_scope](../npu-keep_dtype_scope.md)接口设置某些算子保持原图精度。
+>- 在使用此参数设置整个网络的精度模式时，可能会存在个别算子存在精度问题，此种场景下，建议通过[npu.keep_dtype_scope](../npu-keep_dtype_scope.md)接口设置某些算子保持原图精度。
 >- 混合精度场景下算子的内置优化策略可参见“modify_mixlist”参数的详细说。
 >- Atlas训练系列产品不支持bfloat16数据类型。
 
