@@ -9,8 +9,8 @@ Log和Summary算子会下沉到Device侧执行，如果用户需要捕捉Device�
 Estimator模式下，系统会在Log信息回传到Host时启动dequeue线程，可直接打印出Device侧的Log信息，因此用户无需修改训练脚本：
 
 ```python
-print_op = tf.print(loss)          
-with tf.control_dependencies([print_op]):             
+print_op = tf.print(loss)
+with tf.control_dependencies([print_op]):
     train_op = xxx   # Print算子必须依赖图上能够执行到的节点，否则print节点不生效
 ```
 
@@ -29,22 +29,22 @@ def dequeue():
             channel_name="_npu_log",
             output_types=[tf.string],
             output_shapes=[()])
-    dequeue_ops = tf.print(outfeed_log_tensors, sys.stderr)
+    dequeue_ops = tf.print(outfeed_log_tensors, output_stream=sys.stderr)
     with tf.Session() as sess:      # 可以复用训练session，也可另起session
       i = 0
       while i < max_train_steps:    # max_train_steps为最大迭代次数
         sess.run(dequeue_ops)
         i = i + 1
 
-t1 = Thread(target=dequeue) 
+t1 = Thread(target=dequeue)
 t1.start()
 ```
 
 执行训练时，通过Assert或Print算子打印Log信息：
 
 ```python
-print_op = tf.print(loss)          
-with tf.control_dependencies([print_op]):             
+print_op = tf.print(loss)
+with tf.control_dependencies([print_op]):
     train_op = xxx   # Print算子必须依赖图上能够执行到的节点，否则Print节点不生效
 ```
 
@@ -59,9 +59,9 @@ def _host_call_fn(gs, loss):
     with summary.create_file_writer(
             "./model", max_queue=1000).as_default():
         # 每个step保存一次
-        with summary.always_record_summaries():   
+        with summary.always_record_summaries():
         # 每2000个step保存一次
-        #with summary.record_summaries_every_n_global_steps(2000,global_step=gs): 
+        #with summary.record_summaries_every_n_global_steps(2000,global_step=gs):
             summary.scalar("host_call_loss", loss, step=gs)
             return summary.all_summary_ops()
 ```
@@ -81,7 +81,7 @@ return NPUEstimatorSpec(mode=tf.estimator.ModeKeys.TRAIN, loss=loss, train_op=tr
 
 ```python
 from npu_bridge.npu_init import *
- 
+
 # 定义一个host_call函数
 from tensorflow.contrib import summary
 def _host_call_fn(gs, loss):
@@ -90,10 +90,10 @@ def _host_call_fn(gs, loss):
         with summary.always_record_summaries():
             summary.scalar("host_call_loss", loss, step=gs)
             return summary.all_summary_ops()
- 
+
 def input_fn():
      “构建dataset”
- 
+
 # 在model_fn中调用host_call捕捉想查看的信息
 def model_fn():
      “搭建前后向模型”
@@ -107,9 +107,9 @@ def model_fn():
   train_op = tf.group(minimize_op, update_ops)
   host_call = (_host_call_fn, [global_step, loss])
   return NPUEstimatorSpec(mode=tf.estimator.ModeKeys.TRAIN, loss=loss, train_op=train_op, host_call=host_call)
- 
+
 run_config = NPURunConfig()
- 
+
 classifier = NPUEstimator(model_fn=model_fn, config=run_config, params={ })
 classifier.train(input_fn=lambda: input_fn(), max_steps=1000)
 ```

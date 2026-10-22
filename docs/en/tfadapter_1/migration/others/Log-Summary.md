@@ -9,8 +9,8 @@ The execution of Log and Summary operators is offloaded to the device side. If y
 In  **Estimator**  mode, the system starts the dequeue thread when the Log information is returned to the host. The Log information on the device side can be directly printed. Therefore, no modification is needed.
 
 ```python
-print_op = tf.print(loss)          
-with tf.control_dependencies([print_op]):             
+print_op = tf.print(loss)
+with tf.control_dependencies([print_op]):
     train_op = xxx   # The Print operator depends on the nodes that can be executed on the graph. Otherwise, the Print operator does not take effect.
 ```
 
@@ -29,22 +29,22 @@ def dequeue():
             channel_name="_npu_log",
             output_types=[tf.string],
             output_shapes=[()])
-    dequeue_ops = tf.print(outfeed_log_tensors, sys.stderr)
+    dequeue_ops = tf.print(outfeed_log_tensors, output_stream=sys.stderr)
     with tf.Session() as sess:      # You can reuse the training session or start another session.
       i = 0
       while i < max_train_steps:    # max_train_steps indicates the maximum number of iterations.
         sess.run(dequeue_ops)
         i = i + 1
 
-t1 = Thread(target=dequeue) 
+t1 = Thread(target=dequeue)
 t1.start()
 ```
 
 For training, the Assert or Print operator is used to print Log information.
 
 ```python
-print_op = tf.print(loss)          
-with tf.control_dependencies([print_op]):             
+print_op = tf.print(loss)
+with tf.control_dependencies([print_op]):
     train_op = xxx   # The Print operator depends on the nodes that can be executed on the graph. Otherwise, the Print operator does not take effect.
 ```
 
@@ -59,9 +59,9 @@ def _host_call_fn(gs, loss):
     with summary.create_file_writer(
             "./model", max_queue=1000).as_default():
         # Record summary every step.
-        with summary.always_record_summaries():   
+        with summary.always_record_summaries():
         # Record summary every 2000 steps.
-        #with summary.record_summaries_every_n_global_steps(2000,global_step=gs): 
+        #with summary.record_summaries_every_n_global_steps(2000,global_step=gs):
             summary.scalar("host_call_loss", loss, step=gs)
             return summary.all_summary_ops()
 ```
@@ -81,7 +81,7 @@ The following is a complete code example.
 
 ```python
 from npu_bridge.npu_init import *
- 
+
 # Define a host_call function.
 from tensorflow.contrib import summary
 def _host_call_fn(gs, loss):
@@ -90,10 +90,10 @@ def _host_call_fn(gs, loss):
         with summary.always_record_summaries():
             summary.scalar("host_call_loss", loss, step=gs)
             return summary.all_summary_ops()
- 
+
 def input_fn():
        "Build dataset"
- 
+
 # Call host_call in model_fn to capture the information to be viewed.
 def model_fn():
        "Build a forward/backward model"
@@ -107,9 +107,9 @@ def model_fn():
   train_op = tf.group(minimize_op, update_ops)
   host_call = (_host_call_fn, [global_step, loss])
   return NPUEstimatorSpec(mode=tf.estimator.ModeKeys.TRAIN, loss=loss, train_op=train_op, host_call=host_call)
- 
+
 run_config = NPURunConfig()
- 
+
 classifier = NPUEstimator(model_fn=model_fn, config=run_config, params={ })
 classifier.train(input_fn=lambda: input_fn(), max_steps=1000)
 ```
