@@ -8,7 +8,7 @@ Tuning mode of AOE.
 - 2: operator tuning.
 - 4: gradient splitting tuning.
 
-  In the data parallel scenario, AllReduce is used to aggregate gradients. The gradient splitting mode is closely related to the distributed training performance. Improper splitting may result in a long communication tailing from the completion of backward propagation, affecting the cluster training performance and linearity. It is sophisticated to perform manual tuning through the gradient splitting API (set_split_strategy_by_idx or set_split_strategy_by_size) of collective communication. AOE collects profile data in the real-device environment and automatically looks up for the optimal splitting strategy. You only need to set the obtained strategy to your network by passing it to the set_split_strategy_by_idx call.
+  In the data parallel scenario, AllReduce is used to aggregate gradients. The gradient splitting mode is closely related to the distributed training performance. Improper splitting may result in a long communication tailing from the completion of backward propagation, affecting the cluster training performance and linearity. It is sophisticated to perform manual tuning through the gradient splitting API (set_split_strategy_by_idx or set_split_strategy_by_size) of collective communication. AOE collects profile data in the real-device environment and automatically looks for the optimal splitting strategy. You only need to set the obtained strategy to your network by passing it to the set_split_strategy_by_idx call.
 
 > [!NOTE]NOTE
 >
