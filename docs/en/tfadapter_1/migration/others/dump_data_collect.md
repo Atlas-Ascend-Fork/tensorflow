@@ -26,21 +26,21 @@ If the training network's accuracy does not meet your expectation, you can colle
 
             ```python
             if __name__ == '__main__':
-            
+
               session_config = tf.ConfigProto(allow_soft_placement=True)
               custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
               custom_op.name = "NpuOptimizer"
               # enable_dump: whether to enable the data dump function.
               custom_op.parameter_map["enable_dump"].b = True
               # dump_path: dump path. Create the specified path in advance in the training environment (either in a container or on the host). The running user configured during installation must have the read and write permissions on this path.
-              custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+              custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
               # dump_step: iterations to dump.
               custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
               # dump_mode: dump mode, selected from input, output, and all.
               custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
               # dump_layer: operator to be dumped. The value is the operator name. Separate multiple operator names using spaces. If this parameter is not set, all operators are dumped by default.
-              custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
-            
+              custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
+
               (npu_sess, npu_shutdown) = init_resource(config=session_config)
               tf.app.run()
               shutdown_resource(npu_sess, npu_shutdown)
@@ -57,12 +57,12 @@ If the training network's accuracy does not meet your expectation, you can colle
 
         ```python
         session_config = tf.ConfigProto(allow_soft_placement=True)
-        
+
         run_config = tf.estimator.RunConfig(
             train_distribute=distribution_strategy,
             session_config=session_config,
             save_checkpoints_secs=60*60*24)
-        
+
         classifier = tf.estimator.Estimator(
             model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
         ```
@@ -76,19 +76,19 @@ If the training network's accuracy does not meet your expectation, you can colle
         # enable_dump: whether to enable the data dump function.
         custom_op.parameter_map["enable_dump"].b = True
         # dump_path: dump path. Create the specified path in advance in the training environment (either in a container or on the host). The running user configured during installation must have the read and write permissions on this path.
-        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
         # dump_step: iterations to dump.
         custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
         # dump_mode: dump mode, selected from input, output, and all.
         custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
         # dump_layer: operator to be dumped. The value is the operator name. Separate multiple operator names using spaces. If this parameter is not set, all operators are dumped by default.
-        custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
-        
+        custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
+
         run_config = tf.estimator.RunConfig(
             train_distribute=distribution_strategy,
             session_config=session_config,
             save_checkpoints_secs=60*60*24)
-        
+
         classifier = tf.estimator.Estimator(
             model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
         ```
@@ -101,17 +101,17 @@ If the training network's accuracy does not meet your expectation, you can colle
 
     ```python
     from npu_bridge.npu_init import *
-    
+
     # dump_path: dump path. Create the specified path in advance in the training environment (either in a container or on the host). The running user configured during installation must have the read and write permissions on this path.
     # enable_dump: whether to enable the data dump function.
     # dump_step: iterations to dump.
     # dump_mode: dump mode, selected from input, output, and all.
     dump_config = DumpConfig(enable_dump=True, dump_path = "/home/test/output", dump_step="0|5|10", dump_mode="all")
-    
+
     session_config=tf.ConfigProto(allow_soft_placement=True)
-    
+
     config = NPURunConfig(
-      dump_config=dump_config, 
+      dump_config=dump_config,
       session_config=session_config
       )
     ```
@@ -124,21 +124,21 @@ If the training network's accuracy does not meet your expectation, you can colle
 
             ```python
             if __name__ == '__main__':
-            
+
               session_config = tf.ConfigProto(allow_soft_placement=True)
               custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
               custom_op.name = "NpuOptimizer"
               # enable_dump: whether to enable the data dump function.
               custom_op.parameter_map["enable_dump"].b = True
               # dump_path: dump path. Create the specified path in advance in the training environment (either in a container or on the host). The running user configured during installation must have the read and write permissions on this path.
-              custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+              custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
               # dump_step: iterations to dump.
               custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
               # dump_mode: dump mode, selected from input, output, and all.
               custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
               # dump_layer: operator to be dumped. The value is the operator name. Separate multiple operator names using spaces. If this parameter is not set, all operators are dumped by default.
-              custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
-            
+              custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
+
               (npu_sess, npu_shutdown) = init_resource(config=session_config)
               tf.app.run()
               shutdown_resource(npu_sess, npu_shutdown)
@@ -156,10 +156,10 @@ If the training network's accuracy does not meet your expectation, you can colle
         custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = 'NpuOptimizer'
         custom_op.parameter_map["enable_dump"].b = True
-        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
         custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
-        custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all") 
-        custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
+        custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
+        custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
         config = npu_config_proto(config_proto=session_config)
         with tf.Session(config=config) as sess:
             sess.run(tf.global_variables_initializer())
@@ -172,24 +172,24 @@ If the training network's accuracy does not meet your expectation, you can colle
 
     ```python
     config = tf.ConfigProto(allow_soft_placement=True)
-    
+
     custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name =  "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True
-    
+
     # enable_dump: whether to enable the data dump function.
     custom_op.parameter_map["enable_dump"].b = True
     # dump_path: dump path. Create the specified path in advance in the training environment (either in a container or on the host). The running user configured during installation must have the read and write permissions on this path.
-    custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+    custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
     # dump_step: iterations to dump.
     custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
     # dump_mode: dump mode, selected from input, output, and all.
     custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
     # dump_layer: operator to be dumped. The value is the operator name. Separate multiple operator names using spaces. If this parameter is not set, all operators are dumped by default.
-    custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
+    custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
     config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
     config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
-    
+
     with tf.Session(config=config) as sess:
       print(sess.run(cost))
     ```
@@ -202,21 +202,21 @@ If the training network's accuracy does not meet your expectation, you can colle
 
             ```python
             if __name__ == '__main__':
-            
+
               session_config = tf.ConfigProto(allow_soft_placement=True)
               custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
               custom_op.name = "NpuOptimizer"
               # enable_dump: whether to enable the data dump function.
               custom_op.parameter_map["enable_dump"].b = True
               # dump_path: dump path. Create the specified path in advance in the training environment (either in a container or on the host). The running user configured during installation must have the read and write permissions on this path.
-              custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+              custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
               # dump_step: iterations to dump.
               custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
               # dump_mode: dump mode, selected from input, output, and all.
               custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
               # dump_layer: operator to be dumped. The value is the operator name. Separate multiple operator names using spaces. If this parameter is not set, all operators are dumped by default.
-              custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
-            
+              custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
+
               (npu_sess, npu_shutdown) = init_resource(config=session_config)
               tf.app.run()
               shutdown_resource(npu_sess, npu_shutdown)
@@ -234,22 +234,22 @@ If the training network's accuracy does not meet your expectation, you can colle
         import tensorflow.python.keras as keras
         from tensorflow.python.keras import backend as K
         from npu_bridge.npu_init import *
-        
+
         config_proto = tf.ConfigProto(allow_soft_placement=True)
         custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = 'NpuOptimizer'
         # enable_dump: whether to enable the data dump function.
         custom_op.parameter_map["enable_dump"].b = True
         # dump_path: dump path.
-        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
         # dump_step: iterations to dump.
         custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
         # dump_mode: dump mode, selected from input, output, and all.
-        custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all") 
+        custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
         # dump_layer: operator to be dumped. The value is the operator name. Separate multiple operator names using spaces. If this parameter is not set, all operators are dumped by default.
-        custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
+        custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
         npu_keras_sess = set_keras_session_npu_config(config=config_proto)
-        
+
         # Preprocess data...
         # Construct a model...
         # Build the model...
@@ -265,11 +265,11 @@ If the training network's accuracy does not meet your expectation, you can colle
 For distributed data parallel, if you need to reduce the amount of dump data, you can specify only one rank to collect dump data. The following uses an Estimator training script for demonstration.
 
 ```python
-  if int(os.getenv('RANK_ID')) == 7:
-      dump_flag = True
-  else:
-      dump_flag = False
-    dump_config = DumpConfig(enable_dump=dump_flag, dump_path="/home/data_dump", dump_step="20", dump_mode="output")
+if int(os.getenv('RANK_ID')) == 7:
+    dump_flag = True
+else:
+    dump_flag = False
+dump_config = DumpConfig(enable_dump=dump_flag, dump_path="/home/data_dump", dump_step="20", dump_mode="output")
 ```
 
 ## Performing Training and Dump Data Generation

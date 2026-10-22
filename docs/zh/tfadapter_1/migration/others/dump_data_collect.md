@@ -26,21 +26,21 @@
 
             ```python
             if __name__ == '__main__':
-            
+
               session_config = tf.ConfigProto(allow_soft_placement=True)
               custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
               custom_op.name = "NpuOptimizer"
               # enable_dump：是否开启Data Dump功能
               custom_op.parameter_map["enable_dump"].b = True
               # dump_path：dump数据存放路径，该参数指定的目录需要在启动训练的环境上（容器或Host侧）提前创建且确保安装时配置的运行用户具有读写权限。
-              custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+              custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
               # dump_step：指定采集哪些迭代的dump数据
               custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
               # dump_mode：dump模式，取值：input/output/all
               custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
               # dump_layer：指定需要dump的算子，取值为算子名，多个算子名间用空格分隔。若不配置此参数，dump全部算子。
-              custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
-            
+              custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
+
               (npu_sess, npu_shutdown) = init_resource(config=session_config)
               tf.app.run()
               shutdown_resource(npu_sess, npu_shutdown)
@@ -57,12 +57,12 @@
 
         ```python
         session_config = tf.ConfigProto(allow_soft_placement=True)
-        
+
         run_config = tf.estimator.RunConfig(
             train_distribute=distribution_strategy,
             session_config=session_config,
             save_checkpoints_secs=60*60*24)
-        
+
         classifier = tf.estimator.Estimator(
             model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
         ```
@@ -83,12 +83,12 @@
         custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
         # dump_layer：指定需要dump的算子，取值为算子名，多个算子名间用空格分隔。若不配置此参数，dump全部算子。
         custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
-        
+
         run_config = tf.estimator.RunConfig(
             train_distribute=distribution_strategy,
             session_config=session_config,
             save_checkpoints_secs=60*60*24)
-        
+
         classifier = tf.estimator.Estimator(
             model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
         ```
@@ -101,17 +101,17 @@
 
     ```python
     from npu_bridge.npu_init import *
-    
+
     # dump_path：dump数据存放路径，该参数指定的目录需要在启动训练的环境上（容器或Host侧）提前创建且确保安装时配置的运行用户具有读写权限。
     # enable_dump：是否开启Data Dump功能
     # dump_step：指定采集哪些迭代的dump数据
     # dump_mode：dump模式，取值：input/output/all
     dump_config = DumpConfig(enable_dump=True, dump_path = "/home/test/output", dump_step="0|5|10", dump_mode="all")
-    
+
     session_config=tf.ConfigProto(allow_soft_placement=True)
-    
+
     config = NPURunConfig(
-      dump_config=dump_config, 
+      dump_config=dump_config,
       session_config=session_config
       )
     ```
@@ -124,21 +124,21 @@
 
             ```python
             if __name__ == '__main__':
-            
+
               session_config = tf.ConfigProto(allow_soft_placement=True)
               custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
               custom_op.name = "NpuOptimizer"
               # enable_dump：是否开启Data Dump功能
               custom_op.parameter_map["enable_dump"].b = True
               # dump_path：dump数据存放路径，该参数指定的目录需要在启动训练的环境上（容器或Host侧）提前创建且确保安装时配置的运行用户具有读写权限。
-              custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+              custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
               # dump_step：指定采集哪些迭代的dump数据
               custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
               # dump_mode：dump模式，取值：input/output/all
               custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
               # dump_layer：指定需要dump的算子，取值为算子名，多个算子名间用空格分隔。若不配置此参数，dump全部算子。
-              custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
-            
+              custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
+
               (npu_sess, npu_shutdown) = init_resource(config=session_config)
               tf.app.run()
               shutdown_resource(npu_sess, npu_shutdown)
@@ -156,10 +156,10 @@
         custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = 'NpuOptimizer'
         custom_op.parameter_map["enable_dump"].b = True
-        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
         custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
-        custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all") 
-        custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
+        custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
+        custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
         config = npu_config_proto(config_proto=session_config)
         with tf.Session(config=config) as sess:
             sess.run(tf.global_variables_initializer())
@@ -172,15 +172,15 @@
 
     ```python
     config = tf.ConfigProto(allow_soft_placement=True)
-    
+
     custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name =  "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True
-    
+
     # enable_dump：是否开启Data Dump功能
     custom_op.parameter_map["enable_dump"].b = True
     # dump_path：dump数据存放路径，该参数指定的目录需要在启动训练的环境上（容器或Host侧）提前创建且确保安装时配置的运行用户具有读写权限。
-    custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+    custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
     # dump_step：指定采集哪些迭代的dump数据
     custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
     # dump_mode：dump模式，取值：input/output/all
@@ -189,7 +189,7 @@
     custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
     config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
     config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
-    
+
     with tf.Session(config=config) as sess:
       print(sess.run(cost))
     ```
@@ -202,7 +202,7 @@
 
             ```python
             if __name__ == '__main__':
-            
+
               session_config = tf.ConfigProto(allow_soft_placement=True)
               custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
               custom_op.name = "NpuOptimizer"
@@ -216,7 +216,7 @@
               custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
               # dump_layer：指定需要dump的算子，取值为算子名，多个算子名间用空格分隔。若不配置此参数，dump全部算子。
               custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
-            
+
               (npu_sess, npu_shutdown) = init_resource(config=session_config)
               tf.app.run()
               shutdown_resource(npu_sess, npu_shutdown)
@@ -234,22 +234,22 @@
         import tensorflow.python.keras as keras
         from tensorflow.python.keras import backend as K
         from npu_bridge.npu_init import *
-        
+
         config_proto = tf.ConfigProto(allow_soft_placement=True)
         custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = 'NpuOptimizer'
         # enable_dump：是否开启Data Dump功能
         custom_op.parameter_map["enable_dump"].b = True
         # dump_path：dump数据存放路径
-        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
         # dump_step：指定采集哪些迭代的dump数据
         custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
         # dump_mode：dump模式，取值：input/output/all
-        custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all") 
+        custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
         # dump_layer：指定需要dump的算子，取值为算子名，多个算子名间用空格分隔。若不配置此参数，dump全部算子。
-        custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
+        custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
         npu_keras_sess = set_keras_session_npu_config(config=config_proto)
-        
+
         #数据预处理...
         #模型搭建...
         #模型编译...
@@ -265,11 +265,11 @@
 分布式的数据并发场景下，如果需要减少dump数据量，可以指定在某个rank上采集dump数据，下面以Estimator模式训练脚本为例介绍指定方法。
 
 ```python
-  if int(os.getenv('RANK_ID')) == 7:
-      dump_flag = True
-  else:
-      dump_flag = False
-    dump_config = DumpConfig(enable_dump=dump_flag, dump_path="/home/data_dump", dump_step="20", dump_mode="output")
+if int(os.getenv('RANK_ID')) == 7:
+    dump_flag = True
+else:
+    dump_flag = False
+dump_config = DumpConfig(enable_dump=dump_flag, dump_path="/home/data_dump", dump_step="20", dump_mode="output")
 ```
 
 ## 执行训练，生成dump数据
