@@ -149,7 +149,7 @@ The Ascend platform provides functions such as function debugging and performanc
         config = npu_config_proto(config_proto=session_config)
         with tf.Session(config=config) as sess:
           sess.run(tf.global_variables_initializer())
-          interaction_table.init.run()
+          sess.run(interaction_table.init)
         ```
 
     - For  **Keras**  scripts, search for the  **set_keras_session_npu_config**  function in the ported script, find the run configuration function \(such as  **config_proto**  in the example\), and add related session parameters to the run configuration, such as the  **aoe_mode**  parameter in the following example:

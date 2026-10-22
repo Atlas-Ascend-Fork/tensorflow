@@ -116,7 +116,7 @@ Ascend平台提供了功能调试、性能/精度调优等功能，自动迁移�
           # 配置session参数
           custom_op.parameter_map["profiling_mode"].b = True
           ... ...
-        
+
           (npu_sess, npu_shutdown) = init_resource(config=session_config)
           tf.app.run()
           shutdown_resource(npu_sess, npu_shutdown)
@@ -135,12 +135,12 @@ Ascend平台提供了功能调试、性能/精度调优等功能，自动迁移�
          custom_op.name = 'NpuOptimizer'
          # 配置session参数
          custom_op.parameter_map["aoe_mode"].s = tf.compat.as_bytes("2")
-           
+
          run_config = tf.estimator.RunConfig(
           train_distribute=distribution_strategy,
           session_config=session_config,
           save_checkpoints_secs=60*60*24)
-           
+
          classifier = tf.estimator.Estimator(
           model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
          ```
@@ -157,7 +157,7 @@ Ascend平台提供了功能调试、性能/精度调优等功能，自动迁移�
          config = npu_config_proto(config_proto=session_config)
          with tf.Session(config=config) as sess:
            sess.run(tf.global_variables_initializer())
-          interaction_table.init.run()
+           sess.run(interaction_table.init)
          ```
 
      - 针对Keras模式的脚本，在迁移后的脚本中查找“set_keras_session_npu_config”函数，找到运行配置参数（例如下面示例中的“config_proto”），在运行配置参数中添加相关session参数，如下面示例中的“aoe_mode”参数。
@@ -167,7 +167,7 @@ Ascend平台提供了功能调试、性能/精度调优等功能，自动迁移�
          import tensorflow.python.keras as keras
          from tensorflow.python.keras import backend as K
          from npu_bridge.npu_init import *
-           
+
          config_proto = tf.ConfigProto(allow_soft_placement=True)
          # 添加名称为“NpuOptimizer”的NPU优化器，网络编译时，NPU只会遍历“NpuOptimizer”下的session配置。
          custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
@@ -175,7 +175,7 @@ Ascend平台提供了功能调试、性能/精度调优等功能，自动迁移�
          # 配置session参数
          custom_op.parameter_map["aoe_mode"].s = tf.compat.as_bytes("2")
          npu_keras_sess = set_keras_session_npu_config(config=config_proto)
-           
+
          # 数据预处理...
          # 模型搭建...
          # 模型编译...
