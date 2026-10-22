@@ -99,14 +99,14 @@ Before analyzing overflow/underflow data, you need to be familiar with floating-
 Analyze overflow/underflow data as follows:
 
 1. Inspect the input and output values.
-    - If the input data does not contain overflow/underflow values \(saturation mode: 65504/Nan; INF/NaN mode: Inf/Nan\) but the output data does, we consider that overflow/underflow has occurred during computation.
+    - If the input data does not contain overflow/underflow values \(saturation mode: 65504/NaN; INF/NaN mode: Inf/NaN\) but the output data does, we consider that overflow/underflow has occurred during computation.
     - If there is an overflow/underflow value among inputs, check the forward operators or the constant inputs of the user model to see whether there is an exception.
     - Otherwise, overflow/underflow may occur.
 
 2. Analyze the exception according to the type of the faulty operator.
     - For a custom operator, analyze overflow/underflow data by yourself \(based on the operator formulas and overflow/underflow values\) to check whether the custom operator is normal.
     - For a CANN built-in operator, analyze the data as follows:
-        - If the operator output data type is float16 and the dumped output values contain 65504/65500 \(saturation mode\) or Inf/Nan \(INF/NaN mode\), switch the output operator type to float32. Try either of the following methods:
+        - If the operator output data type is float16 and the dumped output values contain 65504/65500 \(saturation mode\) or Inf/NaN \(INF/NaN mode\), switch the output operator type to float32. Try either of the following methods:
             1. \(Recommended\) Method 1: Use  [modify_mixlist](../../apiref/npu-global_options/accuracy_tuning.md#modify_mixlist) to modify the blocklist, trustlist, and graylist for the operator that uses the mixed precision mode.
             2. Method 2: Use the  [npu.keep_dtype_scope](../../apiref/npu-keep_dtype_scope.md)  API to preserve the original precision for a selected operator.
 
