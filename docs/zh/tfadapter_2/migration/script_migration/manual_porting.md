@@ -184,17 +184,17 @@ NPU上执行分布式，相较于单卡NPU训练，主要有三部分的额外�
     - 当数据集为tf.data.Dataset格式时，TF Adapter提供了[npu.distribute.shard_and_rebatch_dataset](../../apiref/npu-distribute-shard_and_rebatch_dataset.md)接口帮您实现上述切分动作，该接口要求您传入需要进行集群切分的Dataset（Dataset介绍参考[链接](https://www.tensorflow.org/guide/data)）以及集群训练时的全局batch大小，例如：
 
         ```python
-         # 由于需要使用npu.distribute.shard_and_rebatch接口，在脚本开头import npu
-         import npu_device as npu
+        # 由于需要使用npu.distribute.shard_and_rebatch接口，在脚本开头import npu
+        import npu_device as npu
 
-          if input_context:
-            logging.info(
-                'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
-                input_context.input_pipeline_id, input_context.num_input_pipelines)
-            # 原始的shard逻辑，因为以单机CPU方式启动，所以不会进行实际的shard
-            dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id)
-          # NPU添加的shard逻辑，会根据集群数量，对数据集和全局batch进行切分
-          dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
+        if input_context:
+          logging.info(
+              'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
+              input_context.input_pipeline_id, input_context.num_input_pipelines)
+          # 原始的shard逻辑，因为以单机CPU方式启动，所以不会进行实际的shard
+          dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id)
+        # NPU添加的shard逻辑，会根据集群数量，对数据集和全局batch进行切分
+        dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
         ```
 
     - 当数据集为Numpy数组时，需要调用numpy方法手工对数据集和全局batch进行切分，例如：

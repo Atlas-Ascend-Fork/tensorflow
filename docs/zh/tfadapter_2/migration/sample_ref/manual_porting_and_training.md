@@ -187,13 +187,13 @@ NPU上的单卡训练将很快完成，下面对执行日志的关键位置进�
     ```python
     def train_step(self, iterator):
       """See base class."""
-    
+
       def step_fn(inputs):
         """Function to run on the device."""
         images, labels = inputs
         with tf.GradientTape() as tape:
           logits = self.model(images, training=True)
-    
+
           prediction_loss = tf.keras.losses.sparse_categorical_crossentropy(
               labels, logits)
           loss = tf.reduce_sum(prediction_loss) * (1.0 /
@@ -206,11 +206,11 @@ NPU上的单卡训练将很快完成，下面对执行日志的关键位置进�
                 for v in self.model.trainable_variables
                 if 'bn' not in v.name
             ])
-    
+
             loss += (l2_loss / num_replicas)
           else:
             loss += (tf.reduce_sum(self.model.losses) / num_replicas)
-    
+
         grad_utils.minimize_using_explicit_allreduce(
             tape, self.optimizer, loss, self.model.trainable_variables)
         self.train_loss.update_state(loss)
@@ -230,21 +230,21 @@ NPU上的单卡训练将很快完成，下面对执行日志的关键位置进�
     ```python
     # 由于需要使用npu.distribute.all_reduce接口，在脚本开头import npu
     import npu_device as npu
-    
+
     def _filter_and_allreduce_gradients(grads_and_vars,
                                         allreduce_precision="float32",
                                         bytes_per_pack=0):
     ... ...
-    
+
       # 原始脚本采用SUM策略
       allreduced_grads = tf.distribute.get_strategy(  # pylint: disable=protected-access
       ).extended._replica_ctx_all_reduce(tf.distribute.ReduceOp.SUM, grads, hints)
       if allreduce_precision == "float16":
         allreduced_grads = [tf.cast(grad, "float32") for grad in allreduced_grads]
-    
+
       # 由于NPU适配添加的梯度聚合操作，聚合类型保持与原始脚本一致，此处选择“sum”聚合策略
-      allreduced_grads = npu.distribute.all_reduce(allreduced_grads,reduction="sum")  
-    
+      allreduced_grads = npu.distribute.all_reduce(allreduced_grads,reduction="sum")
+
       return allreduced_grads, variables
     ```
 
@@ -254,7 +254,7 @@ NPU上的单卡训练将很快完成，下面对执行日志的关键位置进�
 
     ```python
         # 假数据，忽略该分支
-        if self.flags_obj.use_synthetic_data:  
+        if self.flags_obj.use_synthetic_data:
           self.input_fn = common.get_synth_input_fn(
               height=imagenet_preprocessing.DEFAULT_IMAGE_SIZE,
               width=imagenet_preprocessing.DEFAULT_IMAGE_SIZE,
@@ -270,17 +270,17 @@ NPU上的单卡训练将很快完成，下面对执行日志的关键位置进�
     找到official/vision/image_classification/resnet/imagenet_preprocessing.py，添加如下信息：
 
     ```python
-     # 由于需要使用npu.distribute.shard_and_rebatch接口，在脚本开头import npu
-     import npu_device as npu
-    
-      if input_context:
-        logging.info(
-            'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
-            input_context.input_pipeline_id, input_context.num_input_pipelines)
-        # 原始的shard逻辑，因为以单机CPU方式启动，所以不会进行实际的shard
-        dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id) 
-      # NPU添加的shard逻辑，会根据集群数量，对数据集和全局batch进行切分
-      dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size) 
+    # 由于需要使用npu.distribute.shard_and_rebatch接口，在脚本开头import npu
+    import npu_device as npu
+
+    if input_context:
+      logging.info(
+          'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
+          input_context.input_pipeline_id, input_context.num_input_pipelines)
+      # 原始的shard逻辑，因为以单机CPU方式启动，所以不会进行实际的shard
+      dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id)
+    # NPU添加的shard逻辑，会根据集群数量，对数据集和全局batch进行切分
+    dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
     ```
 
 执行完上述步骤后，分布式迁移完成。

@@ -187,13 +187,13 @@ This step allows you to run single-device training and distributed training usin
     ```python
     def train_step(self, iterator):
       """See base class."""
-    
+
       def step_fn(inputs):
         """Function to run on the device."""
         images, labels = inputs
         with tf.GradientTape() as tape:
           logits = self.model(images, training=True)
-    
+
           prediction_loss = tf.keras.losses.sparse_categorical_crossentropy(
               labels, logits)
           loss = tf.reduce_sum(prediction_loss) * (1.0 /
@@ -206,11 +206,11 @@ This step allows you to run single-device training and distributed training usin
                 for v in self.model.trainable_variables
                 if 'bn' not in v.name
             ])
-    
+
             loss += (l2_loss / num_replicas)
           else:
             loss += (tf.reduce_sum(self.model.losses) / num_replicas)
-    
+
         grad_utils.minimize_using_explicit_allreduce(
             tape, self.optimizer, loss, self.model.trainable_variables)
         self.train_loss.update_state(loss)
@@ -230,21 +230,21 @@ This step allows you to run single-device training and distributed training usin
     ```python
     # Import npu at the beginning of the script to use the npu.distribute.all_reduce API.
     import npu_device as npu
-    
+
     def _filter_and_allreduce_gradients(grads_and_vars,
                                         allreduce_precision="float32",
                                         bytes_per_pack=0):
     ... ...
-    
+
     # The original script uses the SUM strategy.
       allreduced_grads = tf.distribute.get_strategy(  # pylint: disable=protected-access
       ).extended._replica_ctx_all_reduce(tf.distribute.ReduceOp.SUM, grads, hints)
       if allreduce_precision == "float16":
         allreduced_grads = [tf.cast(grad, "float32") for grad in allreduced_grads]
-    
+
     # Gradient aggregation added due to NPU adaptation. Keep it consistent with that of the original script, that is, "sum".
-      allreduced_grads = npu.distribute.all_reduce(allreduced_grads,reduction="sum")  
-    
+      allreduced_grads = npu.distribute.all_reduce(allreduced_grads,reduction="sum")
+
       return allreduced_grads, variables
     ```
 
@@ -254,7 +254,7 @@ This step allows you to run single-device training and distributed training usin
 
     ```python
         # Fake data. Ignore this branch.
-        if self.flags_obj.use_synthetic_data:  
+        if self.flags_obj.use_synthetic_data:
           self.input_fn = common.get_synth_input_fn(
               height=imagenet_preprocessing.DEFAULT_IMAGE_SIZE,
               width=imagenet_preprocessing.DEFAULT_IMAGE_SIZE,
@@ -270,17 +270,17 @@ This step allows you to run single-device training and distributed training usin
     Add the following code to  **official/vision/image_classification/resnet/imagenet_preprocessing.py**:
 
     ```python
-     # Import npu at the beginning of the script to use the npu.distribute.shard_and_rebatch API.
-     import npu_device as npu
-    
-      if input_context:
-        logging.info(
-            'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
-            input_context.input_pipeline_id, input_context.num_input_pipelines)
-        # Original shard logic. Shard is not performed, as training is performed in single-CPU mode.
-        dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id) 
-      # Shard logic added by the NPU. The dataset and global batch will be sharded based on the number of clusters.
-      dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size) 
+    # Import npu at the beginning of the script to use the npu.distribute.shard_and_rebatch API.
+    import npu_device as npu
+
+    if input_context:
+      logging.info(
+          'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
+          input_context.input_pipeline_id, input_context.num_input_pipelines)
+      # Original shard logic. Shard is not performed, as training is performed in single-CPU mode.
+      dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id)
+    # Shard logic added by the NPU. The dataset and global batch will be sharded based on the number of clusters.
+    dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
     ```
 
 After the preceding steps are performed, the porting for distributed training is complete.

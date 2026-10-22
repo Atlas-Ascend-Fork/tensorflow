@@ -184,17 +184,17 @@ Compared with single NPU training, distributed NPU training requires the followi
     - If a dataset is in  **tf.data.Dataset**  format, use the  [npu.distribute.shard_and_rebatch_dataset](../../apiref/npu-distribute-shard_and_rebatch_dataset.md)  API provided by the TF Adapter. This API call takes in the dataset to be sharded and the cluster's global batch size. Click  [here](https://www.tensorflow.org/guide/data?hl=en)  to find more about the dataset.
 
         ```python
-         # Import npu at the beginning of the script to use the npu.distribute.shard_and_rebatch API.
-         import npu_device as npu
+        # Import npu at the beginning of the script to use the npu.distribute.shard_and_rebatch API.
+        import npu_device as npu
 
-          if input_context:
-            logging.info(
-                'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
-                input_context.input_pipeline_id, input_context.num_input_pipelines)
-            # Original shard logic. Shard is not performed, as training is performed in single-CPU mode.
-            dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id)
-          # Shard logic added by the NPU. The dataset and global batch will be sharded based on the number of clusters.
-          dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
+        if input_context:
+          logging.info(
+              'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
+              input_context.input_pipeline_id, input_context.num_input_pipelines)
+          # Original shard logic. Shard is not performed, as training is performed in single-CPU mode.
+          dataset = dataset.shard(input_context.num_input_pipelines, input_context.input_pipeline_id)
+        # Shard logic added by the NPU. The dataset and global batch will be sharded based on the number of clusters.
+        dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
         ```
 
     - For a dataset from NumPy arrays, call related NumPy methods to shard the dataset and global batch. For example:
