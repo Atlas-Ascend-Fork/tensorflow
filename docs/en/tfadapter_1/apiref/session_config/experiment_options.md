@@ -65,7 +65,7 @@ Based on the configured acceleration type, acceleration trigger mode, and the pr
 The value of this option is a string with three fields separated by vertical bars (|), for example, fast|step|0.9.
 
 - The first field indicates the acceleration type, which can be fast or fast1.
-  - fast: that the compilation is performed based on the float16 data type during precision reduction.
+  - fast: Indicates that the compilation is performed based on the float16 data type during precision reduction.
   - fast1: that the compilation is performed based on the bf16 data type during precision reduction.
 - The second field supports two values: step and loss, indicating that the entire training process is divided into low-precision training and high-precision training based on the step or loss value, respectively.
 - The third field indicates the proportion of the training process that runs in low precision, relative to either the total step count or the total loss range.

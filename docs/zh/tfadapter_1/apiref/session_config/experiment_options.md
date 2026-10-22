@@ -94,7 +94,7 @@ custom_op.parameter_map["shape_generalization_mode"].s = tf.compat.as_bytes( "FU
 1. 若需要通过此配置项触发训练加速，需要确保网络脚本能够正常收敛。
 2. 针对网络脚本训练耗时较短的场景，若开启此配置项，端到端性能耗时不一定能够产生正向收益。
 3. 此配置项的功能与网络脚本中配置的精度模式有关：
-   - 当通过“precision_mode”参数配置精度模式时，仅支持取值为"allow_fp32_to_fp16"， “must_keep_origin_dtype”或者“空”的场景下开启此配置。
+   - 当通过“precision_mode”参数配置精度模式时，仅支持取值为“allow_fp32_to_fp16”， “must_keep_origin_dtype”或者“空”的场景下开启此配置。
    - 当通过“precision_mode_v2”参数配置精度模式时，仅支持取值为“origin”或者“空”的场景下开启此配置。
 
 4. 此配置项功能与小循环次数有关，开启小循环的场景下可能不能准确按照指定的步数或者loss值分割整个训练流程，最终可能对loss和精度产生影响。
