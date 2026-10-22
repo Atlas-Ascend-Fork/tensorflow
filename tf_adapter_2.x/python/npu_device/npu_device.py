@@ -28,6 +28,8 @@ from tensorflow.python.util import tf_contextlib
 from npu_device.configs.npu_config import NpuConfig
 from npu_device.configs.npu_run_context_option import NpuRunContextOptions
 
+_original_ops_device = ops.device
+
 NPU = "/job:localhost/replica:0/task:0/device:NPU"
 
 # Import the low-level C/C++ module
@@ -351,6 +353,8 @@ class NpuDeviceHandle:
                 yield
 
         def _device_consistent_with_context(*args, **kwargs):
+            if args or "device_name_or_function" in kwargs:
+                return _original_ops_device(*args, **kwargs)
             return _consistent_with_context_ctx()
 
         def_function.Function.__call__ = _never_nested_function_call
