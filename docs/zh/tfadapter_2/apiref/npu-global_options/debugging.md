@@ -165,7 +165,7 @@ npu.global_options().debug_dir="/home/test"
 - 1（默认值）：程序运行正常退出时生成算子融合信息结果文件。
 - 2：图编译完成时即生成算子融合信息结果文件，即如果图编译已完成，后续程序中断，也会生成算子融合信息结果文件。
 
-fusion_result.json文件于记录图编译过程中使用的融合规则，文件中关键字段含义如下：
+fusion_result.json文件用于记录图编译过程中使用的融合规则，文件中关键字段含义如下：
 
 - session_and_graph_id__xx_xx_：表示融合结果所属线程和图编号。
 - graph_fusion：表示图融合。

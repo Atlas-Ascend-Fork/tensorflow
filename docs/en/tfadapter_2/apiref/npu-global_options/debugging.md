@@ -169,15 +169,15 @@ The fusion_result.json file records the fusion patterns used during graph compil
 
 - session_and_graph_id_xx_xx: thread and graph ID of the fusion result.
 - graph_fusion: graph fusion.
-- ub_fusion: UB fusion. The Ascend 950PR&950DT products does not support UB fusion, and therefore this information is not generated.
+- ub_fusion: UB fusion. The Ascend 950PR&950DT products do not support UB fusion, and therefore this information is not generated.
 
-  **The Ascend 950PR&950DT products does not support UB fusion and therefore does not generate this information**.
+  **The Ascend 950PR&950DT products do not support UB fusion and therefore does not generate this information**.
 
 - match_times: number of times that the fusion pattern is matched during graph build.
 - effect_times: actual number of times that the fusion takes effect.
-- repository_hit_times: number of times that the UB fusion repository is hit. The Ascend 950PR&950DT products does not support UB fusion, and therefore this information is not generated.
+- repository_hit_times: number of times that the UB fusion repository is hit. The Ascend 950PR&950DT products do not support UB fusion, and therefore this information is not generated.
 
-  **The Ascend 950PR&950DT products does not support UB fusion and therefore does not generate this information**.
+  **The Ascend 950PR&950DT products do not support UB fusion and therefore does not generate this information**.
 
 NOTE:
 
