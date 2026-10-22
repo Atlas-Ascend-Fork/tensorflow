@@ -11,18 +11,18 @@ def broadcast_global_variables(root_rank, index):
   """Broadcasts all global variables from root rank to all other processes.
   Arguments:
   root_rank: rank of the process from which global variables will be broadcasted
-  to all other processes. 
+  to all other processes.
   index: rank_id
   """
   op_list = []
   for var in tf.global_variables():
-  # the input and out tensor of HCOMBroadcast interface are list
-  if "float" in var.dtype.name:
-  inputs = [var]
-  outputs=hccl_ops.broadcast(tensor=inputs,root_rank=root_rank)
-  if outputs is not None:
-  op_list.append(outputs[0].op)
-  op_list.append(tf.assign(var, outputs[0]))
+    # the input and out tensor of HCOMBroadcast interface are list
+    if "float" in var.dtype.name:
+      inputs = [var]
+      outputs=hccl_ops.broadcast(tensor=inputs,root_rank=root_rank)
+      if outputs is not None:
+        op_list.append(outputs[0].op)
+        op_list.append(tf.assign(var, outputs[0]))
   return tf.group(op_list)
 
 ...
