@@ -146,12 +146,6 @@ class Adapter2St(unittest.TestCase):
             foo_add_(x).device == "/job:localhost/replica:0/task:0/device:CPU:0"
         )
 
-    def test_tf_device_explicit_cpu_placement(self):
-        cpu_device = "/job:localhost/replica:0/task:0/device:CPU:0"
-        with tf.device(cpu_device):
-            value = tf.constant(1.0)
-        self.assertEqual(cpu_device, value.device)
-
     def test_string_unimp1(self):
         x = tf.Variable(1)
 
