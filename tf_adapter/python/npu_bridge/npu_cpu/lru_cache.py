@@ -45,7 +45,7 @@ class LruCache(object):
     # @param ids int类型，输入索引
     # return result 输入ids对应cache中的索引
     def cache_remote_index_to_local(self, ids):
-        """ Cahce remote index to local. """
+        """ Cache remote index to local. """
         result = gen_npu_cpu_ops.cache_remote_index_to_local(
             cache=self._cache,
             ids=ids

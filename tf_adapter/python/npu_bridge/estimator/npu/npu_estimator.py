@@ -241,7 +241,7 @@ class NPUEstimatorSpec(model_fn_lib.EstimatorSpec):
             evaluation_hooks: Reference tensorflow tf.estimator.EstimatorSpec evaluation_hooks.
             prediction_hooks: Reference tensorflow tf.estimator.EstimatorSpec prediction_hooks.
             host_call:  A tuple of `func`, or a list of `tensor` or `dict`.Get	255
-                summary infomation, and send to host every step. Only used if mode	256
+                summary information, and send to host every step. Only used if mode	256
                 is `ModeKeys.TRAIN` or  `ModeKeys.EVAL`.
 
         Returns:
