@@ -444,7 +444,7 @@ Status DpTfToGEConversionPassImpl::InsertChannelQueue(Node *topo_end, std::strin
                     .Attr("output_shapes", m_src["output_shapes"])
                     .Finalize(graph_, &queue_node_device));
     REQUIRES_NOT_NULL(queue_node_device);
-    // 0 means the the 0th output of queue_node_device
+    // 0 means the 0th output of queue_node_device
     REQUIRES_NOT_NULL(graph_->AddEdge(queue_node_device, 0, e->dst(), e->dst_input()));
   }
   return Status::OK();
