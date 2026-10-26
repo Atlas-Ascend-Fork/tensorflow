@@ -1,8 +1,8 @@
-# TensorFlow Adapter For Ascend
+# TensorFlow Adapter For Huawei Ascend
 
 ## Overview
 
-TensorFlow Adapter For Ascend (TF Adapter) is a TensorFlow framework adaptation plugin provided by Ascend. It enables TensorFlow developers to leverage the computing power of NPUs.
+TensorFlow Adapter For Huawei Ascend (TF Adapter) is a TensorFlow framework adaptation plugin provided by Ascend. It enables TensorFlow developers to leverage the computing power of NPUs.
 
 Install the TF Adapter plugin and add a few configuration options to your existing TensorFlow scripts to accelerate your training tasks on Ascend AI processors.
 

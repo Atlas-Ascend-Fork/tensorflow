@@ -1,4 +1,4 @@
-# Ascend Adapter for TF2.X
+# Huawei Ascend Adapter for TF2.X
 
 ## Introduction
 

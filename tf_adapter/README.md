@@ -1,4 +1,4 @@
-# Ascend Adapter for TF1.X
+# Huawei Ascend Adapter for TF1.X
 
 ## 简介
 

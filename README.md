@@ -1,8 +1,8 @@
-# TensorFlow Adapter For Ascend
+# TensorFlow Adapter For Huawei Ascend
 
 ## 概述
 
-TensorFlow Adapter For Ascend（简称TF Adapter）是昇腾提供的TensorFlow框架适配插件，让Tensorflow框架的开发者可以使用NPU的算力。
+TensorFlow Adapter For Huawei Ascend（简称TF Adapter）是昇腾提供的TensorFlow框架适配插件，让Tensorflow框架的开发者可以使用NPU的算力。
 
 开发者只需安装TF Adapter插件，并在现有TensorFlow脚本中添加少量配置，即可实现在昇腾AI处理器上加速自己的训练任务。
 
