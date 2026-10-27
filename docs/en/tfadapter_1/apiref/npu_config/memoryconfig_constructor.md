@@ -12,7 +12,8 @@ class MemoryConfig():
                  atomic_clean_policy=0,
                  static_memory_policy=0,
                  memory_optimization_policy=None,
-                 variable_use_1g_huge_page=0
+                 variable_use_1g_huge_page=0):
+        ...
 ```
 
 ## Parameters
@@ -33,6 +34,8 @@ class MemoryConfig():
     > - This option cannot be set to  **2**  or  **4**  when multiple graphs are executed concurrently.
     > - To be compatible with earlier versions, the system adopts the method of mode 2 even if this option is set to  **1**.
     > - If this option is set to  **3**  or  **4**, memory gains are generated, but performance may deteriorate.
+
+- **memory_optimization_policy**: input, optional memory optimization policy. The default is None, which leaves this option unset in NpuOptimizer. This is not the hugepage option; 1 GB huge pages are controlled by `variable_use_1g_huge_page`, whose values are described below. Prefer keyword arguments, for example `MemoryConfig(variable_use_1g_huge_page=1)`, to avoid positional argument confusion.
 
 - **variable_use_1g_huge_page**: input. In recommendation models, the embedding layer in TensorFlow uses variables. When embedding layers serve as input or output addresses for index-based operators \(such as Gather and ScatterNd\), large memory footprints may lead to extensive scattered access, potentially causing performance degradation. In this case, you can set this parameter to allocate 1 GB hugepage memory for variables and constants to improve memory access performance.
 
@@ -64,7 +67,10 @@ None
 ```python
 from npu_bridge.npu_init import *
 ...
-mem_config = MemoryConfig(atomic_clean_policy=0, static_memory_policy=0)
+# Use 1 GB huge pages; terminate the service if allocation fails.
+mem_config = MemoryConfig(atomic_clean_policy=0,
+                          static_memory_policy=0,
+                          variable_use_1g_huge_page=1)
 session_config=tf.ConfigProto(allow_soft_placement=True)
 config = NPURunConfig(memory_config=mem_config, session_config=session_config)
 ```

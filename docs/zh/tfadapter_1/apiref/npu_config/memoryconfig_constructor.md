@@ -11,9 +11,9 @@ class MemoryConfig():
     def __init__(self,
                  atomic_clean_policy=0,
                  static_memory_policy=0,
-                 variable_use_1g_huge_page=0
-                 # ...
-    )
+                 memory_optimization_policy=None,
+                 variable_use_1g_huge_page=0):
+        ...
 ```
 
 ## 参数说明
@@ -33,6 +33,8 @@ class MemoryConfig():
     >- 多张图并发执行时，不支持配置为“2”和“4”。
     >- 为兼容历史版本配置，配置为“1”的场景下，系统会按照“2”的方式进行处理。
     >- 配置为“3”和“4”的场景下，将带来内存收益，但可能导致性能损失。
+
+- **memory_optimization_policy**：输入，可选内存优化策略，默认为None；未设置时不向NpuOptimizer传入该配置。此参数不是大页配置参数；1G大页由`variable_use_1g_huge_page`控制，其取值见下方说明。建议使用关键字参数，例如`MemoryConfig(variable_use_1g_huge_page=1)`，避免位置参数混淆。
 
 - **variable_use_1g_huge_page**：输入，在推荐模型中，嵌入层\(Embedding层\)在TensorFlow中使用的是变量，当嵌入层作为索引类算子\(Gather、ScatterNd等\)的输入或输出地址时，若内存较大会存在大范围的离散访问，可能会出现算子性能下降问题。此时可尝试通过配置此参数，为变量和常量使用1G大页申请内存，从而提升访存性能。
 
@@ -64,7 +66,10 @@ class MemoryConfig():
 ```python
 from npu_bridge.npu_init import *
 ...
-mem_config = MemoryConfig(atomic_clean_policy=0, static_memory_policy=0)
+# 使用1G大页；申请失败时终止业务执行。
+mem_config = MemoryConfig(atomic_clean_policy=0,
+                          static_memory_policy=0,
+                          variable_use_1g_huge_page=1)
 session_config=tf.ConfigProto(allow_soft_placement=True)
 config = NPURunConfig(memory_config=mem_config, session_config=session_config)
 ```
