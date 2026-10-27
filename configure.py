@@ -105,8 +105,10 @@ def setup_python(env_path):
         else:
             python_bin_path = custom_python_bin_path
             custom_python_bin_path = None
+        python_bin_path = python_bin_path or default_python_bin_path
         if not python_bin_path:
-            python_bin_path = default_python_bin_path
+            print("Python 3.7 was not found; please specify an executable path.")
+            continue
         # Check if the path is valid
         if os.path.isfile(python_bin_path) and os.access(python_bin_path, os.X_OK):
             compile_args = run_command([python_bin_path, "--version"])
