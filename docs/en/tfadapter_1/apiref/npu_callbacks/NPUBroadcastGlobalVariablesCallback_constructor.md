@@ -30,7 +30,7 @@ callbacks = [hvd.callbacks.BroadcastGlobalVariablesCallback(0)]
 
 import numpy as np
 data = np.random.random((1000, 100))
-labels = np random.randint(2, size=(1000,1))
+labels = np.random.randint(2, size=(1000,1))
 model.fit(data, labels, epochs=10, batch_size=32, callbacks=callbacks)
 ```
 
@@ -42,6 +42,6 @@ callbacks = [NPUBroadcastGlobalVariablesCallback(0)]
 
 import numpy as np
 data = np.random.random((1000, 100))
-labels = np random.randint(2, size=(1000,1))
+labels = np.random.randint(2, size=(1000,1))
 model.fit(data, labels, epochs=10, batch_size=32, callbacks=callbacks)
 ```

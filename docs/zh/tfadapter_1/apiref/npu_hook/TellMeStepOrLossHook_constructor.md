@@ -46,6 +46,6 @@ hooks.append(my_hook)
 # 开启训练
 est.train(
           input_fn=imagenet_train.input_fn,
-          max_steps=max_steps 
+          max_steps=max_steps,
           hooks=hooks)
 ```

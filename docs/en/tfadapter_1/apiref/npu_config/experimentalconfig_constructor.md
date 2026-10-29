@@ -81,7 +81,7 @@ class ExperimentalConfig():
         from npu_bridge.estimator.npu.npu_config import ExperimentalConfig
         from npu_bridge.estimator.npu.npu_hook import TellMeStepOrLossHook
         # Enable the fast acceleration mode. The training process is divided based on the ratio of 90% to the total steps. That is, low-precision training is performed on 90% of the total steps, and high-precision training is performed on the remaining steps.
-        experimental_config = npu_config.ExperimentalConfig(accelerate_train_mode="fast|step|0.9")
+        experimental_config = ExperimentalConfig(accelerate_train_mode="fast|step|0.9")
         config = NPURunConfig(experimental_config=experimental_config)
         est = NPUEstimator(
         model_fn=model_fn,
@@ -97,7 +97,7 @@ class ExperimentalConfig():
         # Start training.
         est.train(
         input_fn=imagenet_train.input_fn,
-        max_steps=max_steps
+        max_steps=max_steps,
         hooks=hooks)
         ```
 

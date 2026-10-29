@@ -81,7 +81,7 @@ class ExperimentalConfig():
         from npu_bridge.estimator.npu.npu_config import ExperimentalConfig
         from npu_bridge.estimator.npu.npu_hook import TellMeStepOrLossHook
         # 使能fast加速模式，按照总step的0.9比例分割训练流程，即0.9占比的step数进行低精度训练，剩余step数进行高精度训练
-        experimental_config = npu_config.ExperimentalConfig(accelerate_train_mode="fast|step|0.9")
+        experimental_config = ExperimentalConfig(accelerate_train_mode="fast|step|0.9")
         config = NPURunConfig(experimental_config=experimental_config)
         est = NPUEstimator(
         model_fn=model_fn,
@@ -97,7 +97,7 @@ class ExperimentalConfig():
         # 开启训练
         est.train(
         input_fn=imagenet_train.input_fn,
-        max_steps=max_steps
+        max_steps=max_steps,
         hooks=hooks)
         ```
 

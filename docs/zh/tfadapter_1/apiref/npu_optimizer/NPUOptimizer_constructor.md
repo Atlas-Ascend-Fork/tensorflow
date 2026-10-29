@@ -47,16 +47,16 @@ optimizer = LAMBOptimizer(
           exclude_from_weight_decay=["LayerNorm", "layer_norm", "bias"])
 
 #使能Loss Scaling
-  if tf.flags.FLAGS.npu_bert_loss_scale not in [None, -1]:
-    if tf.flags.FLAGS.npu_bert_loss_scale == 0:
-      loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=tf.flags.FLAGS.init_loss_scale_value, incr_every_n_steps=1000, decr_every_n_nan_or_inf=2, decr_ratio=0.5)
-    elif tf.flags.FLAGS.npu_bert_loss_scale >= 1:
-      loss_scale_manager = FixedLossScaleManager(loss_scale=tf.flags.FLAGS.npu_bert_loss_scale)
-    else:
-      raise ValueError("Invalid loss scale: %d" % tf.flags.FLAGS.npu_bert_loss_scale)
-    optimizer = NPUOptimizer(optimizer, loss_scale_manager, is_distributed=tf.flags.FLAGS.distributed, is_loss_scale=True, is_tailing_optimization=True)
+if tf.flags.FLAGS.npu_bert_loss_scale not in [None, -1]:
+  if tf.flags.FLAGS.npu_bert_loss_scale == 0:
+    loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=tf.flags.FLAGS.init_loss_scale_value, incr_every_n_steps=1000, decr_every_n_nan_or_inf=2, decr_ratio=0.5)
+  elif tf.flags.FLAGS.npu_bert_loss_scale >= 1:
+    loss_scale_manager = FixedLossScaleManager(loss_scale=tf.flags.FLAGS.npu_bert_loss_scale)
+  else:
+    raise ValueError("Invalid loss scale: %d" % tf.flags.FLAGS.npu_bert_loss_scale)
+  optimizer = NPUOptimizer(optimizer, loss_scale_manager, is_distributed=tf.flags.FLAGS.distributed, is_loss_scale=True, is_tailing_optimization=True)
 
 #不使能loss_scale
-  else:
-    optimizer = NPUOptimizer(optimizer, is_distributed=tf.flags.FLAGS.distributed)
+else:
+  optimizer = NPUOptimizer(optimizer, is_distributed=tf.flags.FLAGS.distributed)
 ```
