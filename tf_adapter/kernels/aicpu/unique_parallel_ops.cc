@@ -8,9 +8,11 @@
  * See LICENSE in the root of the software repository for the full text of the License.
  */
 
-#include <vector>
+#include <algorithm>
 #include <atomic>
+#include <numeric>
 #include <unordered_map>
+#include <vector>
 #include "tf_adapter/common/common.h"
 #include "tensorflow/core/framework/op_kernel.h"
 #include "tensorflow/core/framework/register_types.h"
@@ -70,12 +72,46 @@ class UniqueParallelOp : public OpKernel {
       }
     };
     ParallelFor(thread_work, total, CPU_NUMS, shards);
+    // TensorFlow Unique orders y by first appearance, while the parallel shards assign slots by completion order.
+    const TIndex unique_count = count_num.load();
+    RestoreFirstAppearanceOrder(temp_output, *index_tensor, unique_count);
     Tensor *output_tensor = nullptr;
-    OP_REQUIRES_OK(context, context->allocate_output(0, TensorShape({count_num}), &output_tensor));
-    *output_tensor = temp_output.Slice(0, count_num);
+    OP_REQUIRES_OK(context, context->allocate_output(0, TensorShape({unique_count}), &output_tensor));
+    *output_tensor = temp_output.Slice(0, unique_count);
   }
 
  private:
+  void RestoreFirstAppearanceOrder(Tensor &temp_output, Tensor &index_tensor, TIndex unique_count) {
+    auto temp_output_flat = temp_output.flat<T>();
+    auto index_vec = index_tensor.vec<TIndex>();
+    const int64 total = static_cast<int64>(index_vec.size());
+    std::vector<int64> first_positions(static_cast<size_t>(unique_count), total);
+    for (int64 i = 0; i < total; i++) {
+      const TIndex old_index = index_vec(i);
+      if (first_positions[static_cast<size_t>(old_index)] == total) {
+        first_positions[static_cast<size_t>(old_index)] = i;
+      }
+    }
+    std::vector<TIndex> order(static_cast<size_t>(unique_count));
+    std::iota(order.begin(), order.end(), static_cast<TIndex>(0));
+    std::sort(order.begin(), order.end(), [&first_positions](TIndex lhs, TIndex rhs) {
+      return first_positions[static_cast<size_t>(lhs)] < first_positions[static_cast<size_t>(rhs)];
+    });
+    std::vector<TIndex> old_to_new(static_cast<size_t>(unique_count));
+    std::vector<T> ordered_output(static_cast<size_t>(unique_count));
+    for (TIndex new_index = 0; new_index < unique_count; new_index++) {
+      const TIndex old_index = order[static_cast<size_t>(new_index)];
+      old_to_new[static_cast<size_t>(old_index)] = new_index;
+      ordered_output[static_cast<size_t>(new_index)] = temp_output_flat(old_index);
+    }
+    for (TIndex new_index = 0; new_index < unique_count; new_index++) {
+      temp_output_flat(new_index) = ordered_output[static_cast<size_t>(new_index)];
+    }
+    for (int64 i = 0; i < total; i++) {
+      index_vec(i) = old_to_new[static_cast<size_t>(index_vec(i))];
+    }
+  }
+
   void ParallelFor(tensorflow::thread::ThreadPool &thread_work, int64 total, const int cpu_nums,
                    std::function<void(int64, int)> &fn) {
     CHECK_GE(total, 0);
