@@ -181,7 +181,7 @@ bool CheckIsDistribute(std::map<std::string, std::string> &global_options) {
 }
 
 void SetForbiddenClosePassOn(std::map<std::string, std::string> &option) {
-  option["ge.optimizationSwitch"].append("forbidden_close_pass:on");
+  option["ge.optimizationSwitch"].append(";forbidden_close_pass:on");
 }
 
 void ParserGeOptions(const std::map<std::string, std::string> &user_options,
@@ -214,7 +214,6 @@ void ParserSessionOptions(const std::map<std::string, std::string> &user_options
     LOG(INFO) << "  " << option.first << ":" << option.second;
     (void)session_option.emplace(option.first, option.second);
   }
-  SetForbiddenClosePassOn(session_option);
 }
 
 void ParseGlobalOptions(int device_index, const std::map<std::string, std::string> &user_options,
