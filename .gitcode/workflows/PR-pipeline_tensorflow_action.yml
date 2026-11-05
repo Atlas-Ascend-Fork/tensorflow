@@ -58,12 +58,28 @@ stages:
   stage2:
     name: Compile
     jobs:
-      JOB_CodeCheck:
+      JOB_codecheck:
+        permissions:
+            repository: read
+            id-token: write
         name: CodeCheck
-        uses: .gitcode/workflows/codecheck_action.yml
+        uses: cann/.gitcode/.gitcode/workflows/codecheck_action.yml@master
         with:
+          precommit_image_version: ${{ jobs.JOB_image.outputs.precommit }}
           codecheck_image_version: ${{ jobs.JOB_image.outputs.codecheck }}
+      JOB_staticcheck_md_check:
+        permissions:
+            repository: read
+            id-token: write
+        name: CodeCheck_staticcheck_md_check
+        uses: .gitcode/workflows/staticcheck_action.yml
+        with:
+          check_type: 'md_check'
+          image_version: ${{ jobs.JOB_image.outputs.staticcheck }}
       JOB_Compile_Ascend_X86:
+        permissions:
+            repository: read
+            id-token: write
         name: Compile_Ascend_X86
         uses: .gitcode/workflows/compile_action.yml
         with:
@@ -71,6 +87,9 @@ stages:
           image_version: ${{ jobs.JOB_image.outputs.Compile_Ascend_X86 }}
           arch: 'x64'
       JOB_Compile_Ascend_X86_TF:
+        permissions:
+            repository: read
+            id-token: write
         name: Compile_Ascend_X86_TF
         uses: .gitcode/workflows/compile_action.yml
         with:
@@ -78,6 +97,9 @@ stages:
           image_version: ${{ jobs.JOB_image.outputs.Compile_Ascend_X86_TF }}
           arch: 'x64'
       JOB_Compile_Ascend_ARM:
+        permissions:
+            repository: read
+            id-token: write
         name: Compile_Ascend_ARM
         uses: .gitcode/workflows/compile_action.yml
         with:
@@ -85,6 +107,9 @@ stages:
           image_version: ${{ jobs.JOB_image.outputs.Compile_Ascend_ARM }}
           arch: 'arm64'
       JOB_Compile_Ascend_X86_ubuntu24:
+        permissions:
+            repository: read
+            id-token: write
         name: Compile_Ascend_X86_ubuntu24
         uses: .gitcode/workflows/compile_action.yml
         with:
@@ -93,6 +118,9 @@ stages:
           arch: 'x64'
         if: env.TARGET_BRANCH == 'master'
       JOB_Compile_Ascend_X86_TF_ubuntu24:
+        permissions:
+            repository: read
+            id-token: write
         name: Compile_Ascend_X86_TF_ubuntu24
         uses: .gitcode/workflows/compile_action.yml
         with:
@@ -101,6 +129,9 @@ stages:
           arch: 'x64'
         if: env.TARGET_BRANCH == 'master'
       JOB_Compile_Ascend_ARM_ubuntu24:
+        permissions:
+            repository: read
+            id-token: write
         name: Compile_Ascend_ARM_ubuntu24
         uses: .gitcode/workflows/compile_action.yml
         with:
@@ -108,12 +139,6 @@ stages:
           image_version: ${{ jobs.JOB_image.outputs.Compile_Ascend_ARM_ubuntu24 }}
           arch: 'arm64'
         if: env.TARGET_BRANCH == 'master'
-      JOB_staticcheck_md_check:
-        name: CodeCheck_staticcheck_md_check
-        uses: .gitcode/workflows/staticcheck_action.yml
-        with:
-          check_type: 'md_check'
-          image_version: ${{ jobs.JOB_image.outputs.staticcheck }}
     pre:
       - type: auto
     fail-fast: true
@@ -122,6 +147,9 @@ stages:
     name: LLT
     jobs:
       JOB_UT_Test:
+        permissions:
+            repository: read
+            id-token: write
         name: UT_Test
         uses: .gitcode/workflows/ut_action.yml
         with:
@@ -129,6 +157,9 @@ stages:
           ut_package: '*'
           image_version: ${{ jobs.JOB_image.outputs.UT_Test }}
       JOB_ST_Test:
+        permissions:
+            repository: read
+            id-token: write
         name: ST_Test
         uses: .gitcode/workflows/st_action.yml
         with:

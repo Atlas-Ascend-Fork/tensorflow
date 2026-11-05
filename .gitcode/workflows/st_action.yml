@@ -1,4 +1,4 @@
-name: st_action
+name: llt_action
 
 on:
   workflow_call:
@@ -7,13 +7,11 @@ on:
         required: true
         type: string
       st_package:
-        required: false
         type: string
         default: 'st_cov_*.tar.gz'
-      language:
+      ge_st_rt2:
         required: false
         type: string
-        default: 'cpp'
       image_version:
         required: true
         type: string
@@ -22,63 +20,66 @@ jobs:
   JOB_st:
     name: ST
     steps:
-      - name: Checkout
-        identifier: process_checkout_st
+      -
+        name: Checkout
+        identifier: process_checkout
         uses: checkout
         with:
           ref: ${{ atomgit.event.pull_request.merge_commit_sha }}
           allow-unsafe-pr-checkout: true
-
-      - name: download
+      -
+        name: oidc_auth
+        uses: huaweicloud-oidc-auth
+        with:
+          audience: ${{ secrets.audience }}
+          agency_urn: ${{ secrets.agency_urn }}
+          provider_urn: ${{ secrets.provider_urn }}
+          region: cn-north-4
+          duration: 3600
+      -
+        name: download
         uses: obs-download
         with:
           endpoint: "https://obs.cn-north-4.myhuaweicloud.com"
           bucket: "ascend-ci"
-          access-key: ${{ secrets.AK }}
-          secret-key: ${{ secrets.SK }}
           key: |
             ${{ env.obs_path }}/pr_filelist.txt
             ${{ env.obs_path }}/pr_filelist_mod.txt
             ${{ env.obs_path }}/tensorflow_st.sh
-          path: ${{ steps.process_checkout_st.outputs.path }}
-
-      - name: redis-cache
+          path: ${{ steps.process_checkout.outputs.path }}
+      -
+        name: redis-cache
         uses: cann/.gitcode/actions/redis-cache@master
-
-      - name: st_acc
+      -
+        name: st_acc
         identifier: st
         run: |
-          export WORKSPACE=${{ steps.process_checkout_st.outputs.path }}
-          cd ${{ steps.process_checkout_st.outputs.path }}
+          export WORKSPACE=${{ steps.process_checkout.outputs.path }}
+          cd ${{ steps.process_checkout.outputs.path }}
+          export st_type=${{ inputs.st_type }}
+          export ge_st_rt2=${{ inputs.ge_st_rt2 }}
           export GIT_TARGET_BRANCH=${{ env.TARGET_BRANCH }}
-          export TF_ST_TYPE=${{ inputs.st_type }}
-          export ASCEND_3RD_LIB_PATH=/home/jenkins/opensource
-          export ASCEND_INSTALL_PATH=/home/jenkins/Ascend/cann
-          export ASCEND_HOME_PATH=/home/jenkins/Ascend/cann
-          export ASCEND_CUSTOM_PATH=/home/jenkins/Ascend/cann
           bash tensorflow_st.sh
-
-      - name: ST_Cov
-        identifier: ut_cov
+      -
+        name: st_cov
+        identifier: st_cov
         uses: cann/.gitcode/actions/ut-cov-report@master
         with:
-          ut_process: 'ut_cov'
-          workspace: ${{ steps.process_checkout_st.outputs.path }}
-          language: ${{ inputs.language }}
-          ut_type: ${{ inputs.st_type }}
+          ut_process: ${{ steps.ut.outputs.ut_process }}
+          workspace: ${{ steps.process_checkout.outputs.path }}
+          ut_type: ${{ inputs.ut_type }}
           target_branch: ${{ env.TARGET_BRANCH }}
           git_token: ${{secrets.GIT_TOKEN}}
-
-      - name: upload
+      -
+        name: upload
         uses: obs-upload
         with:
           endpoint: "https://obs.cn-north-4.myhuaweicloud.com"
           bucket: "ascend-ci"
-          access-key: ${{ secrets.AK }}
-          secret-key: ${{ secrets.SK }}
-          artifact-path: "${{ steps.process_checkout_st.outputs.path }}/${{ inputs.st_package }}"
+          artifact-path: |
+            ${{ steps.process_checkout.outputs.path }}/${{ inputs.st_package }}
           object-prefix: ${{ env.obs_path }}/
     if: "${{ default() }}"
-    runs-on: [dedicate-hosted, x64, xlarge]
+    runs-on: ["self-hosted", "arch=x64", "spec=xlarge"]
     container:
       image: swr.cn-north-4.myhuaweicloud.com/ci_cann/${{ inputs.image_version }}
