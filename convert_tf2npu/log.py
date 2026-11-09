@@ -16,31 +16,43 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 
+_report_handlers = {}
+
 
 def logger_create(logger_name, log_dir):
     logger = logging.getLogger(logger_name)
     logger.setLevel(level=logging.INFO)
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
-    rotating = RotatingFileHandler(filename=log_dir+'/'+logger_name, maxBytes=1024**2,
-                                   backupCount=10, encoding='utf-8')
-    rotating.setFormatter(logging.Formatter('%(message)s'))
+    rotating = RotatingFileHandler(
+        filename=log_dir + "/" + logger_name,
+        maxBytes=1024**2,
+        backupCount=10,
+        encoding="utf-8",
+    )
+    rotating.setFormatter(logging.Formatter("%(message)s"))
     rotating.setLevel(logging.INFO)
+    previous = _report_handlers.get(logger_name)
+    if previous is not None:
+        logger.removeHandler(previous)
+        previous.close()
     logger.addHandler(rotating)
+    _report_handlers[logger_name] = rotating
     return logger
 
 
-def init_loggers(log_dir='.'):
+def init_loggers(log_dir="."):
     global logger_success_report
-    logger_success_report = logger_create('success_report.txt', log_dir)
+    logger_success_report = logger_create("success_report.txt", log_dir)
 
     global logger_failed_report
-    logger_failed_report = logger_create('failed_report.txt', log_dir)
+    logger_failed_report = logger_create("failed_report.txt", log_dir)
 
     global logger_need_migration_doc
-    logger_need_migration_doc = logger_create('need_migration_doc.txt', log_dir)
+    logger_need_migration_doc = logger_create("need_migration_doc.txt", log_dir)
 
     global logger_api_brief_report
-    logger_api_brief_report = logger_create('api_brief_report.txt', log_dir)
+    logger_api_brief_report = logger_create("api_brief_report.txt", log_dir)
+
 
 init_loggers()
