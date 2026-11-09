@@ -19,6 +19,7 @@ import config
 
 class VisitCall(ast.NodeVisitor):
     """Class for visiting python ast call node"""
+
     def __init__(self):
         self._in_call = False
         self._current_visit = []
@@ -41,7 +42,7 @@ class VisitCall(ast.NodeVisitor):
         """Visit name in call node"""
         if self._in_call:
             self._current_visit.append(node.id)
-            self.call_nodes.append('.'.join(self._current_visit[::-1]))
+            self.call_nodes.append(".".join(self._current_visit[::-1]))
             self.line_nos.append(getattr(node, "lineno", "None"))
             # Reset the state
             self._in_call = False
@@ -51,6 +52,7 @@ class VisitCall(ast.NodeVisitor):
 
 class VisitAttr(ast.NodeVisitor):
     """Class for visiting python ast attr node"""
+
     def __init__(self):
         self._in_attr = False
         self._current_visit = []
@@ -67,7 +69,7 @@ class VisitAttr(ast.NodeVisitor):
         """Visit name in attr node"""
         if self._in_attr:
             self._current_visit.append(node.id)
-            self.attr_nodes.append('.'.join(self._current_visit[::-1]))
+            self.attr_nodes.append(".".join(self._current_visit[::-1]))
             self.line_nos.append(getattr(node, "lineno", "None"))
             # Reset the state
             self._in_attr = False
@@ -77,19 +79,20 @@ class VisitAttr(ast.NodeVisitor):
 
 class VisitUnsupportedImport(ast.NodeVisitor):
     """Class for visiting python ast import node"""
+
     def __init__(self):
         self.imports = []
         self.import_modules = []
         self.modules = []
-        self.unsupported = ['cupy', 'cupyx', 'pynvml']
+        self.unsupported = ["cupy", "cupyx", "pynvml"]
 
     def visit_ImportFrom(self, node):
         """Visit importfrom node"""
         if node.module is not None:
-            self.modules = node.module.split('.')
+            self.modules = node.module.split(".")
         for value in node.names:
             if isinstance(value, ast.alias):
-                classes = value.name.split('.')
+                classes = value.name.split(".")
                 if len(self.modules) == 0:
                     break
                 if self.modules[0] in self.unsupported:
@@ -101,7 +104,7 @@ class VisitUnsupportedImport(ast.NodeVisitor):
         """Visit import node"""
         for value in node.names:
             if isinstance(value, ast.alias):
-                self.modules = value.name.split('.')
+                self.modules = value.name.split(".")
                 if len(self.modules) == 0:
                     break
                 if self.modules[0] in self.unsupported:
@@ -122,8 +125,8 @@ def get_tf_api(file_name):
         list objects containing all the tensorflow apis extracted from file_name
         and corrosponding line number
     """
-    util_global.set_value('use_keras_dropout', False)
-    with open(file_name, 'r', encoding='utf-8') as file:
+    util_global.set_value("use_keras_dropout", False)
+    with open(file_name, "r", encoding="utf-8-sig") as file:
         source = file.read()
     tree = ast.parse(source)
     visitor = VisitCall()
@@ -136,13 +139,16 @@ def get_tf_api(file_name):
     keras_dropout_api = config.keras_dropout_api
     for module in import_list:
         for i in range(len(visitor.call_nodes)):
-            if "".join([module, '.']) in visitor.call_nodes[i] and visitor.call_nodes[i].split('.')[0] == module:
+            if (
+                "".join([module, "."]) in visitor.call_nodes[i]
+                and visitor.call_nodes[i].split(".")[0] == module
+            ):
                 api.append(visitor.call_nodes[i])
                 lineno.append(visitor.line_nos[i])
 
             # get tf api using keras dropout
             if visitor.call_nodes[i] in keras_dropout_api:
-                util_global.set_value('use_keras_dropout', True)
+                util_global.set_value("use_keras_dropout", True)
     return api, lineno
 
 
@@ -156,7 +162,7 @@ def get_tf_enume(file_name, enume_list):
         list objects containing all the tensorflow enumeration apis extracted from file_name
         and corrosponding line number
     """
-    with open(file_name, 'r', encoding='utf-8') as file:
+    with open(file_name, "r", encoding="utf-8-sig") as file:
         source = file.read()
     tree = ast.parse(source)
     visitor = VisitAttr()
@@ -181,7 +187,7 @@ def get_unsupported_api(file_name):
         list objects containing the unsupported apis and module extracted from file_name
         and corrosponding line number
     """
-    with open(file_name, 'r', encoding='utf-8') as file:
+    with open(file_name, "r", encoding="utf-8-sig") as file:
         source = file.read()
     tree = ast.parse(source)
     visitor = VisitCall()
@@ -194,10 +200,12 @@ def get_unsupported_api(file_name):
     lineno = []
     module = []
     for i in range(len(visitor.call_nodes)):
-        imports = visitor.call_nodes[i].split('.')[0]
-        if imports in unsupported_visitor.imports or visitor.call_nodes[i].startswith('nvml'):
-            if visitor.call_nodes[i].startswith('nvml'):
-                module.append('pynvml')
+        imports = visitor.call_nodes[i].split(".")[0]
+        if imports in unsupported_visitor.imports or visitor.call_nodes[i].startswith(
+            "nvml"
+        ):
+            if visitor.call_nodes[i].startswith("nvml"):
+                module.append("pynvml")
             else:
                 index = unsupported_visitor.imports.index(imports)
                 module.append(unsupported_visitor.import_modules[index])
@@ -208,22 +216,22 @@ def get_unsupported_api(file_name):
 
 class PreProcessVisitor(ast.NodeVisitor):
     """Class for visiting python ast before convert"""
+
     def visit_ClassDef(self, node):
         """visit ast node classdef"""
         self.generic_visit(node)
 
         for base in node.bases:
-            if isinstance(base, ast.Attribute) and \
-                base.attr == "Model":
+            if isinstance(base, ast.Attribute) and base.attr == "Model":
                 custom_keras_model_name = node.name
-                custom_keras_models = util_global.get_value('custom_keras_models', [])
+                custom_keras_models = util_global.get_value("custom_keras_models", [])
                 custom_keras_models.append(custom_keras_model_name)
-                util_global.set_value('custom_keras_models', custom_keras_models)
+                util_global.set_value("custom_keras_models", custom_keras_models)
                 break
 
 
 def preprocess_visit(file_name):
-    with open(file_name, 'r', encoding='utf-8') as file:
+    with open(file_name, "r", encoding="utf-8-sig") as file:
         source = file.read()
     tree = ast.parse(source)
     visitor = PreProcessVisitor()
