@@ -96,7 +96,7 @@ class VisitUnsupportedImport(ast.NodeVisitor):
                 if len(self.modules) == 0:
                     break
                 if self.modules[0] in self.unsupported:
-                    self.imports.append(classes[0])
+                    self.imports.append(value.asname or classes[0])
                     self.import_modules.append(self.modules[0])
         self.generic_visit(node)
 
