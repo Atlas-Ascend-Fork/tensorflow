@@ -529,7 +529,8 @@ void GeOp::Initialize(OpKernelConstruction *ctx) {
 
   init_flag_ = true;
   int64 endTime = InferShapeUtil::GetCurrentTimestap();
-  ADP_LOG(EVENT) << "[GEOP] GeOp initialized successfully, cost:[" << ((endTime - startTime) / kMicrosToMillis) << " ms].";
+  ADP_LOG(EVENT) << "[GEOP] GeOp initialized successfully, cost:[" << ((endTime - startTime) / kMicrosToMillis)
+                 << " ms].";
   return;
 }
 
@@ -786,7 +787,7 @@ Status GeOp::CheckAndModifyPrecisionMode() {
     if ((inner_iter_v2 == fast_value_2_precision_mode_v2.end()) ||
         (supported_origin_precision_mode_v2.find(origin_mode_v2) == supported_origin_precision_mode_v2.end())) {
       ss << "accelerate fast_value:" << fast_value_enum_2_string.at(accelerate_info_.fast_value_)
-         << " is not support with PRECISION_MODE_V2: " << origin_mode_v2;
+         << " is not supported with PRECISION_MODE_V2: " << origin_mode_v2;
       ADP_LOG(ERROR) << ss.str();
       return errors::Internal(ss.str());
     }
@@ -804,7 +805,7 @@ Status GeOp::CheckAndModifyPrecisionMode() {
     if ((inner_iter_v1 == fast_value_2_precision_mode_v1.end()) ||
         (supported_origin_precision_mode_v1.find(origin_mode_v1) == supported_origin_precision_mode_v1.end())) {
       ss << "accelerate fast_value:" << fast_value_enum_2_string.at(accelerate_info_.fast_value_)
-         << " is not support with PRECISION_MODE: " << origin_mode_v1;
+         << " is not supported with PRECISION_MODE: " << origin_mode_v1;
       ADP_LOG(ERROR) << ss.str();
       return errors::Internal(ss.str());
     }

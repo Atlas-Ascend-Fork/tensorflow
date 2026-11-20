@@ -17,13 +17,16 @@ import tensorflow
 import npu_bridge
 
 try:
-    npu_bridge_handle = tensorflow.load_op_library(os.path.join(os.path.dirname(npu_bridge.__file__), "_tf_adapter.so"))
+    npu_bridge_handle = tensorflow.load_op_library(
+        os.path.join(os.path.dirname(npu_bridge.__file__), "_tf_adapter.so")
+    )
 except Exception as e:
-    print(str(e))
+    tensorflow.get_logger().error("Failed to load _tf_adapter.so: %s", e)
 
 
 def get_gen_ops():
     """Get npu_bridge handle"""
     return npu_bridge_handle
 
-version = 'v1.15.0'
+
+VERSION = "v1.15.0"

@@ -29,48 +29,47 @@ from tensorflow.core.framework import attr_value_pb2
 from tensorflow.core.framework import variable_pb2
 from tensorflow.python.ops import resource_variable_ops
 
-from npu_bridge.estimator.npu.npu_config import GraphMemoryOptimizeConfig
 from npu_bridge.estimator.npu.npu_config import ExperimentalConfig
 
-_NPU_RUNCONFIG = 'npu_runconfig'
-_ITERATIONS_PER_LOOP_VAR = 'iterations_per_loop'
-_LOOP_COND_VAR = 'loop_cond'
-_CONST_ZERO = 'zero'
-_CONST_ONE = 'one'
+_NPU_RUNCONFIG = "npu_runconfig"
+_ITERATIONS_PER_LOOP_VAR = "iterations_per_loop"
+_LOOP_COND_VAR = "loop_cond"
+_CONST_ZERO = "zero"
+_CONST_ONE = "one"
 
 
 def check_not_none(value, name):
     """Checks whether `value` is not None."""
     if value is None:
-        error_msg = '{} must not be None'.format(name)
+        error_msg = "{} must not be None".format(name)
         raise ValueError(error_msg)
 
 
 def check_positive_integer(value, name):
     """Checks whether `value` is a positive integer."""
     if not isinstance(value, six.integer_types):
-        error_msg = '{} must be int, got {}'.format(name, type(value))
+        error_msg = "{} must be int, got {}".format(name, type(value))
         raise TypeError(error_msg)
     if value <= 0:
-        error_msg = '{} must be positive, got {}'.format(name, value)
+        error_msg = "{} must be positive, got {}".format(name, value)
         raise ValueError(error_msg)
 
 
 def check_nonnegative_integer(value, name):
     """Checks whether `value` is a nonnegative integer."""
     if not isinstance(value, six.integer_types):
-        error_msg = '{} must be int, got {}'.format(name, type(value))
+        error_msg = "{} must be int, got {}".format(name, type(value))
         raise TypeError(error_msg)
 
     if value < 0:
-        error_msg = '{} must be nonnegative, got {}'.format(name, value)
+        error_msg = "{} must be nonnegative, got {}".format(name, value)
         raise ValueError(error_msg)
 
 
 def check_bool_type(value, name):
     """Checks whether `value` is True or false."""
     if not isinstance(value, bool):
-        error_msg = '{} must be True or False, got {}'.format(name, value)
+        error_msg = "{} must be True or False, got {}".format(name, value)
         raise TypeError(error_msg)
 
 
@@ -91,7 +90,7 @@ def format_string(value, name):
         return ""
 
     if not isinstance(value, six.string_types):
-        error_msg = '{} must be string, got {}'.format(name, type(value))
+        error_msg = "{} must be string, got {}".format(name, type(value))
         raise TypeError(error_msg)
 
     return str(value)
@@ -107,7 +106,9 @@ def check_profiling_options(profiling_options=()):
         If profiling_options is null or option is not `training_trace` or `task_time`, `op_trace`'.
     """
 
-    error_mag = 'profiling options must be in `training_trace`, `task_time` or `op_trace`'
+    error_mag = (
+        "profiling options must be in `training_trace`, `task_time` or `op_trace`"
+    )
 
     if len(profiling_options) == 0:
         raise ValueError(error_mag)
@@ -137,7 +138,7 @@ def check_path(path):
         if not os.access(real_path, os.R_OK | os.W_OK):
             raise ValueError("path:%s is not read and write permissions." % (path))
     else:
-        raise ValueError("path:%s is not exists." % (path))
+        raise ValueError("path:%s does not exist." % (path))
     return real_path
 
 
@@ -151,34 +152,41 @@ def check_aoe_mode(aoe_mode):
     Raise:
         If aoe_mode is null or not in ['1', '2', '4'].
     """
-    aoe_modes = ['1', '2', '4']
+    aoe_modes = ["1", "2", "4"]
     if aoe_mode not in aoe_modes:
-        raise ValueError("aoe_mode:%s is invalid, should be in ['1', '2', '4']" % (aoe_mode))
+        raise ValueError(
+            "aoe_mode:%s is invalid, should be in ['1', '2', '4']" % (aoe_mode)
+        )
 
 
 def register_func(var_name):
     """Resiger function to NPU"""
     ops.register_proto_function(
-        '{}_{}'.format(_NPU_RUNCONFIG, var_name),
+        "{}_{}".format(_NPU_RUNCONFIG, var_name),
         proto_type=variable_pb2.VariableDef,
         to_proto=resource_variable_ops._to_proto_fn,
-        from_proto=resource_variable_ops._from_proto_fn)
+        from_proto=resource_variable_ops._from_proto_fn,
+    )
 
 
 def create_or_get_var(var_name):
     """Create or get variable"""
     graph = ops.get_default_graph()
-    collection_name = '{}_{}'.format(_NPU_RUNCONFIG, var_name)
+    collection_name = "{}_{}".format(_NPU_RUNCONFIG, var_name)
     iter_vars = graph.get_collection(collection_name)
     if len(iter_vars) == 1:
         return iter_vars[0]
     if len(iter_vars) > 1:
-        raise RuntimeError('Multiple var in collection.')
+        raise RuntimeError("Multiple var in collection.")
     ignore_existing = False
     if training_util.get_global_step() is None:
         ignore_existing = True
-    with ops.colocate_with(training_util.get_global_step(), ignore_existing=ignore_existing):
-        with variable_scope.variable_scope(_NPU_RUNCONFIG, reuse=variable_scope.AUTO_REUSE):
+    with ops.colocate_with(
+        training_util.get_global_step(), ignore_existing=ignore_existing
+    ):
+        with variable_scope.variable_scope(
+            _NPU_RUNCONFIG, reuse=variable_scope.AUTO_REUSE
+        ):
             return variable_scope.get_variable(
                 var_name,
                 initializer=init_ops.zeros_initializer(),
@@ -186,7 +194,8 @@ def create_or_get_var(var_name):
                 dtype=dtypes.int64,
                 trainable=False,
                 collections=[collection_name, ops.GraphKeys.LOCAL_VARIABLES],
-                use_resource=True)
+                use_resource=True,
+            )
 
 
 def set_iteration_per_loop(sess, train_op, iterations_per_loop=1):
@@ -205,7 +214,8 @@ def set_iteration_per_loop(sess, train_op, iterations_per_loop=1):
     if not isinstance(train_op, ops.Operation):
         raise ValueError(
             "The incoming 'train_op' type is '%s', "
-            "and the need type is 'Operation'" % (train_op.dtype.name))
+            "and the need type is 'Operation'" % (train_op.dtype.name)
+        )
     check_positive_integer(iterations_per_loop, "iterations_per_loop")
     if iterations_per_loop == 1:
         return train_op
@@ -228,12 +238,18 @@ def set_iteration_per_loop(sess, train_op, iterations_per_loop=1):
 
 def get_ranksize():
     if os.getenv("CM_WORKER_SIZE") is not None and os.getenv("RANK_SIZE") is not None:
-        raise ValueError("RANK_SIZE and CM_WORK_SIZE cannot be configured at the same time")
-    rank_size = os.getenv('RANK_SIZE') if os.getenv("RANK_SIZE") is not None else os.getenv('CM_WORKER_SIZE', '1')
+        raise ValueError(
+            "RANK_SIZE and CM_WORK_SIZE cannot be configured at the same time"
+        )
+    rank_size = (
+        os.getenv("RANK_SIZE")
+        if os.getenv("RANK_SIZE") is not None
+        else os.getenv("CM_WORKER_SIZE", "1")
+    )
     return rank_size
 
 
-class IterationPerLoop():
+class IterationPerLoop:
     """
     An object provide two API to create and set iterations_per_loop
     """
@@ -259,7 +275,8 @@ class IterationPerLoop():
         if not isinstance(train_op, ops.Operation):
             raise ValueError(
                 "The incoming 'train_op' type is '%s', "
-                "and the need type is 'Operation'" % (train_op.dtype.name))
+                "and the need type is 'Operation'" % (train_op.dtype.name)
+            )
 
         self._iterations_per_loop_var = create_or_get_var(_ITERATIONS_PER_LOOP_VAR)
         self._loop_cond_var = create_or_get_var(_LOOP_COND_VAR)
@@ -296,7 +313,7 @@ def variable_initializer_in_host(var_list):
     Returns:
       An Op that run the initializers of all the specified variables.
     """
-    return tf.initializers.variables(var_list, name='var_in_host')
+    return tf.initializers.variables(var_list, name="var_in_host")
 
 
 def fair_division(inputs, number):
@@ -326,7 +343,11 @@ def fair_division(inputs, number):
                     res += item.size
             average_size = res // (size - len(large_number_list))
             for item in input_list:
-                if item not in large_number_list and item.root_rank_id < 0 and item.size > res - item.size:
+                if (
+                    item not in large_number_list
+                    and item.root_rank_id < 0
+                    and item.size > res - item.size
+                ):
                     find_large_number = True
                     large_number_list.append(item)
             if not find_large_number:
@@ -334,7 +355,9 @@ def fair_division(inputs, number):
         return average_size
 
     if number > len(inputs) or number < 0:
-        raise ValueError("'number' is greater than the number of inputs or 'number' is less than 0. ")
+        raise ValueError(
+            "'number' is greater than the number of inputs or 'number' is less than 0. "
+        )
     if number == len(inputs):
         for i in range(len(inputs)):
             inputs[i].root_rank_id = i
@@ -360,7 +383,9 @@ def fair_division(inputs, number):
                     inputs[i].root_rank_id = j
                     tmp_list.append(inputs[i])
                     last_index = i + 1
-                elif (get_sum(tmp_list) + inputs[i].size - average_size) <= (average_size - get_sum(tmp_list)):
+                elif (get_sum(tmp_list) + inputs[i].size - average_size) <= (
+                    average_size - get_sum(tmp_list)
+                ):
                     inputs[i].root_rank_id = j
                     tmp_list.append(inputs[i])
                     last_index = i + 1
@@ -369,7 +394,7 @@ def fair_division(inputs, number):
     return inputs
 
 
-class GradDivisionItem():
+class GradDivisionItem:
     """Class for processing gradient and value"""
 
     def __init__(self, grad, var):
@@ -435,17 +460,24 @@ def _get_experimental_config(experimental_config):
         if not isinstance(experimental_config, ExperimentalConfig):
             raise ValueError("experimental_config type must be ExperimentalConfig")
         if (experimental_config._graph_memory_optimize_config is not None) and (
-                experimental_config._graph_memory_optimize_config._recompute is not None):
+            experimental_config._graph_memory_optimize_config._recompute is not None
+        ):
             recompute_attr = attr_value_pb2.AttrValue(
-                s=compat.as_bytes(experimental_config._graph_memory_optimize_config._recompute))
+                s=compat.as_bytes(
+                    experimental_config._graph_memory_optimize_config._recompute
+                )
+            )
     return recompute_attr
 
 
-def set_graph_exec_config(fetch, dynamic_input=False,
-                          dynamic_graph_execute_mode="dynamic_execute",
-                          dynamic_inputs_shape_range=None,
-                          is_train_graph=False,
-                          experimental_config=None):
+def set_graph_exec_config(
+    fetch,
+    dynamic_input=False,
+    dynamic_graph_execute_mode="dynamic_execute",
+    dynamic_inputs_shape_range=None,
+    is_train_graph=False,
+    experimental_config=None,
+):
     """
     add dynamic exec config to operation or tensor.
     Args:
@@ -458,46 +490,85 @@ def set_graph_exec_config(fetch, dynamic_input=False,
     An fetch that includes dynamic exec config.
     """
 
-    def _set_op_attr(fetch, dynamic_input_attr, dynamic_graph_execute_mode_attr,
-                     dynamic_inputs_shape_range_attr, is_train_graph_attr, recompute_attr):
+    def _set_op_attr(
+        fetch,
+        dynamic_input_attr,
+        dynamic_graph_execute_mode_attr,
+        dynamic_inputs_shape_range_attr,
+        is_train_graph_attr,
+        recompute_attr,
+    ):
         if isinstance(fetch, ops.Operation):
             fetch._set_attr("_graph_dynamic_input", dynamic_input_attr)
-            fetch._set_attr("_graph_dynamic_graph_execute_mode", dynamic_graph_execute_mode_attr)
-            fetch._set_attr("_graph_dynamic_inputs_shape_range", dynamic_inputs_shape_range_attr)
+            fetch._set_attr(
+                "_graph_dynamic_graph_execute_mode", dynamic_graph_execute_mode_attr
+            )
+            fetch._set_attr(
+                "_graph_dynamic_inputs_shape_range", dynamic_inputs_shape_range_attr
+            )
             fetch._set_attr("_is_train_graph", is_train_graph_attr)
             if recompute_attr is not None:
                 fetch._set_attr("_recompute_mode", recompute_attr)
         else:
             fetch.op._set_attr("_graph_dynamic_input", dynamic_input_attr)
-            fetch.op._set_attr("_graph_dynamic_graph_execute_mode", dynamic_graph_execute_mode_attr)
-            fetch.op._set_attr("_graph_dynamic_inputs_shape_range", dynamic_inputs_shape_range_attr)
+            fetch.op._set_attr(
+                "_graph_dynamic_graph_execute_mode", dynamic_graph_execute_mode_attr
+            )
+            fetch.op._set_attr(
+                "_graph_dynamic_inputs_shape_range", dynamic_inputs_shape_range_attr
+            )
             fetch.op._set_attr("_is_train_graph", is_train_graph_attr)
             if recompute_attr is not None:
                 fetch.op._set_attr("_recompute_mode", recompute_attr)
 
     if dynamic_graph_execute_mode not in ("lazy_recompile", "dynamic_execute"):
-        raise ValueError("dynamic_graph_execute_mode should be lazy_recompile or dynamic_execute")
+        raise ValueError(
+            "dynamic_graph_execute_mode should be lazy_recompile or dynamic_execute"
+        )
     dynamic_input_attr = attr_value_pb2.AttrValue(b=dynamic_input)
-    dynamic_graph_execute_mode_attr = attr_value_pb2.AttrValue(s=compat.as_bytes(dynamic_graph_execute_mode))
+    dynamic_graph_execute_mode_attr = attr_value_pb2.AttrValue(
+        s=compat.as_bytes(dynamic_graph_execute_mode)
+    )
     if dynamic_inputs_shape_range is None:
         dynamic_inputs_shape_range = ""
-    dynamic_inputs_shape_range_attr = attr_value_pb2.AttrValue(s=compat.as_bytes(dynamic_inputs_shape_range))
+    dynamic_inputs_shape_range_attr = attr_value_pb2.AttrValue(
+        s=compat.as_bytes(dynamic_inputs_shape_range)
+    )
     is_train_graph_attr = attr_value_pb2.AttrValue(b=is_train_graph)
     recompute_attr = _get_experimental_config(experimental_config)
     if isinstance(fetch, (ops.Operation, ops.Tensor)):
-        _set_op_attr(fetch, dynamic_input_attr, dynamic_graph_execute_mode_attr,
-                     dynamic_inputs_shape_range_attr, is_train_graph_attr, recompute_attr)
+        _set_op_attr(
+            fetch,
+            dynamic_input_attr,
+            dynamic_graph_execute_mode_attr,
+            dynamic_inputs_shape_range_attr,
+            is_train_graph_attr,
+            recompute_attr,
+        )
     elif isinstance(fetch, (tuple, list)):
         for tensor in fetch:
-            tensor = set_graph_exec_config(tensor, dynamic_input, dynamic_graph_execute_mode,
-                                           dynamic_inputs_shape_range, is_train_graph, experimental_config)
+            tensor = set_graph_exec_config(
+                tensor,
+                dynamic_input,
+                dynamic_graph_execute_mode,
+                dynamic_inputs_shape_range,
+                is_train_graph,
+                experimental_config,
+            )
     elif isinstance(fetch, str):
-        tensor = set_graph_exec_config(ops.get_default_graph().get_tensor_by_name(fetch),
-                                       dynamic_input, dynamic_graph_execute_mode, dynamic_inputs_shape_range,
-                                       is_train_graph, experimental_config)
+        tensor = set_graph_exec_config(
+            ops.get_default_graph().get_tensor_by_name(fetch),
+            dynamic_input,
+            dynamic_graph_execute_mode,
+            dynamic_inputs_shape_range,
+            is_train_graph,
+            experimental_config,
+        )
         return tensor
     else:
-        raise ValueError("fetch is invalid, should be op, tensor, list, tuple or tensor name.")
+        raise ValueError(
+            "fetch is invalid, should be op, tensor, list, tuple or tensor name."
+        )
     return fetch
 
 
@@ -543,20 +614,35 @@ def keep_tensors_dtypes(graph, input_tensors):
 def set_op_tensor_max_range(tensor, max_shape):
     """Set max range for op tensor"""
     if isinstance(tensor, ops.Operation):
-        tensor._set_attr("_op_max_shape", attr_value_pb2.AttrValue(s=compat.as_bytes(max_shape)))
+        tensor._set_attr(
+            "_op_max_shape", attr_value_pb2.AttrValue(s=compat.as_bytes(max_shape))
+        )
     else:
-        tensor.op._set_attr("_op_max_shape", attr_value_pb2.AttrValue(s=compat.as_bytes(max_shape)))
+        tensor.op._set_attr(
+            "_op_max_shape", attr_value_pb2.AttrValue(s=compat.as_bytes(max_shape))
+        )
 
 
 def set_op_input_tensor_multi_dims(tensor, input_shape, input_dims):
     """Set multi dimensions for op input tensor"""
     if isinstance(tensor, ops.Operation):
-        tensor._set_attr("_subgraph_multi_dims_input_shape", attr_value_pb2.AttrValue(s=compat.as_bytes(input_shape)))
-        tensor._set_attr("_subgraph_multi_dims_input_dims", attr_value_pb2.AttrValue(s=compat.as_bytes(input_dims)))
+        tensor._set_attr(
+            "_subgraph_multi_dims_input_shape",
+            attr_value_pb2.AttrValue(s=compat.as_bytes(input_shape)),
+        )
+        tensor._set_attr(
+            "_subgraph_multi_dims_input_dims",
+            attr_value_pb2.AttrValue(s=compat.as_bytes(input_dims)),
+        )
     else:
-        tensor.op._set_attr("_subgraph_multi_dims_input_shape",
-                            attr_value_pb2.AttrValue(s=compat.as_bytes(input_shape)))
-        tensor.op._set_attr("_subgraph_multi_dims_input_dims", attr_value_pb2.AttrValue(s=compat.as_bytes(input_dims)))
+        tensor.op._set_attr(
+            "_subgraph_multi_dims_input_shape",
+            attr_value_pb2.AttrValue(s=compat.as_bytes(input_shape)),
+        )
+        tensor.op._set_attr(
+            "_subgraph_multi_dims_input_dims",
+            attr_value_pb2.AttrValue(s=compat.as_bytes(input_dims)),
+        )
 
 
 def set_op_tensor_max_size(tensor, max_size):

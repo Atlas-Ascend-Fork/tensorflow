@@ -80,21 +80,21 @@ tensorflow::Status CreateAclTensorDesc(ge::DataType dtype, ge::Format format, co
   NPU_REQUIRES_OK(npu::MapGeType2Acl(dtype, acl_dtype));
   NPU_REQUIRES_OK(npu::MapGeFormat2Acl(format, acl_format));
   aclTensorDesc *acl_desc = aclCreateTensorDesc(acl_dtype, static_cast<int>(shape.size()), shape.data(), acl_format);
-  NPU_REQUIRES(acl_desc != nullptr, tensorflow::errors::Internal("Failed create acl tensor desc"));
+  NPU_REQUIRES(acl_desc != nullptr, tensorflow::errors::Internal("Failed to create acl tensor desc"));
   desc->reset(acl_desc, [](const aclTensorDesc *desc) { aclDestroyTensorDesc(desc); });
   return tensorflow::Status::OK();
 }
 
 tensorflow::Status CreateAclDataBuffer(void *data, size_t size, std::shared_ptr<aclDataBuffer> *buf) {
   aclDataBuffer *acl_buf = aclCreateDataBuffer(data, size);
-  NPU_REQUIRES(acl_buf != nullptr, tensorflow::errors::Internal("Failed create acl data buffer"));
+  NPU_REQUIRES(acl_buf != nullptr, tensorflow::errors::Internal("Failed to create acl data buffer"));
   buf->reset(acl_buf, [](const aclDataBuffer *buf) { (void)aclDestroyDataBuffer(buf); });
   return tensorflow::Status::OK();
 }
 
 tensorflow::Status CreateTransFormatAttr(ge::Format src, ge::Format dst, std::shared_ptr<aclopAttr> *attr) {
   aclopAttr *acl_attr = aclopCreateAttr();
-  NPU_REQUIRES(acl_attr != nullptr, tensorflow::errors::Internal("Failed create acl op attr"));
+  NPU_REQUIRES(acl_attr != nullptr, tensorflow::errors::Internal("Failed to create acl op attr"));
   attr->reset(acl_attr, [](const aclopAttr *attr) { aclopDestroyAttr(attr); });
 
   NPU_REQUIRES_ACL_OK("Acl set op attr src_format failed",
@@ -238,7 +238,7 @@ tensorflow::Status NpuManagedBuffer::Create(ge::Format format, const std::vector
     total_bytes *= dim_size;
   }
   void *data = nullptr;
-  NPU_REQUIRES(total_bytes >= 0, tensorflow::errors::InvalidArgument("Total bytes is invalid, which is less than 0"));
+  NPU_REQUIRES(total_bytes >= 0, tensorflow::errors::InvalidArgument("Total byte count is invalid: it is less than 0"));
   NPU_REQUIRES_OK(NpuMemory::Malloc(static_cast<size_t>(total_bytes), &data));
   auto status = Create(format, shape, data_type, origin_format, origin_shape, data, static_cast<size_t>(total_bytes),
                        nullptr, NpuMemory::Free, buf);

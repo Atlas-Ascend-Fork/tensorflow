@@ -54,9 +54,9 @@ void Cluster::Merge(const std::shared_ptr<Cluster> other) {
 
 tensorflow::Status NodePlacer::Apply(size_t depth) {
   const static size_t kMaxRecursionDepth = 16;
-  NPU_REQUIRES(depth <= kMaxRecursionDepth, tensorflow::errors::Unimplemented(
-                                              "Recursion depth ", depth, " exceeds ", kMaxRecursionDepth,
-                                              " when assigning subgraph node device placement"));
+  NPU_REQUIRES(depth <= kMaxRecursionDepth,
+               tensorflow::errors::Unimplemented("Recursion depth ", depth, " exceeds ", kMaxRecursionDepth,
+                                                 " when assigning subgraph node device placement"));
   NPU_REQUIRES_OK(CopyShareableNode());
   InitNodeTopo();
   NPU_REQUIRES_OK(DeterminedSurelyNodes());  // Determine surely node placement
@@ -312,7 +312,7 @@ bool NodePlacer::IsClusterMustPlaceOnNpu(const Cluster &cluster) {
   for (auto node : cluster.nodes) {
     auto iter = node_placement_.find(node);
     if ((iter != node_placement_.end()) && (iter->second == Placement::NPU)) {
-      DLOG() << cluster.name << " must place on npu as has determined npu node " << node->name();
+      DLOG() << cluster.name << " must place on npu because it contains an NPU node " << node->name();
       return true;
     }
     if (!GetNodeSubgraph(*node).empty()) {

@@ -30,14 +30,14 @@ from npu_bridge.hccl import hccl_ops
 from npu_bridge.estimator.npu import util
 
 # Constant
-_BATCH_SIZE_KEY = 'batch_size'
+_BATCH_SIZE_KEY = "batch_size"
 _RESERVED_PARAMS_KEYS = [_BATCH_SIZE_KEY]
 
-_NPU_RUNCONFIG = 'npu_runconfig'
-_ITERATIONS_PER_LOOP_VAR = 'iterations_per_loop'
-_LOOP_COND_VAR = 'loop_cond'
-_CONST_ZERO = 'zero'
-_CONST_ONE = 'one'
+_NPU_RUNCONFIG = "npu_runconfig"
+_ITERATIONS_PER_LOOP_VAR = "iterations_per_loop"
+_LOOP_COND_VAR = "loop_cond"
+_CONST_ZERO = "zero"
+_CONST_ONE = "one"
 
 util.register_func(_ITERATIONS_PER_LOOP_VAR)
 util.register_func(_LOOP_COND_VAR)
@@ -55,7 +55,10 @@ class NPUShutDownHook(session_run_hook.SessionRunHook):
 
     def begin(self):
         """Call when session hook begins"""
-        if not self._shutdown_npu_op or self._shutdown_npu_op.graph != tf.get_default_graph():
+        if (
+            not self._shutdown_npu_op
+            or self._shutdown_npu_op.graph != tf.get_default_graph()
+        ):
             self._shutdown_npu_op = npu_ops.NPUShutdown()
 
     def end(self, session):
@@ -93,7 +96,9 @@ class NPUBroadcastGlobalVariablesHook(session_run_hook.SessionRunHook):
 
     def begin(self):
         """Call when session hook begins"""
-        if (not self._bcast_op or self._bcast_op.graph != tf.get_default_graph()) and self._rank_size > 1:
+        if (
+            not self._bcast_op or self._bcast_op.graph != tf.get_default_graph()
+        ) and self._rank_size > 1:
             self._bcast_op = broadcast_global_variables(self._root_rank)
 
     def after_create_session(self, session, coord):
@@ -106,14 +111,16 @@ class NPUBroadcastGlobalVariablesHook(session_run_hook.SessionRunHook):
 class NPUCheckpointSaverHook(basic_session_run_hooks.CheckpointSaverHook):
     """Hook to save training checkpoints"""
 
-    def __init__(self,
-                 checkpoint_dir,
-                 save_secs=None,
-                 save_steps=None,
-                 saver=None,
-                 checkpoint_basename="model.ckpt",
-                 scaffold=None,
-                 listeners=None):
+    def __init__(
+        self,
+        checkpoint_dir,
+        save_secs=None,
+        save_steps=None,
+        saver=None,
+        checkpoint_basename="model.ckpt",
+        scaffold=None,
+        listeners=None,
+    ):
         super(NPUCheckpointSaverHook, self).__init__(
             checkpoint_dir=checkpoint_dir,
             save_secs=save_secs,
@@ -121,7 +128,8 @@ class NPUCheckpointSaverHook(basic_session_run_hooks.CheckpointSaverHook):
             saver=saver,
             checkpoint_basename=checkpoint_basename,
             scaffold=scaffold,
-            listeners=listeners)
+            listeners=listeners,
+        )
 
     def after_run(self, run_context, run_values):
         """Call after session has run"""
@@ -154,12 +162,16 @@ class SetIterationsVarHook(session_run_hook.SessionRunHook):
 
     def after_create_session(self, session, coord):
         """Call when session is created"""
-        self._iterations_per_loop_var.load(self._iterations_per_loop - 1, session=session)
+        self._iterations_per_loop_var.load(
+            self._iterations_per_loop - 1, session=session
+        )
         self._loop_cond_var.load(0, session=session)
         self._const_zero.load(0, session=session)
         self._const_one.load(1, session=session)
-        print("load iterations_per_loop value -----------")
-        print(session.run(self._iterations_per_loop_var))
+        logging.info(
+            "Loaded iterations_per_loop value: %s",
+            session.run(self._iterations_per_loop_var),
+        )
 
 
 def broadcast_global_variables(root_rank):
@@ -214,15 +226,17 @@ class NPULogOutfeedSessionHook(session_run_hook.SessionRunHook):
         """Call when session hook begins"""
         self._finalize_ops = []
         outfeed_log_tensors = npu_ops.outfeed_dequeue_op(
-            channel_name="_npu_log",
-            output_types=[tf.string],
-            output_shapes=[()])
-        self._dequeue_ops = tf.print(outfeed_log_tensors, output_stream=self._output_stream)
+            channel_name="_npu_log", output_types=[tf.string], output_shapes=[()]
+        )
+        self._dequeue_ops = tf.print(
+            outfeed_log_tensors, output_stream=self._output_stream
+        )
 
     def after_create_session(self, session, coord):
         """Call when session is created"""
         self._outfeed_controller = _OpQueueContext(
-            name='LogOutfeedController', target=self._run_outfeed, args=(session,))
+            name="LogOutfeedController", target=self._run_outfeed, args=(session,)
+        )
 
     def end(self, session):
         """Call at the end of session hook"""
@@ -232,21 +246,19 @@ class NPULogOutfeedSessionHook(session_run_hook.SessionRunHook):
                 session.run(self._finalize_ops)
 
     def _run_outfeed(self, queue_ctx, session):
-        logging.info('Starting log outfeed thread controller.')
+        logging.info("Starting log outfeed thread controller.")
         while True:
             try:
                 session.run(self._dequeue_ops)
             except Exception:
-                logging.info('Log outfeed thread finished')
+                logging.info("Log outfeed thread finished")
                 break
 
 
 class NPUInfeedOutfeedSessionHook(session_run_hook.SessionRunHook):
     """Hook to in feed out feed session"""
 
-    def __init__(self,
-                 dequeue_ops,
-                 channel_name):
+    def __init__(self, dequeue_ops, channel_name):
         self._dequeue_ops = dequeue_ops
         self._channel_name = channel_name
         self._finished = False
@@ -268,45 +280,45 @@ class NPUInfeedOutfeedSessionHook(session_run_hook.SessionRunHook):
 
     def after_create_session(self, session, coord):
         """Call when session is created"""
-        logging.info('Init NPU system')
+        logging.info("Init NPU system")
         start = time.time()
-        session.run(self._init_ops,
-                    options=config_pb2.RunOptions(timeout_in_ms=5 * 60 * 1000))
-        logging.debug('Initialized NPU in %d seconds', time.time() - start)
+        session.run(
+            self._init_ops, options=config_pb2.RunOptions(timeout_in_ms=5 * 60 * 1000)
+        )
+        logging.debug("Initialized NPU in %d seconds", time.time() - start)
 
         self._outfeed_controller = _OpQueueContext(
-            name='OutfeedController', target=self._run_outfeed, args=(session,))
-        logging.info('Add log output coordinate thread to coord')
+            name="OutfeedController", target=self._run_outfeed, args=(session,)
+        )
+        logging.info("Add log output coordinate thread to coord")
 
     def end(self, session):
         """Call at the end of session hook"""
         self._finished = True
 
-        logging.info('Shutdown NPU system.')
+        logging.info("Shutdown NPU system.")
         if not self._stopped:
             self._stopped = True
             if self._finalize_ops:
                 session.run(self._finalize_ops)
 
     def _run_outfeed(self, queue_ctx, session):
-        logging.info('Starting outfeed thread controller.')
+        logging.info("Starting outfeed thread controller.")
         while True:
             try:
                 session.run(self._dequeue_ops)
             except Exception:
-                logging.info('summary outfeed thread finished')
+                logging.info("summary outfeed thread finished")
                 break
-        logging.info('Outfeed thread finished, shutting down')
+        logging.info("Outfeed thread finished, shutting down")
 
 
 class NPUOutputTensorHook(basic_session_run_hooks.LoggingTensorHook):
     """call output_fn to print tensors every N steps or at end."""
 
-    def __init__(self, tensors,
-                 dependencies=None,
-                 output_fn=None,
-                 output_every_n_steps=0
-                 ):
+    def __init__(
+        self, tensors, dependencies=None, output_fn=None, output_every_n_steps=0
+    ):
         """Initializes a `NPUOutputTensorHook`.
 
         Args:
@@ -333,7 +345,9 @@ class NPUOutputTensorHook(basic_session_run_hooks.LoggingTensorHook):
             else:
                 self._tensors = tensors
 
-            super(NPUOutputTensorHook, self).__init__(self._tensors, every_n_iter=1 << 31)
+            super(NPUOutputTensorHook, self).__init__(
+                self._tensors, every_n_iter=1 << 31
+            )
 
     def begin(self):
         """Call when session hook begins"""
@@ -375,10 +389,8 @@ class NPUOutputTensorHook(basic_session_run_hooks.LoggingTensorHook):
 class TellMeStepOrLossHook(session_run_hook.SessionRunHook):
     """tell me step or loss"""
 
-    def __init__(self, step=None, total_step=None, loss=None, final_loss=None
-                 ):
-        """Initializes a `TellMeStepOrLossHook`.
-        """
+    def __init__(self, step=None, total_step=None, loss=None, final_loss=None):
+        """Initializes a `TellMeStepOrLossHook`."""
         if step is None and loss is None:
             raise ValueError("One of step or loss must be specified")
         self._step = step
@@ -410,10 +422,13 @@ class TellMeStepOrLossHook(session_run_hook.SessionRunHook):
         logging.info("TellMeStepOrLossHook after_run...")
         res = run_values.results
         logging.info(
-            f'step_now:{res.get("step_now")} total_step:{self._total_step} '
-            f'loss_now:{res.get("loss_now")} target_loss:{self._final_loss}')
+            f"step_now:{res.get('step_now')} total_step:{self._total_step} "
+            f"loss_now:{res.get('loss_now')} target_loss:{self._final_loss}"
+        )
         if res.get("step_now") is None and res.get("loss_now") is None:
-            raise ValueError(f'step tensor:{self._step} or loss tensor:{self._loss} is not a valid tensor')
+            raise ValueError(
+                f"step tensor:{self._step} or loss tensor:{self._loss} is not a valid tensor"
+            )
         if res.get("step_now") is not None:
             os.environ["STEP_NOW"] = str(res.get("step_now"))
         if res.get("loss_now") is not None:

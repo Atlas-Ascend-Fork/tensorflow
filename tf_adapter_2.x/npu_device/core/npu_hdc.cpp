@@ -365,7 +365,7 @@ tensorflow::Status HdcChannel::Create(uint32_t device_id, const std::string &nam
                                       std::shared_ptr<HdcChannel> *guarded_channel) {
   guarded_channel->reset(new (std::nothrow) HdcChannel(device_id, name));
   NPU_REQUIRES(*guarded_channel,
-               tensorflow::errors::Internal("Failed create hdc channel ", name, " on device ", device_id));
+               tensorflow::errors::Internal("Failed to create hdc channel ", name, " on device ", device_id));
   NPU_REQUIRES_OK((*guarded_channel)->Init());
   return tensorflow::Status::OK();
 }
@@ -374,7 +374,7 @@ tensorflow::Status HdcChannel::Create(uint32_t device_id, const std::string &nam
                                       std::shared_ptr<HdcChannel> *guarded_channel) {
   guarded_channel->reset(new (std::nothrow) HdcChannel(device_id, name, capacity));
   NPU_REQUIRES(*guarded_channel,
-               tensorflow::errors::Internal("Failed create hdc channel ", name, " on device ", device_id));
+               tensorflow::errors::Internal("Failed to create hdc channel ", name, " on device ", device_id));
   return (*guarded_channel)->Init();
 }
 

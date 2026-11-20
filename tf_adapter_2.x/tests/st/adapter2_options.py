@@ -34,12 +34,12 @@ class Adapter2Options(unittest.TestCase):
             config = NpuConfig()
             init_options = config.as_dict()
             # 不设置弃用选项，没有弃用参数打印
-            self.assertEqual(result.getvalue().strip(), '')
+            self.assertEqual(result.getvalue().strip(), "")
             # 不设置弃用选项，参数不传递
-            self.assertTrue('variable_format_optimize' not in init_options, True)
-            self.assertTrue('op_select_implmode' not in init_options, True)
-            self.assertTrue('optypelist_for_implmode' not in init_options, True)
-            self.assertTrue('op_debug_level' not in init_options, True)
+            self.assertTrue("variable_format_optimize" not in init_options, True)
+            self.assertTrue("op_select_implmode" not in init_options, True)
+            self.assertTrue("optypelist_for_implmode" not in init_options, True)
+            self.assertTrue("op_debug_level" not in init_options, True)
 
     def test_1_set_deprecated_option_error(self):
         config = NpuConfig()
@@ -55,46 +55,54 @@ class Adapter2Options(unittest.TestCase):
             self.assertEqual(err, str(e))
 
     def test_2_logging_when_config_with_deprecated(self):
-        with stub_print() as result:
+        with self.assertLogs(level="WARNING") as result:
             config = NpuConfig()
             config.variable_format_optimize = False
             config.as_dict()
-            expect = f"[warning][tf_adapter] Option 'variable_format_optimize' is deprecated "\
-                     f"and will be removed in future version. Please do not configure this option in the future."
-            self.assertEqual(expect, result.getvalue().strip())
+            expect = (
+                "[tf_adapter] Option 'variable_format_optimize' is deprecated "
+                "and will be removed in future version. Please do not configure this option in the future."
+            )
+            self.assertEqual(expect, result.records[0].getMessage())
 
     def test_3_logging_when_config_with_deprecated(self):
-        with stub_print() as result:
+        with self.assertLogs(level="WARNING") as result:
             config = NpuConfig()
-            config.op_select_implmode = 'high_precision'
+            config.op_select_implmode = "high_precision"
             config.as_dict()
-            expect = f"[warning][tf_adapter] Option 'op_select_implmode' is deprecated "\
-                     f"and will be removed in future version. Please use 'op_precision_mode' instead."
-            self.assertEqual(expect, result.getvalue().strip())
+            expect = (
+                "[tf_adapter] Option 'op_select_implmode' is deprecated "
+                "and will be removed in future version. Please use 'op_precision_mode' instead."
+            )
+            self.assertEqual(expect, result.records[0].getMessage())
 
     def test_4_logging_when_config_with_deprecated(self):
-        with stub_print() as result:
+        with self.assertLogs(level="WARNING") as result:
             config = NpuConfig()
-            config.optypelist_for_implmode = 'cf.ini'
+            config.optypelist_for_implmode = "cf.ini"
             config.as_dict()
-            expect = f"[warning][tf_adapter] Option 'optypelist_for_implmode' is deprecated "\
-                     f"and will be removed in future version. Please use 'op_precision_mode' instead."
-            self.assertEqual(expect, result.getvalue().strip())
+            expect = (
+                "[tf_adapter] Option 'optypelist_for_implmode' is deprecated "
+                "and will be removed in future version. Please use 'op_precision_mode' instead."
+            )
+            self.assertEqual(expect, result.records[0].getMessage())
 
     def test_5_logging_when_config_with_deprecated(self):
-        with stub_print() as result:
+        with self.assertLogs(level="WARNING") as result:
             config = NpuConfig()
             config.op_debug_level = 2
             config.as_dict()
-            expect = f"[warning][tf_adapter] Option 'op_debug_level' is deprecated "\
-                     f"and will be removed in future version. Please use 'op_debug_config' instead."
-            self.assertEqual(expect, result.getvalue().strip())
+            expect = (
+                "[tf_adapter] Option 'op_debug_level' is deprecated "
+                "and will be removed in future version. Please use 'op_debug_config' instead."
+            )
+            self.assertEqual(expect, result.records[0].getMessage())
 
     def test_6_set_option_deterministic(self):
         config = NpuConfig()
         config.deterministic = 1
         options = config.as_dict()
-        self.assertTrue(options['deterministic'], True)
+        self.assertTrue(options["deterministic"], True)
         try:
             config.deterministic = 88
         except ValueError as e:
@@ -106,29 +114,29 @@ class Adapter2Options(unittest.TestCase):
         config.op_precision_mode = "op_precision.ini"
         options = config.as_dict()
         print(f"op_precision_mode: '{options['op_precision_mode']}'")
-        self.assertTrue(options['op_precision_mode'] == "op_precision.ini", True)
+        self.assertTrue(options["op_precision_mode"] == "op_precision.ini", True)
 
     def test_8_set_option_hcom_parallel(self):
         config = NpuConfig()
         options = config.as_dict()
-        self.assertTrue(options['hcom_parallel'], True)
+        self.assertTrue(options["hcom_parallel"], True)
         config.hcom_parallel = False
         options = config.as_dict()
-        self.assertTrue(options['hcom_parallel'], False)
+        self.assertTrue(options["hcom_parallel"], False)
 
     def test_9_set_option_graph_compiler_cache_dir(self):
         config = NpuConfig()
         options = config.as_dict()
-        self.assertTrue('graph_compiler_cache_dir' not in options, True)
+        self.assertTrue("graph_compiler_cache_dir" not in options, True)
         config.graph_compiler_cache_dir = "./st_graph_cache_dir"
         options = config.as_dict()
-        self.assertEqual(options['graph_compiler_cache_dir'], "./st_graph_cache_dir")
+        self.assertEqual(options["graph_compiler_cache_dir"], "./st_graph_cache_dir")
 
     def test_10_set_option_graph_slice(self):
         config = NpuConfig()
         config.experimental.graph_memory_optimize_config.graph_slice = "auto"
         options = config.as_dict()
-        self.assertEqual(options['graph_slice'], "auto")
+        self.assertEqual(options["graph_slice"], "auto")
 
     def test_10_set_jit_compile_option_error(self):
         config = NpuConfig()
@@ -148,5 +156,6 @@ class Adapter2Options(unittest.TestCase):
             err = "'Auto' not in optional list ['true', 'false', 'auto']"
             self.assertEqual(err, str(e))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

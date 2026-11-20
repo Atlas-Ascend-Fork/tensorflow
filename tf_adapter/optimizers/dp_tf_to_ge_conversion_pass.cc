@@ -53,7 +53,7 @@ const static std::vector<PartialTensorShape> EMPTY_SHAPE;
 
 class DpTfToGEConversionPassImpl {
  public:
-  explicit DpTfToGEConversionPassImpl() : graph_run_num_(0), graph_(nullptr), flib_def_(nullptr){};
+  explicit DpTfToGEConversionPassImpl() : graph_run_num_(0), graph_(nullptr), flib_def_(nullptr) {};
 
   ~DpTfToGEConversionPassImpl() = default;
   Status Run(const GraphOptimizationPassOptions &options);

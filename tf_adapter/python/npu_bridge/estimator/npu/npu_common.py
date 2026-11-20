@@ -26,25 +26,26 @@ from npu_bridge.estimator.npu import util as util_lib
 class JobInfo:
     """Job information send by CSA."""
 
-    def __init__(self,
-                 job_id=0,
-                 job_config=None,
-                 heartbeat_time=-1,
-                 region_id=None,
-                 ak=None,
-                 sk=None,
-                 endpoint_url=None,
-                 device_info=None,
-                 rank_table_file=None,
-                 restart_flag=0,
-                 local_app_dir=None,
-                 local_data_dir=None,
-                 local_checkpoint_dir=None,
-                 local_log_dir=None,
-                 local_result_dir=None,
-                 local_boot_file=None,
-                 rank_size=1
-                 ):
+    def __init__(
+        self,
+        job_id=0,
+        job_config=None,
+        heartbeat_time=-1,
+        region_id=None,
+        ak=None,
+        sk=None,
+        endpoint_url=None,
+        device_info=None,
+        rank_table_file=None,
+        restart_flag=0,
+        local_app_dir=None,
+        local_data_dir=None,
+        local_checkpoint_dir=None,
+        local_log_dir=None,
+        local_result_dir=None,
+        local_boot_file=None,
+        rank_size=1,
+    ):
         """
         Constructs a JobInfo.
         Args:
@@ -85,7 +86,7 @@ class JobInfo:
         self._rank_size = rank_size
 
 
-class JobConfig():
+class JobConfig:
     """Job configuration."""
 
     def __init__(self, learning_rate=None, batch_size=None):
@@ -99,13 +100,10 @@ class JobConfig():
         self._batch_size = batch_size
 
 
-class DeviceInfo():
+class DeviceInfo:
     """Device information."""
 
-    def __init__(self,
-                 index="0",
-                 server_id="123456",
-                 dev_index=1):
+    def __init__(self, index="0", server_id="123456", dev_index=1):
         """
         Constructs a DeviceInfo.
         Args:
@@ -125,6 +123,7 @@ class DeviceInfo():
 
 class NPUBasics(object):
     """Wrapper class for the basic NPU API."""
+
     __instance = None
     __has_init = False
 
@@ -158,63 +157,70 @@ class NPUBasics(object):
             The job information.
         """
         try:
-            with open(file_name, 'r', encoding='UTF-8') as f:
+            with open(file_name, "r", encoding="UTF-8") as f:
                 content = f.read()
-                data = json.loads(content, encoding='UTF-8')
+                data = json.loads(content, encoding="UTF-8")
 
                 # 1. Get the device_info and check it.
-                device_info = data.get('device_info')
-                util_lib.check_not_none(device_info, 'device_info')
+                device_info = data.get("device_info")
+                util_lib.check_not_none(device_info, "device_info")
 
-                index = device_info.get('Index', None)
-                util_lib.check_nonnegative_integer(index, 'Index')
+                index = device_info.get("Index", None)
+                util_lib.check_nonnegative_integer(index, "Index")
 
                 # 2. Get the rank_table_file and check it.
-                rank_table_file = data.get('rank_table_file', None)
-                util_lib.check_not_none(rank_table_file, 'rank_table_file')
+                rank_table_file = data.get("rank_table_file", None)
+                util_lib.check_not_none(rank_table_file, "rank_table_file")
 
                 # 3. Get the rank_size and check it.
-                rank_size = data.get('rank_size', None)
-                util_lib.check_positive_integer(rank_size, 'rank_size')
+                rank_size = data.get("rank_size", None)
+                util_lib.check_positive_integer(rank_size, "rank_size")
 
                 # 4. Get the local_checkpoint_dir and check it.
-                local_checkpoint_dir = data.get('local_checkpoint_dir', None)
+                local_checkpoint_dir = data.get("local_checkpoint_dir", None)
 
                 # 5. Init the JobInfo.
                 device_info = DeviceInfo(index=str(index))
-                job_info = JobInfo(device_info=device_info, rank_table_file=rank_table_file,
-                                   local_checkpoint_dir=local_checkpoint_dir, rank_size=rank_size)
+                job_info = JobInfo(
+                    device_info=device_info,
+                    rank_table_file=rank_table_file,
+                    local_checkpoint_dir=local_checkpoint_dir,
+                    rank_size=rank_size,
+                )
                 return job_info
         except IOError as e:
-            logging.warning('Job config file %s does not exist: %s', file_name, str(e))
+            logging.warning("Job config file %s does not exist: %s", file_name, str(e))
 
-            job_id = os.getenv('JOB_ID', "")
+            job_id = os.getenv("JOB_ID", "")
             if job_id == "":
-                logging.error('Can not get job config: JOB_ID is empty, please set JOB_ID env')
+                logging.error(
+                    "Can not get job config: JOB_ID is empty, please set JOB_ID env"
+                )
                 return None
 
-            heartbeat = os.getenv('HEARTBEAT', "")
+            heartbeat = os.getenv("HEARTBEAT", "")
 
-            rank_table_file = os.getenv('RANK_TABLE_FILE', "")
+            rank_table_file = os.getenv("RANK_TABLE_FILE", "")
 
-            identity = os.getenv('POD_NAME', "")
+            identity = os.getenv("POD_NAME", "")
             if identity == "":
-                identity = os.getenv('RANK_ID', "")
+                identity = os.getenv("RANK_ID", "")
 
-            checkpoint_dir = os.getenv('LOCAL_CHECKPOINT_DIR', "")
+            checkpoint_dir = os.getenv("LOCAL_CHECKPOINT_DIR", "")
 
             # cann't get rank_size from env, set to default 1
             rank_size = util_lib.get_ranksize()
             if rank_size.isdigit() is False:
-                print("set rank_size to default 1")
+                logging.info("Set rank_size to default 1")
                 rank_size = 1
 
             device_info = DeviceInfo(index=str(identity))
-            job_info = JobInfo(job_id=job_id,
-                               heartbeat_time=heartbeat,
-                               device_info=device_info,
-                               rank_table_file=rank_table_file,
-                               local_checkpoint_dir=checkpoint_dir,
-                               rank_size=int(rank_size)
-                               )
+            job_info = JobInfo(
+                job_id=job_id,
+                heartbeat_time=heartbeat,
+                device_info=device_info,
+                rank_table_file=rank_table_file,
+                local_checkpoint_dir=checkpoint_dir,
+                rank_size=int(rank_size),
+            )
         return job_info

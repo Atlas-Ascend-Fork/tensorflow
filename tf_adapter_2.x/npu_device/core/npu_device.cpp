@@ -374,8 +374,8 @@ TFE_TensorHandle *NpuDevice::CopyTensorD2H(const TFE_Context *const context, TFE
   const tensorflow::Tensor *local_tensor;
   TFE_TensorHandle *local_handle = tensorflow::wrap(
     tensorflow::TensorHandle::CreateLocalHandle(tensorflow::Tensor(npu_tensor->dtype(), npu_tensor->shape())));
-  NPU_CTX_REQUIRES_RETURN(&status, local_handle != nullptr, tensorflow::errors::Internal("Failed create local handle"),
-                          nullptr);
+  NPU_CTX_REQUIRES_RETURN(&status, local_handle != nullptr,
+                          tensorflow::errors::Internal("Failed to create local handle"), nullptr);
   NPU_CTX_REQUIRES_OK_RETURN(&status, npu::GetTensorHandleTensor(local_handle, &local_tensor), nullptr);
   NPU_CTX_REQUIRES_OK_RETURN(
     &status, npu::Unwrap<npu::NpuManagedBuffer>(npu_tensor)->AssembleTo(const_cast<tensorflow::Tensor *>(local_tensor)),

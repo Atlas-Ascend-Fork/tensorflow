@@ -11,6 +11,7 @@
 # -----------------------------------------------------------------------------------------------------------
 
 """Ops for aicore cube."""
+
 from tensorflow.python.eager import context
 from tensorflow.python.framework import ops
 from tensorflow.python.ops import nn_ops
@@ -20,17 +21,18 @@ gen_npu_ops = helper.get_gen_ops()
 
 
 def deformable_conv2d(  # pylint: disable=redefined-builtin
-        x,
-        filter,
-        offsets,
-        strides=None,
-        pads=None,
-        data_format='NHWC',
-        dilations=(1, 1, 1, 1),
-        groups=1,
-        deformable_groups=1,
-        modulated=True,
-        name=None):
+    x,
+    filter,
+    offsets,
+    strides=None,
+    pads=None,
+    data_format="NHWC",
+    dilations=(1, 1, 1, 1),
+    groups=1,
+    deformable_groups=1,
+    modulated=True,
+    name=None,
+):
     """Computes a 2-D deformable convolution given 4-D `x`, `filters` and
         `offsets` tensors.
 
@@ -80,14 +82,15 @@ def deformable_conv2d(  # pylint: disable=redefined-builtin
     """
 
     if context.executing_eagerly():
-        raise RuntimeError("tf.deformable_conv2d() is not compatible with "
-                           "eager execution.")
+        raise RuntimeError(
+            "tf.deformable_conv2d() is not compatible with eager execution."
+        )
     if not modulated:
-        raise RuntimeError("tf.deformable_conv2d() only supports "
-                           "modulated is True currently")
+        raise RuntimeError(
+            "tf.deformable_conv2d() only supports modulated is True currently"
+        )
     if groups != 1:
-        raise RuntimeError("tf.deformable_conv2d() only supports "
-                           "groups is 1 currently")
+        raise RuntimeError("tf.deformable_conv2d() only supports one group currently")
 
     kh, kw = filter.get_shape().as_list()[:2]
     fm_offsets = gen_npu_ops.deformable_offsets(
@@ -100,15 +103,22 @@ def deformable_conv2d(  # pylint: disable=redefined-builtin
         data_format=data_format,
         deformable_groups=deformable_groups,
         modulated=True,
-        name=name)
+        name=name,
+    )
 
     strides_conv = list(strides)
-    pos_h, pos_w = data_format.find('H'), data_format.find('W')
+    pos_h, pos_w = data_format.find("H"), data_format.find("W")
     strides_conv[pos_h] = kh
     strides_conv[pos_w] = kw
     op_res = nn_ops.conv2d(
-        fm_offsets, filter, strides=strides_conv, padding="VALID",
-        data_format=data_format, dilations=None, name=name)
+        fm_offsets,
+        filter,
+        strides=strides_conv,
+        padding="VALID",
+        data_format=data_format,
+        dilations=None,
+        name=name,
+    )
 
     return op_res
 
@@ -126,7 +136,15 @@ def deformable_offsets_grad(op, grad):
     data_format = op.get_attr("data_format")
     deformable_groups = op.get_attr("deformable_groups")
     grad_x, grad_offsets = gen_npu_ops.deformable_offsets_grad(
-        grad, x, offsets, strides=strides, pads=pads, ksize=ksize,
-        dilations=dilations, data_format=data_format,
-        deformable_groups=deformable_groups, modulated=modulated)
+        grad,
+        x,
+        offsets,
+        strides=strides,
+        pads=pads,
+        ksize=ksize,
+        dilations=dilations,
+        data_format=data_format,
+        deformable_groups=deformable_groups,
+        modulated=modulated,
+    )
     return [grad_x, grad_offsets]
