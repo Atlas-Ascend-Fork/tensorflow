@@ -2,7 +2,7 @@
 
 ## 简介
 
-Ascend Adapter for TF1.X 致力于将NPU的运算能力便捷地提供给使用Tensorflow框架的开发者。
+Ascend Adapter for TF1.X 致力于将NPU的运算能力便捷地提供给使用TensorFlow框架的开发者。
 
 开发者只需安装TF Adapter插件，并在现有TensorFlow脚本中添加少量配置，即可实现在NPU上加速自己的训练任务。
 
@@ -16,7 +16,7 @@ Ascend Adapter for TF1.X 致力于将NPU的运算能力便捷地提供给使用T
 
 ### 环境准备
 
-Ascend Adapter 软件包需要在Linux OS环境上进行编译，同时环境上需要安装一下软件依赖:
+Ascend Adapter 软件包需要在Linux OS环境上进行编译，同时环境上需要安装以下软件依赖：
 
 - **Python3.7**
 
@@ -24,7 +24,7 @@ Ascend Adapter 软件包需要在Linux OS环境上进行编译，同时环境上
 
 - **TensorFlow 1.15.0**
 
-  Ascend Adapter 与 Tensorflow 有严格的匹配关系，通过源码构建TF Adapter软件包前，您需要确保已经正确安装了 [Tensorflow v1.15.0版本](https://www.tensorflow.org/install/pip) ，安装方式可参见[昇腾社区文档中心-TensorFlow 1.15模型迁移](https://hiascend.com/document/redirect/canntfmigr)中的“TensorFlow 1.15模型迁移 > 环境准备 > 安装开源框架TensorFlow 1.15”章节。
+  Ascend Adapter 与 TensorFlow 有严格的匹配关系，通过源码构建TF Adapter软件包前，您需要确保已经正确安装了 [TensorFlow v1.15.0版本](https://www.tensorflow.org/install/pip) ，安装方式可参见[昇腾社区文档中心-TensorFlow 1.15模型迁移](https://hiascend.com/document/redirect/canntfmigr)中的“TensorFlow 1.15模型迁移 > 环境准备 > 安装开源框架TensorFlow 1.15”章节。
 
 - **GCC >= 7.3.0**
 
@@ -36,7 +36,7 @@ Ascend Adapter 软件包需要在Linux OS环境上进行编译，同时环境上
 
 - **SWIG**
 
-  Ascend Adapter 源码编译依赖SWIG， SWIG安装命令示例如下：
+  Ascend Adapter 源码编译依赖SWIG，SWIG安装命令示例如下：
 
   ```shell
   # Ubuntu/Debian操作系统安装命令示例如下，其他操作系统请自行安装
@@ -132,7 +132,7 @@ pip3 install ./build/tfadapter/dist/python/dist/npu_bridge-1.15.0-py3-none-manyl
 
 ## FAQ
 
-### 1. 执行./build.sh时提示配置swig的路径
+### 1. 执行tf_adapter/build.sh时提示配置swig的路径
 
 需要执行以下命令安装swig
 
@@ -140,7 +140,7 @@ pip3 install ./build/tfadapter/dist/python/dist/npu_bridge-1.15.0-py3-none-manyl
 pip3 install swig
 ```
 
-### 2. Ubuntu系统中执行./build.sh时提示“Could not import the lzma module”
+### 2. Ubuntu系统中执行tf_adapter/build.sh时提示“Could not import the lzma module”
 
 ​     执行如下命令进行lzma的安装：
 

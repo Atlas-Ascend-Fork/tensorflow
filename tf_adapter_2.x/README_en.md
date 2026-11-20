@@ -41,7 +41,7 @@ The Ascend Adapter software package must be compiled in a Linux OS environment. 
 
 - **CANN Development Kit (cann-toolkit)**
 
-  Obtain the corresponding CANN version and download and install `Ascend-cann-toolkit_<cann_version>_linux-<arch>.run` from the [CANN Download Page](https://ascend.devcloud.huaweicloud.com/artifactory/cann-run-mirror/software/master/).
+  Obtain the corresponding CANN version number and download and install `Ascend-cann-toolkit_<cann_version>_linux-<arch>.run` from the [CANN Download Page](https://ascend.devcloud.huaweicloud.com/artifactory/cann-run-mirror/software/master/).
 
   Install the CANN Development Kit using the following command:
 

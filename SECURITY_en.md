@@ -6,7 +6,7 @@ For security purposes, do not use root or other administrator accounts to execut
 
 ## File Permission Control
 
-- Set the system umask value on the host machine (including the host) and in containers to 0027 or higher. This ensures newly created folders have a maximum permission of 750 and newly created files have a maximum permission of 640.
+- Set the system umask value on the host (including the host machine) and in containers to 0027 or higher. This ensures newly created folders have a maximum permission of 750 and newly created files have a maximum permission of 640.
 - Apply access control and other security measures to sensitive content such as personal privacy data, commercial assets, source files, and various files saved during operator development. For example, for installation directory permission control and input public data file permission control in this project, refer to [Appendix A - Recommended Maximum Permissions for File/Folder Scenarios](#appendix-a---recommended-maximum-permissions-for-filefolder-scenarios).
 - Apply access control during installation and use. Refer to [Appendix A - Recommended Maximum Permissions for File/Folder Scenarios](#appendix-a---recommended-maximum-permissions-for-filefolder-scenarios) for permission settings.
 

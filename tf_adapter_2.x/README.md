@@ -2,8 +2,8 @@
 
 ## 简介
 
-Ascend Adapter for TF2.X 致力于将NPU运算能力便捷地提供给使用Tensorflow 2.x框架的开发者。开发者只需安装Ascend Adapter for
-TF2.X插件，并在现有Tensorflow 2.x脚本中添加少量配置，即可实现在NPU上加速自己的训练任务。
+Ascend Adapter for TF2.X 致力于将NPU运算能力便捷地提供给使用TensorFlow 2.x框架的开发者。开发者只需安装Ascend Adapter for
+TF2.X插件，并在现有TensorFlow 2.x脚本中添加少量配置，即可实现在NPU上加速自己的训练任务。
 
 ![tfadapter2](../docs/zh/figures/tfadapter2.png)
 
@@ -13,7 +13,7 @@ TF2.X插件，并在现有Tensorflow 2.x脚本中添加少量配置，即可实�
 
 ### 环境准备
 
-Ascend Adapter 软件包需要在Linux OS环境上进行编译，同时环境上需要安装一下软件依赖:
+Ascend Adapter 软件包需要在Linux OS环境上进行编译，同时环境上需要安装以下软件依赖：
 
 - **Python3.7~Python3.9**
 
@@ -21,7 +21,7 @@ Ascend Adapter 软件包需要在Linux OS环境上进行编译，同时环境上
 
 - **TensorFlow 2.6.5**
 
-  Ascend Adapter 与 Tensorflow 有严格的匹配关系，从源码构建前，您需要确保已经正确安装了[Tensorflow v2.6.5 版本](https://www.tensorflow.org/install) ，安装方式可参见[昇腾社区文档中心-TensorFlow 2.6.5模型迁移](https://hiascend.com/document/redirect/canntfmigr)中的“TensorFlow 2.6.5模型迁移 > 环境准备 > 安装开源框架TensorFlow 2.6.5”章节。
+  Ascend Adapter 与 TensorFlow 有严格的匹配关系，从源码构建前，您需要确保已经正确安装了[TensorFlow v2.6.5 版本](https://www.tensorflow.org/install) ，安装方式可参见[昇腾社区文档中心-TensorFlow 2.6.5模型迁移](https://hiascend.com/document/redirect/canntfmigr)中的“TensorFlow 2.6.5模型迁移 > 环境准备 > 安装开源框架TensorFlow 2.6.5”章节。
 
 - **GCC >= 7.3.0**
 
@@ -33,7 +33,7 @@ Ascend Adapter 软件包需要在Linux OS环境上进行编译，同时环境上
 
 - **SWIG >= 4.1.0**
 
-  Ascend Adapter 源码编译依赖SWIG， SWIG安装命令示例如下：
+  Ascend Adapter 源码编译依赖SWIG，SWIG安装命令示例如下：
 
   ```shell
   # Ubuntu/Debian操作系统安装命令示例如下，其他操作系统请自行安装

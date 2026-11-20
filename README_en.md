@@ -17,7 +17,7 @@ TF Adapter supports TensorFlow 1.15 and TensorFlow 2.6.5.
 
 ## Supported Product Models
 
-- Ascend 950PR&950DT products
+- Ascend 950PR and 950DT products
 - Atlas A3 products
 - Atlas A2 training products
 - Atlas training products

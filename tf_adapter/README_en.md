@@ -132,7 +132,7 @@ After installation, the TF Adapter files are installed to the Python interpreter
 
 ## FAQ
 
-### 1. Running ./build.sh prompts to configure the SWIG path
+### 1. Running tf_adapter/build.sh prompts to configure the SWIG path
 
 Run the following command to install SWIG:
 
@@ -140,7 +140,7 @@ Run the following command to install SWIG:
 pip3 install swig
 ```
 
-### 2. Running ./build.sh on Ubuntu displays "Could not import the lzma module"
+### 2. Running tf_adapter/build.sh on Ubuntu displays "Could not import the lzma module"
 
 Run the following command to install lzma:
 
