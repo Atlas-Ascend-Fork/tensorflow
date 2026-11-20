@@ -52,17 +52,17 @@ TensorFlow is necessary to develop and verify operators and develop training ser
 
 - For the x86 architecture, download the software package from the pip source. For details about system requirements, see the  [TensorFlow official website](https://www.tensorflow.org/install/pip?lang=python3&hl=en). Note that the instructions provided by the TensorFlow website are incorrect. To download the CPU version from the pip source, you need to explicitly specify  **tensorflow-cpu**. Otherwise, the GPU version is downloaded by default. The installation command is as follows:
 
-    If you run the following command as a non-root user, add  **--user**  to the end of the installation command, for example,  **pip3 install tensorflow-cpu==1.15 --user**.
+  If you run the following command as a non-root user, add  **--user**  to the end of the installation command, for example,  **pip3 install tensorflow-cpu==1.15 --user**.
 
-    Install TensorFlow 1.15.
+  Install TensorFlow 1.15.
 
-    ```bash
-    pip3 install tensorflow-cpu==1.15
-    ```
+  ```bash
+  pip3 install tensorflow-cpu==1.15
+  ```
 
 - For the AArch64 architecture, the pip source does not provide the corresponding version. Therefore, you need to use  **linux_gcc7.3.0**  to compile TensorFlow 1.15. For details about the compilation procedure, see the  [TensorFlow official website](https://www.tensorflow.org/install/source). Pay attention to the following:
 
-    After downloading  [tensorflow tag v1.15.0](https://github.com/tensorflow/tensorflow/releases/tag/v1.15.0), perform the following steps:
+After downloading  [tensorflow tag v1.15.0](https://github.com/tensorflow/tensorflow/releases/tag/v1.15.0), perform the following steps:
 
 1. Download the  **nsync-1.22.0.tar.gz**  source package.
     1. Go to the source code directory, open the  **tensorflow/workspace.bzl**  file, and find the  **tf_http_archive**  definition whose  **name**  is  **nsync**.
@@ -90,9 +90,9 @@ TensorFlow is necessary to develop and verify operators and develop training ser
         ```cpp
         #include "nsync_cpp.h"
         #include "nsync_atomic.h"
-        
+
         NSYNC_CPP_START_
-        
+
         static INLINE int atm_cas_nomb_u32_ (nsync_atomic_uint32_ *p, uint32_t o, uint32_t n) {
                 return (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n,
                                                      std::memory_order_relaxed, std::memory_order_relaxed));
@@ -116,11 +116,11 @@ TensorFlow is necessary to develop and verify operators and develop training ser
         ```cpp
         #include "nsync_cpp.h"
         #include "nsync_atomic.h"
-        
+
         NSYNC_CPP_START_
-        
+
         #define ATM_CB_() __sync_synchronize()
-        
+
         static INLINE int atm_cas_nomb_u32_ (nsync_atomic_uint32_ *p, uint32_t o, uint32_t n) {
             int result = (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n, std::memory_order_relaxed, std::memory_order_relaxed));
             ATM_CB_();
@@ -165,7 +165,7 @@ TensorFlow is necessary to develop and verify operators and develop training ser
         sha256 = "caf32e6b3d478b78cff6c2ba009c3400f8251f646804bcb65465666a9cea93c4",
         strip_prefix = "nsync-1.22.0",
         system_build_file = clean_dep("//third_party/systemlibs:nsync.BUILD"),
-        urls = [            
+        urls = [
                 "https://storage.googleapis.com/mirror.tensorflow.org/github.com/google/nsync/archive/1.22.0.tar.gz",
                 "file:///tmp/nsync-1.22.0.tar.gz",
                 "https://github.com/google/nsync/archive/1.22.0.tar.gz",

@@ -31,11 +31,11 @@ To better understand this document, you should:
 1. This is a specific guide for TensorFlow 1.15.
 2. Data types float64, complex64, complex128, and DT_VARIANT are not supported.
 3. Supported data formats include NCHW, NHWC, NC, HWCN, and CN.
-4. For condition branches and loop branches, only  **tf.cond**,  **tf.while_loop**, and  **tf.case**  are supported.
-5. During multi-device training,  **NPURunConfig**  does not support  **save_checkpoints_secs**  in  **tf.estimator.RunConfig**.
-6. During multi-device training, saving the summary information \(via the  **tf.summary**  API\) of only a single device is not supported.
+4. For condition branches and loop branches, only **tf.cond**, **tf.while_loop**, and **tf.case** are supported.
+5. During multi-device training, **NPURunConfig** does not support **save_checkpoints_secs** in **tf.estimator.RunConfig**.
+6. During multi-device training, saving the summary information \(via the **tf.summary** API\) of only a single device is not supported.
 7. For the  Atlas training products, the operators do not support the Inf or NaN inputs.
 8. During data preprocessing, only dataset and placeholder modes are supported for data reading; queue-based data reading is not supported.
-9. If you spawn processes using the Python package  **multiprocessing**, you are advised to use the  **forkserver**  method as opposed to the  **fork**  method.
+9. If you spawn processes using the Python package **multiprocessing**, you are advised to use the **forkserver** method as opposed to the **fork** method.
 
-    In Python versions 3.8 to 3.11, using the  **fork**  method may copy the lock state of the main process when a child process is created. If this child process subsequently attempts to acquire the lock, a deadlock may occur, which in turn causes the service process to hang.
+    In Python versions 3.8 to 3.11, using the **fork** method may copy the lock state of the main process when a child process is created. If this child process subsequently attempts to acquire the lock, a deadlock may occur, which in turn causes the service process to hang.

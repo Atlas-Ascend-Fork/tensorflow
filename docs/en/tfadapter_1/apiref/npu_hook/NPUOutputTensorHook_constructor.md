@@ -30,7 +30,7 @@ An object of the  **NPUOutputTensorHook**  class
 
 ## Restrictions
 
-When  **Iterations_per_loop \> 1**,  **output_fn**  cannot be called as specified by  **output_every_n_steps**.
+When  **iterations_per_loop \> 1**,  **output_fn**  cannot be called as specified by  **output_every_n_steps**.
 
 ## Example
 
@@ -48,13 +48,13 @@ def output_fn(inputs):
       f.write("\n")
 
 # Define output_hook for calling the user-defined output_fn.
-        tensors = {'global_step': global_step, 'loss': loss}
-        output_hook = NPUOutputTensorHook(
-            tensors,
-            dependencies=train_op_list,
-            output_fn=output_fn,
-            output_every_n_steps=10)
-        train_hook.append(output_hook)
+  tensors = {'global_step': global_step, 'loss': loss}
+  output_hook = NPUOutputTensorHook(
+      tensors,
+      dependencies=train_op_list,
+      output_fn=output_fn,
+      output_every_n_steps=10)
+  train_hook.append(output_hook)
 
 # Pass the hook to EstimatorSpec.
   return tf.estimator.EstimatorSpec(

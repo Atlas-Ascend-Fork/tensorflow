@@ -82,13 +82,13 @@ npu.global_options().enable_small_channel=1
 
 此参数仅适用于NMT网络。
 
-指定AICPU/AICORE引擎的并行度，从而实现AICPU/AICORE算子间的并行执行。
+指定AICPU/AI Core引擎的并行度，从而实现AICPU/AI Core算子间的并行执行。
 
 DNN_VM_AICPU为AICPU引擎名称，本示例指定了AICPU引擎的并发数为10。
 
-AIcoreEngine为AICORE引擎名称，本示例指定了AICORE引擎的并发数为1。
+AIcoreEngine为AI Core引擎名称，本示例指定了AI Core引擎的并发数为1。
 
-AICPU/AICORE引擎的并行度默认为1，取值范围为：\[1,13\]。
+AICPU/AI Core引擎的并行度默认为1，取值范围为：\[1,13\]。
 
 配置示例：
 

@@ -5,7 +5,7 @@
 在任意目录下创建Client文件夹（本节以$HOME目录为例），用于存放与服务端通信的脚本deploy.py和推理脚本tf_serving_infer.py，目录如下所示：
 
 ```text
-Client/ 
+Client/
  ├── deploy.py
  └── tf_serving_infer.py
 ```
@@ -74,8 +74,8 @@ image_path = sys.argv[1]
 d0 = time.time()
 image = misc.imread(image_path)
 resized = scipy.misc.imresize(image, (304, 304, 3)) # 原始.pb模型输入节点的type值，请根据实际值自行修改。
-crop_min = abs(304 / 2 - (304 / 2)) 
-crop_max = crop_min + 304 
+crop_min = abs(304 / 2 - (304 / 2))
+crop_max = crop_min + 304
 crop_min = int(crop_min)
 crop_max = int(crop_max)
 image = resized[crop_min:crop_max, crop_min:crop_max, :]
@@ -119,7 +119,7 @@ print("Batchsize={}, Average inference time cost: {:.3f} ms, Average data proces
         from tensorflow.python.framework import tensor_shape
         from tensorflow.python.saved_model import save
         import sys
-        
+
         def read_pb_model(pb_model_path):
             with tf.gfile.GFile(pb_model_path, "rb") as f:
                 graph_def = tf.GraphDef()
@@ -127,7 +127,7 @@ print("Batchsize={}, Average inference time cost: {:.3f} ms, Average data proces
                 return graph_def
         def convert_pb_saved_model(graph_def, export_dir, input_name, output_name):
             builder = tf.saved_model.builder.SavedModelBuilder(export_dir)
-        
+
             sigs = {}
             with tf.Session(graph=tf.Graph()) as sess:
                 tf.import_graph_def(graph_def, name="")
@@ -155,8 +155,8 @@ print("Batchsize={}, Average inference time cost: {:.3f} ms, Average data proces
         def convert_pb_to_server_model(pb_model_path, export_dir, input_name='input', output_name='output'):
             graph_def = read_pb_model(pb_model_path)
             convert_pb_saved_model(graph_def, export_dir, input_name, output_name)
-        
-        
+
+
         # 转换pb文件为savedmodel
         if __name__=="__main__":
             pb_model_path = sys.argv[1]

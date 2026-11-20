@@ -36,12 +36,12 @@ The following uses the two-server \(each server has one parameter server and 8 w
     evaluator_hosts = FLAGS.evaluator_hosts.split(',')
     task_index = FLAGS.task_index
     job_name = FLAGS.job_name
-    flags.DEFINE_string("ps_hosts", '192.168.1.100:2222,192.168.1.200:2222',) 
+    flags.DEFINE_string("ps_hosts", '192.168.1.100:2222,192.168.1.200:2222',)
     flags.DEFINE_string("worker_hosts",
-                        '192.168.1.100:2223, 192.168.1.100:2224, 192.168.1.100:2225, 192.168.1.100:2226,'
-                        '192.168.1.100:2227, 192.168.1.100:2228, 192.168.1.100:2229, 192.168.1.100:2230,'
-                        '192.168.1.200:2223, 192.168.1.200:2224, 192.168.1.200:2225, 192.168.1.200:2226,'
-                        '192.168.1.200:2227, 192.168.1.200:2228, 192.168.1.200:2229, 192.168.1.200:2230',)
+                        '192.168.1.100:2223,192.168.1.100:2224,192.168.1.100:2225,192.168.1.100:2226,'
+                        '192.168.1.100:2227,192.168.1.100:2228,192.168.1.100:2229,192.168.1.100:2230,'
+                        '192.168.1.200:2223,192.168.1.200:2224,192.168.1.200:2225,192.168.1.200:2226,'
+                        '192.168.1.200:2227,192.168.1.200:2228,192.168.1.200:2229,192.168.1.200:2230',)
     flags.DEFINE_string("evaluator_hosts", '192.168.1.100:2231',)
     flags.DEFINE_string("job_name", '', "One of 'ps', 'worker', 'evaluator', chief")
     flags.DEFINE_integer("task_index", 0, "Index of task within the job")
@@ -86,8 +86,8 @@ run_config = NPURunConfig(
             distribute=strategy)
 
 classifier = tf.estimator.NPUEstimator(
-    model_fn=model_fn, 
-    model_dir='/tmp/multiworker', 
+    model_fn=model_fn,
+    model_dir='/tmp/multiworker',
     config=run_config)
 
 tf.estimator.train_and_evaluate(
@@ -109,13 +109,13 @@ tf.estimator.train_and_evaluate(
 To run the script using the  **ps_hosts**  and  **worker_hosts**  information in the Python script \(**chief**  is not defined in the Python script\):
 
 ```bash
-python resnet50_ps_strategy.py --job_name=ps --task_index=0 
-python resnet50_ps_strategy.py --job_name=ps --task_index=1 
-python resnet50_ps_strategy.py --job_name=worker --task_index=0 
+python resnet50_ps_strategy.py --job_name=ps --task_index=0
+python resnet50_ps_strategy.py --job_name=ps --task_index=1
+python resnet50_ps_strategy.py --job_name=worker --task_index=0
 python resnet50_ps_strategy.py --job_name=worker --task_index=1
 python resnet50_ps_strategy.py --job_name=worker --task_index=2
 python resnet50_ps_strategy.py --job_name=worker --task_index=3
-python resnet50_ps_strategy.py --job_name=worker --task_index=4 
+python resnet50_ps_strategy.py --job_name=worker --task_index=4
 python resnet50_ps_strategy.py --job_name=worker --task_index=5
 python resnet50_ps_strategy.py --job_name=worker --task_index=6
 python resnet50_ps_strategy.py --job_name=worker --task_index=7
@@ -125,7 +125,7 @@ To redefine  **ps_hosts**  and  **worker_hosts**  \(**chief**  is not defined in
 
 ```bash
 python resnet50_ps_strategy.py \
-       --ps_hosts=192.168.1.79:2222,192.168.1.80:2222 \       
+       --ps_hosts=192.168.1.79:2222,192.168.1.80:2222 \
        --worker_hosts=192.168.1.79:2223,192.168.1.79:2224,192.168.1.79:2225,192.168.1.79:2226,192.168.1.79:2227,192.168.1.79:2228,192.168.1.79:2229,192.168.1.79:2230,192.168.1.80:2223,192.168.1.80:2224,192.168.1.80:2225,192.168.1.80:2226,192.168.1.80:2227,192.168.1.80:2228,192.168.1.80:2229,192.168.1.80:2230 \
        --job_name=ps \
        --task_index=0

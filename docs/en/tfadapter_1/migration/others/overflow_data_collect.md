@@ -34,7 +34,7 @@ dump_config = DumpConfig(enable_dump_debug = True, dump_path = "/home/test/outpu
 session_config=tf.ConfigProto()
 
 config = NPURunConfig(
-    dump_config=dump_config, 
+    dump_config=dump_config,
     session_config=session_config)
 ```
 
@@ -50,11 +50,11 @@ custom_op.name =  "NpuOptimizer"
 custom_op.parameter_map["use_off_line"].b = True
 
 # dump_path: dump path. Create the specified path in advance in the training environment (either in a container or on the host). The running user configured during installation must have the read and write permissions on this path.
-custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
 # enable_dump_debug: whether to collect overflow/underflow data.
 custom_op.parameter_map["enable_dump_debug"].b = True
 # dump_debug_mode: overflow/underflow detection mode select, which can be all, aicore_overflow, or atomic_overflow
-custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all") 
+custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all")
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 

@@ -143,7 +143,7 @@ npu.global_options().dump_config.dump_debug_mode="aicore_overflow"
  npu.global_options().fusion_switch_file="/home/test/fusion_switch.cfg"
  ```
 
-配置文件样例fusion_switch.cfg如下所示_，_on表示开启，off表示关闭。
+配置文件样例fusion_switch.cfg如下所示，on表示开启，off表示关闭。
 
 ```text
 {
@@ -208,7 +208,7 @@ npu.global_options().dump_config.dump_debug_mode="aicore_overflow"
 
 - 0（默认值）：图编译过程中可能优化量化前的输入输出，此时无法获取量化前dump数据。
 - 1：开启此配置后，可确保能够采集量化前的dump数据。
-  
+
 配置示例：
 
 ```python

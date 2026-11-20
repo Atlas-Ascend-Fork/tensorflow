@@ -83,7 +83,7 @@ NOTE:
   - Atlas A3 products
   - Atlas A2 products
 - The maximum number of Cube cores and Vector cores for different AI processors can be found in the CANN installation directory/<arch\>-linux/data/platform_config/<soc_version\>.ini file. The following example indicates that there are 24 Cube cores and 48 Vector cores on the AI processor.
-  
+
   ```text
   [SoCInfo]
   ai_core_cnt=24

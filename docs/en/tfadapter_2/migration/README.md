@@ -27,7 +27,7 @@
   - [Version-related Accuracy Issue Detection](./accuracy_debugging/version-related_accuracy_issue_detection.md)
 
   - [Appendixes](./accuracy_debugging/appendixes.md)
-    - [precision_tool Command Reference](./accuracy_debugging/precision_tool_ommand_ref.md)
+    - [precision_tool Command Reference](./accuracy_debugging/precision_tool_command_ref.md)
     - [Network Accuracy Comparison Result File](./accuracy_debugging/network_accuracy_comparison_result_file.md)
 
 - [Performance Tuning](./performance_tuning/performance_tuning.md)
@@ -44,7 +44,7 @@
 - [Model Freezing](model_freezing.md)
 - [Model Inference](./model_inference/model_inference.md)
   - [Offline Inference](./model_inference/offline_inference.md)
-  - [Online Inference](./model_inference/onlne_inference.md)
+  - [Online Inference](./model_inference/online_inference.md)
 
 - [Additional Features](./others/additional_features.md)
   - [Adjusting Gradient Splitting Strategy](./others/adjust_gradient_split_strategy.md)

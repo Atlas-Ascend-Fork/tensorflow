@@ -81,7 +81,7 @@ custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name =  "NpuOptimizer"
 # 需要显示关闭TensorFlow的remapping、memory_optimization功能，避免与NPU中的功能冲突。
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
-config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  
+config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 init_sess = tf.Session(config=config)
 init_sess.run(npu_int)
 
@@ -94,7 +94,7 @@ opt = tf.train.AdagradOptimizer(0.01 * get_rank_size())   # "hvd.size"修改为"
 
 # NPU allreduce
 # 将"hvd.DistributedOptimizer"修改为"npu_distributed_optimizer_wrapper"
-opt = npu_distributed_optimizer_wrapper(opt)   
+opt = npu_distributed_optimizer_wrapper(opt)
 # Add hook to broadcast variables from rank 0 to all other processes during initialization.
 hooks = [NPUBroadcastGlobalVariablesHook(0)]
 
@@ -115,11 +115,11 @@ with tf.train.MonitoredTrainingSession(checkpoint_dir=checkpoint_dir,
                                        config=config,
                                        hooks=hooks) as mon_sess:
   # 变量广播
-  mon_sess.run(bcast_global_variables_op)  
+  mon_sess.run(bcast_global_variables_op)
   while not mon_sess.should_stop():
     # Perform synchronous training.
-    mon_sess.run(train_op) 
-  
+    mon_sess.run(train_op)
+
 # 训练结束后执行shutdown_system，同时关闭session
 init_sess.run(npu_shutdown)
 init_sess.close()

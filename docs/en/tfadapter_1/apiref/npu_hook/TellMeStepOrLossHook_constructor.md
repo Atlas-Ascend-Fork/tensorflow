@@ -26,7 +26,7 @@ An object of the  **TellMeStepOrLossHook**  class
 
 ## Restrictions
 
-When  **Iterations_per_loop**  is greater than  **1**, the bottom-layer software is notified of the serial number of the current  **step**  or  **loss**  each time the number of steps increases by  **Iterations_per_loop**. It is impossible to notify the bottom-layer software of such information each time the number of steps increases by 1, as this may affect some functions that depend on the result of this  **hook**  function.
+When  **iterations_per_loop**  is greater than  **1**, the bottom-layer software is notified of the serial number of the current  **step**  or  **loss**  each time the number of steps increases by  **iterations_per_loop**. It is impossible to notify the bottom-layer software of such information each time the number of steps increases by 1, as this may affect some functions that depend on the result of this  **hook**  function.
 
 ## Example
 

@@ -55,11 +55,11 @@ npu_device.compat.enable_v1()
     TensorFlow原始代码：
 
     ```python
-    def gelu(x): 
+    def gelu(x):
       cdf = 0.5 * (1.0 + tf.tanh(
-         (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3))))) 
+         (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3)))))
       return x*cdf
-    layers = gelu()
+    layers = gelu(x)
     ```
 
     迁移后的代码：
@@ -76,11 +76,11 @@ TensorFlow原始代码：
 
 ```python
 session_config=tf.compat.v1.ConfigProto(allow_soft_placement=True,log_device_placement=False)
- 
+
 config=tf.estimator.RunConfig(
   session_config=session_config,
-  model_dir=FLAGS.model_dir,  
-  save_checkpoints_steps=FLAGS.save_checkpoints_steps, 
+  model_dir=FLAGS.model_dir,
+  save_checkpoints_steps=FLAGS.save_checkpoints_steps,
   # ... ...
   )
 ```
@@ -92,10 +92,10 @@ session_config=tf.compat.v1.ConfigProto(allow_soft_placement=True,log_device_pla
 custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
 sess_config.graph_options.rewrite_options.remapping = rewriter_config_pb2.RewriterConfig.OFF
- 
+
 npu_config=NPURunConfig(
   session_config=sess_config,
-  model_dir=FLAGS.model_dir,  
+  model_dir=FLAGS.model_dir,
   save_checkpoints_steps=FLAGS.save_checkpoints_steps,
   # ... ...
   )
@@ -108,19 +108,19 @@ Estimator的迁移需要更改其config参数为上述npu_config，并将TensorF
 TensorFlow原始代码：
 
 ```python
-mnist_classifier=tf.compat.v1.estimator.Estimator( 
-  model_fn=cnn_model_fn, 
-  config=config, 
+mnist_classifier=tf.compat.v1.estimator.Estimator(
+  model_fn=cnn_model_fn,
+  config=config,
   model_dir="/tmp/mnist_convnet_model")
 ```
 
 迁移后的代码：
 
 ```python
-mnist_classifier=NPUEstimator( 
-  model_fn=cnn_model_fn, 
-  config=npu_config, 
-  model_dir="/tmp/mnist_convnet_model" 
+mnist_classifier=NPUEstimator(
+  model_fn=cnn_model_fn,
+  config=npu_config,
+  model_dir="/tmp/mnist_convnet_model"
   )
 ```
 

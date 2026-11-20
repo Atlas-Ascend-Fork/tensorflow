@@ -43,14 +43,14 @@ with tf.Session(config=config) as sess:
     sess.run(init)
     # Set the number of iterations per loop to 10 in sess.run mode.
     train_op = util.set_iteration_per_loop(sess, optimizer, 10)  # sess indicates the TensorFlow session, optimizer indicates the gradient update operation, and 10 indicates the number of training iterations on the device.
- 
+
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```

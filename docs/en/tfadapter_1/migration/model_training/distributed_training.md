@@ -6,19 +6,19 @@ Before performing distributed training, refer to this section for some precautio
 
 Before starting distributed training across multiple processes, you need to configure the resource information of  AI processors that participate in the distributed training.
 
-Currently, resource information can be configured using configuration files or environment variables.  **You can choose either of them, but they cannot be used together**.
+Currently, resource information can be configured using configuration files or environment variables. **You can choose either of them, but they cannot be used together**.
 
-- Using configuration files. The resource configuration file, known as a rank table file, is used alongside environment variables such as  **RANK_TABLE_FILE**  and  **RANK_ID**.
+- Using configuration files. The resource configuration file, known as a rank table file, is used alongside environment variables such as **RANK_TABLE_FILE** and **RANK_ID**.
 - Setting environment variables
 
   This method is supported only by the following products:
   - Atlas A2 products
   - Atlas training products
 
-For details about the restrictions on the usage of the environment variables  **ASCEND_CACHE_PATH**  and  **ASCEND_WORK_PATH** mentioned below and the description of the flushed files, see  Installation and Configuration  in  [Environment Variables](https://www.hiascend.com/document/detail/en/CANNCommunityEdition/latest/maintenref/envvar/envref_07_0001.html).
+For details about the restrictions on the usage of the environment variables **ASCEND_CACHE_PATH** and **ASCEND_WORK_PATH** mentioned below and the description of the flushed files, see  Installation and Configuration  in  [Environment Variables](https://www.hiascend.com/document/detail/en/CANNCommunityEdition/latest/maintenref/envvar/envref_07_0001.html).
 
 > [!NOTE]NOTE
-> Before setting the environment variables, run the  **env**  command to check whether  **ASCEND_CACHE_PATH**  and  **ASCEND_WORK_PATH**  exist. It is recommended that all functions use the same planned path.
+> Before setting the environment variables, run the **env** command to check whether **ASCEND_CACHE_PATH** and **ASCEND_WORK_PATH** exist. It is recommended that all functions use the same planned path.
 
 **Before performing distributed training, pay attention to the following points:**
 
@@ -43,19 +43,19 @@ When performing training on multiple devices, ensure the training process is ini
 
 Assume that there is only one AI Server node and eight devices on the node. You can perform the following steps to construct a startup script to cyclically start the training process on each device.
 
-1. Construct a startup script named  **tf_start_8p.sh**  as follows.
+1. Construct a startup script named **tf_start_8p.sh** as follows.
 
     ```bash
     # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     export RANK_SIZE=8
     export RANK_TABLE_FILE=/home/test/rank_table_8p.json    # Path of the rank table resource configuration file. Replace it with the actual path.
     export JOB_ID=10087      # User-defined job ID, which can contain uppercase letters, lowercase letters, digits, hyphens (-), and underscores (_).
-    
+
     for((RANK_ID=0;RANK_ID<$((RANK_SIZE));RANK_ID++));
     do
         export RANK_ID=$RANK_ID
@@ -100,10 +100,10 @@ Assume that there are two AI server nodes involved in distributed training and e
     ```bash
     # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # Obtain input parameters.
     for para in $*
     do
@@ -115,13 +115,13 @@ Assume that there are two AI server nodes involved in distributed training and e
             servers_num=`echo ${para#*=}`
         fi
     done
-    
+
     rank_size=${devices_num}
     linux_num=$servers_num
     export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
     export RANK_TABLE_FILE=/home/test/rank_table.json   # Path of the rank table resource configuration file. Replace it with the actual path.
     export JOB_ID=10087  # User-defined job ID, which can contain uppercase letters, lowercase letters, digits, hyphens (-), and underscores (_).
-    
+
     for((RANK_ID=$((rank_size*server_index));RANK_ID<$((((server_index+1))*rank_size));RANK_ID++));
     do
         # Set environment variables.
@@ -238,12 +238,12 @@ Assume that there is only one AI server node and eight devices on the node. You 
     ```bash
     # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     export JOB_ID=10087  # User-defined job ID, which can contain uppercase letters, lowercase letters, digits, hyphens (-), and underscores (_).
-    
+
     for((CURRENT_DEVICE=0;CURRENT_DEVICE<8;CURRENT_DEVICE++));
     do
         export ASCEND_DEVICE_ID=${CURRENT_DEVICE}
@@ -287,10 +287,10 @@ Assume that there are two AI server nodes involved in distributed training and e
     ```bash
     # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # Obtain input parameters.
     for para in $*
     do
@@ -300,11 +300,11 @@ Assume that there are two AI server nodes involved in distributed training and e
      devices_num=`echo ${para#*=}`
         fi
     done
-    
+
     rank_size=${devices_num}
     linux_num=$servers_num
     export JOB_ID=10087  # User-defined job ID, which can contain uppercase letters, lowercase letters, digits, hyphens (-), and underscores (_).
-    
+
     for((CURRENT_DEVICE=$((rank_size*server_index));CURRENT_DEVICE<$((((server_index+1))*rank_size));CURRENT_DEVICE++));
     do
         export ASCEND_DEVICE_ID=`expr ${CURRENT_DEVICE} - $((rank_size*server_index))`

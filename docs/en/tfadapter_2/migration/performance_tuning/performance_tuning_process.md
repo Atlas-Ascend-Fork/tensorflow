@@ -2,7 +2,7 @@
 
 If the performance of the network ported to the  Ascend AI Processor  for training is not satisfactory, you can perform the following steps to tune the performance.
 
-**Figure  1**  Performance tuning process of TensorFlow network  
+**Figure  1**  Performance tuning process of TensorFlow network
 ![](../figures/performance_tuning_process.png)
 
 1. If the performance is not satisfactory, you are advised to perform the following common operations to improve it:

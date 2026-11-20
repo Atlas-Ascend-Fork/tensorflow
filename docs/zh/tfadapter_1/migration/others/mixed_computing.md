@@ -70,5 +70,5 @@ config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 
 with tf.Session(config=config) as sess:
-  print(sess.run(cost)) 
+  print(sess.run(cost))
 ```

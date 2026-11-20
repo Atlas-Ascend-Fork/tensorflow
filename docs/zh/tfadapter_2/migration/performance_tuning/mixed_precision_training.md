@@ -29,13 +29,13 @@ npu.open().as_default()
 内置优化策略在“CANN软件安装目录/opp/built-in/op_impl/ai_core/tbe/config/<soc_version\>/aic-<soc_version\>-ops-info-<opType\>.json“，例如：
 
 ```json
-"Conv2D":{
-    "precision_reduce":{
-        "flag":"true"
+{
+    "Conv2D":{
+        "precision_reduce":{
+            "flag":"true"
+        }
     },
-    {
-    ... ...
-    }
+    ...
 }
 ```
 
@@ -75,7 +75,7 @@ npu.open().as_default()
          ]
       },
       "white-list": {                  // 白名单
-         "to-remove": [                // 白名单算子转换为灰名单算子 
+         "to-remove": [                // 白名单算子转换为灰名单算子
          "Conv2D"
          ],
          "to-add": [                   // 黑名单或灰名单算子转换为白名单算子
@@ -91,7 +91,7 @@ npu.open().as_default()
 
         ```json
         {
-          "black-list": { 
+          "black-list": {
              "to-add": ["A"]
           }
         }

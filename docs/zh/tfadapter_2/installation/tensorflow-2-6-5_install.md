@@ -3,7 +3,7 @@
 ## 安装前准备
 
 > [!NOTE]说明
-> TensorFlow 2.6.5配套的Python版本是：Python3.7.x（3.7.5\~3.7.11）、Python3.8.x、Python3.9.x。
+> TensorFlow 2.6.5配套的Python版本是：Python3.7.x（3.7.5~3.7.11）、Python3.8.x、Python3.9.x。
 
 - 对于x86架构，跳过安装前准备。
 
@@ -103,11 +103,11 @@
         ```c
         #include "nsync_cpp.h"
         #include "nsync_atomic.h"
-        
+
         NSYNC_CPP_START_
-        
+
         #define ATM_CB_() __sync_synchronize()
-        
+
         static INLINE int atm_cas_nomb_u32_ (nsync_atomic_uint32_ *p, uint32_t o, uint32_t n) {
             int result = (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n, std::memory_order_relaxed, std::memory_order_relaxed));
             ATM_CB_();

@@ -36,7 +36,7 @@ class MemoryConfig():
 
 - **memory_optimization_policy**：输入，可选内存优化策略，默认为None；未设置时不向NpuOptimizer传入该配置。此参数不是大页配置参数；1G大页由`variable_use_1g_huge_page`控制，其取值见下方说明。建议使用关键字参数，例如`MemoryConfig(variable_use_1g_huge_page=1)`，避免位置参数混淆。
 
-- **variable_use_1g_huge_page**：输入，在推荐模型中，嵌入层\(Embedding层\)在TensorFlow中使用的是变量，当嵌入层作为索引类算子\(Gather、ScatterNd等\)的输入或输出地址时，若内存较大会存在大范围的离散访问，可能会出现算子性能下降问题。此时可尝试通过配置此参数，为变量和常量使用1G大页申请内存，从而提升访存性能。
+- **variable_use_1g_huge_page**：输入，在推荐模型中，嵌入层（Embedding层）在TensorFlow中使用的是变量，当嵌入层作为索引类算子（Gather、ScatterNd等）的输入或输出地址时，若内存较大会存在大范围的离散访问，可能会出现算子性能下降问题。此时可尝试通过配置此参数，为变量和常量使用1G大页申请内存，从而提升访存性能。
 
     该参数取值包括：
 

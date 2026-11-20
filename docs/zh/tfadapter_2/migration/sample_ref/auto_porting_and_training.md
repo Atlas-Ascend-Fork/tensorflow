@@ -96,21 +96,21 @@
 
     ```json
     {
-    "server_count":"1", 
+    "server_count":"1",
     "server_list":
     [
        {
-            "device":[ 
+            "device":[
                            {
-                            "device_id":"0", 
-                            "device_ip":"192.168.1.8", 
-                            "rank_id":"0" 
+                            "device_id":"0",
+                            "device_ip":"192.168.1.8",
+                            "rank_id":"0"
                             }
                       ],
              "server_id":"10.0.0.10"
         }
     ],
-    "status":"completed", 
+    "status":"completed",
     "version":"1.0"
     }
     ```
@@ -120,10 +120,10 @@
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # 当前脚本所在路径，例如：
     export PYTHONPATH="$PYTHONPATH:/root/models"
     export JOB_ID=10086        # 训练任务ID，用户自定义，仅支持大小写字母，数字，中划线，下划线。不建议使用以0开始的纯数字
@@ -153,28 +153,28 @@
     > 不同型号的AI处理器，其rank table文件的配置格式可能有所不同，以下内容仅作为示例参考，如需了解详细rank table配置说明，请参考《[HCCL集合通信库用户指南](https://hiascend.com/document/redirect/CannCommunityHcclUg)》中的“相关参考 \> 集群信息配置”章节。
 
     ```json
-    { 
-    "server_count":"1", 
-    "server_list": 
-    [ 
-       { 
-            "device":[ 
-                           { 
-                            "device_id":"0",  
-                            "device_ip":"192.168.1.8", 
-                            "rank_id":"0" 
-                            }, 
-                            { 
-                             "device_id":"1", 
-                             "device_ip":"192.168.1.9", 
-                             "rank_id":"1" 
-                             } 
-                      ], 
-             "server_id":"10.0.0.10"  
-        } 
-    ], 
-    "status":"completed", 
-    "version":"1.0" 
+    {
+    "server_count":"1",
+    "server_list":
+    [
+       {
+            "device":[
+                           {
+                            "device_id":"0",
+                            "device_ip":"192.168.1.8",
+                            "rank_id":"0"
+                            },
+                            {
+                             "device_id":"1",
+                             "device_ip":"192.168.1.9",
+                             "rank_id":"1"
+                             }
+                      ],
+             "server_id":"10.0.0.10"
+        }
+    ],
+    "status":"completed",
+    "version":"1.0"
     }
     ```
 
@@ -185,12 +185,12 @@
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # 当前脚本所在路径，例如：
     export PYTHONPATH="$PYTHONPATH:/root/models"
-    export RANK_ID=0 
-    export RANK_SIZE=2 
-    export RANK_TABLE_FILE=/home/test/rank_table_2p.json 
+    export RANK_ID=0
+    export RANK_SIZE=2
+    export RANK_TABLE_FILE=/home/test/rank_table_2p.json
     python3 /root/models/official/vision/image_classification/resnet/resnet_ctl_imagenet_main.py
     ```
 
@@ -199,13 +199,13 @@
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # 当前脚本所在路径，例如：
     export PYTHONPATH="$PYTHONPATH:/root/models"
-    export ASCEND_DEVICE_ID=1 
-    export RANK_ID=1 
-    export RANK_SIZE=2 
-    export RANK_TABLE_FILE=/home/test/rank_table_2p.json 
+    export ASCEND_DEVICE_ID=1
+    export RANK_ID=1
+    export RANK_SIZE=2
+    export RANK_TABLE_FILE=/home/test/rank_table_2p.json
     python3 /root/models/official/vision/image_classification/resnet/resnet_ctl_imagenet_main.py
     ```
 

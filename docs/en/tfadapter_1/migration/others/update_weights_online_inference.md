@@ -8,10 +8,10 @@ This section describes how to update weights during online inference on TensorFl
 
 ## Overall Workflow
 
-**Figure  1**  Weight update workflow  
+**Figure  1**  Weight update workflow
 ![](../figures/weight_update_diagram.png "weight-update-workflow")
 
-As shown in  the figure above, weight update and inference execution can be implemented using loops. If the value of  **batch_size**  does not change after multiple times of execution, the operations in dashed lines do not need to be performed repeatedly. The main workflow is as follows:
+As shown in  the figure above, weight update and inference execution can be implemented using loops. If the value of **batch_size** does not change after multiple times of execution, the operations in dashed lines do not need to be performed repeatedly. The main workflow is as follows:
 
 1. Obtain the online inference model and weight information from the .ckpt file, for example. The actual weights to be updated come from the external  _key-value_  pairs.
 2. Construct a weight update graph, including the variables and assignment operators to be updated, for example, Assign.

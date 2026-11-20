@@ -24,7 +24,7 @@
 
 ```text
 ├── resnet                              // 训练工作目录
-│    ├── __init__.py     
+│    ├── __init__.py
 │    ├── imagenet_main.py              // 基于ImageNet数据集训练网络模型
 │    ├── imagenet_preprocessing.py     // ImageNet数据集数据预处理模块
 │    ├── resnet_model.py               // resnet模型文件
@@ -32,7 +32,7 @@
 │    ├── cifar10_main                  // 训练执行入口文件
 │    ├── ...
 │    ├── precision_tool           // 一键式精度分析工具目录
-│    │    ├── cli.py                   
+│    │    ├── cli.py
 │    │    ├── ...
 ```
 

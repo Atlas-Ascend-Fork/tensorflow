@@ -36,7 +36,7 @@ npu.global_options().memory_config.static_memory_policy=0
 
 ## memory_config.variable_use_1g_huge_page
 
-在推荐模型中，嵌入层\(Embedding层\)在TensorFlow中使用的是变量，当嵌入层作为索引类算子\(Gather、ScatterNd等\)的输入或输出地址时，若内存较大会存在大范围的离散访问，可能会出现算子性能下降问题。此时可尝试通过配置此参数，为变量和常量使用1G大页申请内存，从而提升访存性能。
+在推荐模型中，嵌入层（Embedding层）在TensorFlow中使用的是变量，当嵌入层作为索引类算子（Gather、ScatterNd等）的输入或输出地址时，若内存较大会存在大范围的离散访问，可能会出现算子性能下降问题。此时可尝试通过配置此参数，为变量和常量使用1G大页申请内存，从而提升访存性能。
 
 该参数取值包括：
 

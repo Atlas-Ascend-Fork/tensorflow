@@ -27,7 +27,7 @@
   - [随机错误检测](./accuracy_debugging/random_error_detection.md)
   - [跨版本精度问题检测](./accuracy_debugging/version-related_accuracy_issue_detection.md)
   - [参考](./accuracy_debugging/appendixes.md)
-    - [precision_tool命令参考](./accuracy_debugging/precision_tool_ommand_ref.md)
+    - [precision_tool命令参考](./accuracy_debugging/precision_tool_command_ref.md)
     - [整网精度比对结果文件说明](./accuracy_debugging/network_accuracy_comparison_result_file.md)
     - [训练脚本去随机处理](./accuracy_debugging/train_script_derandomize.md)
 
@@ -46,7 +46,7 @@
 - [模型固化](model_freezing.md)
 - [模型推理](./model_inference/model_inference.md)
   - [离线推理](./model_inference/offline_inference.md)
-  - [在线推理](./model_inference/onlne_inference.md)
+  - [在线推理](./model_inference/online_inference.md)
     - [在线推理简介](./model_inference/introduction.md)
     - [编译配置](./model_inference/compilation_config.md)
     - [样例参考](./model_inference/sample_reference.md)
@@ -112,7 +112,7 @@
   - [动态shape网络执行时报V1控制流算子不支持的错误](./faq/dynamic_shape_v1_control_unsupported_error.md)
   - [数据预处理使用tf.keras.backend.zeros生成变量，训练报错变量未初始化](./faq/tf_keras_backend_zeros_uninitialized_variable.md)
   - [执行分布式训练时，出现get rank id error错误](./faq/get_rank_id_error_distributed_training.md)
-  - [HCCL初始化网卡失败，HCCP返回错误ret\[-17\]](./faq/hccl_init_ret_-17_error.md)
+  - [HCCL初始化网卡失败，HCCP返回错误ret\[-17\]](./faq/hccl_init_ret-17_error.md)
   - [GetNext算子超时，返回错误码E30008](./faq/getnext_timeout_e30008_error.md)
   - [多Device上执行模型不同导致应用程序出错](./faq/multi-device_model_error.md)
 

@@ -18,7 +18,7 @@ def initialize_system(name = None)
 
 ## Returns
 
-An operator for the user to initialize GE by using  **sess.run\(op\)**
+An operator for the user to initialize GE by using `sess.run(op)`.
 
 ## Restrictions
 
@@ -30,7 +30,7 @@ If the  **initialize_system**  API needs to be called and the following function
 
 - **profiling_options**: profiling options.
 
-    For supported options, refer to the environment variable [PROFILING_OPTIONS](https://gitcode.com/cann/oam-tools/blob/master/docs/zh/env-vars/PROFILING_OPTIONS.md).
+    For supported options, refer to the environment variable [PROFILING_OPTIONS](https://gitcode.com/cann/oam-tools/blob/master/docs/en/user_guide/env-vars/PROFILING_OPTIONS.md).
 
 - **enable_dump**: whether to enable the data dump function.
 

@@ -101,7 +101,7 @@ op_debug_config=ccec_g,oom
 算子编译时，如果用户不想编译所有AI Core算子，而是指定某些AI Core算子进行编译，则需要在上述test0.cfg配置文件中新增**op_debug_list**字段，算子编译时，只编译该列表指定的算子，并按照op_debug_config配置的选项进行编译。op_debug_list字段要求如下：
 
 - 支持指定算子名称或者算子类型。
-- 算子之间使用英文逗号分隔，若为算子类型，则以“OpType::typeName“格式进行配置，支持算子类型和算子名称混合配置。
+- 算子之间使用英文逗号分隔，若为算子类型，则以“OpType::typeName”格式进行配置，支持算子类型和算子名称混合配置。
 - 要编译的算子，必须放在op_debug_config参数指定的配置文件中。
 
 test0.cfg文件配置示例如下：

@@ -18,7 +18,7 @@ def initialize_system(name = None)
 
 ## 返回值
 
-返回一个op，供用户通过sess.run\(op\)完成GE初始化。
+返回一个op，供用户通过`sess.run(op)`完成GE初始化。
 
 ## 约束说明
 
@@ -29,8 +29,8 @@ def initialize_system(name = None)
   - False：关闭Profiling功能，默认关闭。
 
 - **profiling_options**：Profiling采集选项。
-   
-   支持的配置选项可参见环境变量[PROFILING_OPTIONS](https://gitcode.com/cann/oam-tools/blob/master/docs/zh/env-vars/PROFILING_OPTIONS.md)。
+
+   支持的配置选项可参见环境变量[PROFILING_OPTIONS](https://gitcode.com/cann/oam-tools/blob/master/docs/zh/user_guide/env-vars/PROFILING_OPTIONS.md)。
 
 - **enable_dump**：是否开启Data Dump功能。
 
@@ -50,7 +50,7 @@ def initialize_system(name = None)
 
 - **dump_step**：指定采集哪些迭代的Data Dump数据。默认值：None，表示所有迭代都会产生dump数据。
 
-    多个迭代用“|”分割，例如：0|5|10；也可以用"-"指定迭代范围，例如：0|3-5|10。
+    多个迭代用“|”分割，例如：0|5|10；也可以用“-”指定迭代范围，例如：0|3-5|10。
 
 - **dump_mode**：Data Dump模式，用于指定dump算子输入还是输出数据。取值如下：
 
@@ -70,7 +70,7 @@ def initialize_system(name = None)
     >- 若“enable_dump/enable_dump_debug（二选一）”参数配置为“True”，同时“enable_exception_dump”配置为了“1”（即开启普通异常算子dump）。此时，针对动态shape网络，仅“enable_exception_dump”生效；针对静态shape网络，“enable_exception_dump”与“enable_dump/enable_dump_debug（二选一）”都生效。
 
 - **dump_debug_mode**：溢出检测模式，取值如下：
-  - aicore_overflow：AI Core算子溢出检测，检测在算子输入数据正常的情况下，输出是否不正常的极大值（如float16下65500,38400,51200这些值）。一旦检测出这类问题，需要根据网络实际需求和算子逻辑来分析溢出原因并修改算子实现。
+  - aicore_overflow：AI Core算子溢出检测，检测在算子输入数据正常的情况下，输出是否不正常的极大值（如float16下65500，38400，51200这些值）。一旦检测出这类问题，需要根据网络实际需求和算子逻辑来分析溢出原因并修改算子实现。
   - atomic_overflow：Atomic Add溢出检测模式，在AI Core计算完，由UB搬运到OUT时，产生的Atomic Add溢出问题。
   - all：同时进行AI Core算子溢出检测和Atomic Add溢出检测。默认值为“all”。
 
@@ -145,18 +145,18 @@ def initialize_system(name = None)
   - 0：不开启算子debug功能。
   - 1：开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中生成TBE指令映射文件（算子cce文件\*.cce、python-cce映射文件\*_loc.json、.o和.json文件），用于后续工具进行AI Core Error问题定位。
 
-    注意：Ascend 950PR&950DT系列产品不会生成TBE指定映射文件。
+    注意：Ascend 950PR&950DT系列产品不会生成TBE指令映射文件。
 
   - 2：开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中生成TBE指令映射文件（算子cce文件\*.cce、python-cce映射文件\*_loc.json、.o和.json文件），并关闭ccec编译器的编译优化开关且打开ccec调试功能（ccec编译器选项设置为-O0-g），用于后续工具进行AI Core Error问题定位。
 
-    注意：Ascend 950PR&950DT系列产品不会生成TBE指定映射文件。
+    注意：Ascend 950PR&950DT系列产品不会生成TBE指令映射文件。
 
   - 3：不开启算子debug功能，且在训练脚本执行目录下的kernel_meta文件夹中保留.o和.json文件。
   - 4：不开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中**保留**.o（算子二进制文件）和.json文件（算子描述文件），生成TBE指令映射文件（算子cce文件\*.cce）和UB融合计算描述文件（\{$kernel_name\}_compute.json）。
 
-    注意：Ascend 950PR&950DT系列产品不会生成TBE指定映射文件和UB融合计算描述文件。
+    注意：Ascend 950PR&950DT系列产品不会生成TBE指令映射文件和UB融合计算描述文件。
 
-    注意:
+    注意：
   - 当该参数取值为0时，同时又配置了“op_debug_config”参数，则训练执行时，仍会在当前执行路径下生成算子编译目录kernel_meta，目录中生成的内容以“op_debug_config”配置为准。
   - 训练执行时，建议配置为0或3。如果需要进行问题定位，再选择调试开关选项1和2，是因为加入了调试功能后，会导致网络性能下降。
   - 配置为2（即开启ccec编译选项）的场景下，不能与“op_debug_config”中的“oom”同时使用，会导致AI Core Error报错，报错信息示例如下。

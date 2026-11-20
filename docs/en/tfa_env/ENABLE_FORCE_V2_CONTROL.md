@@ -21,7 +21,7 @@ export ENABLE_FORCE_V2_CONTROL=1
 
     Add the following two instructions after  **import tensorflow as tf**:
 
-    ```bash
+    ```python
     tf.enable_control_flow_v2()
     tf.enable_resource_variables()
     ```

@@ -9,7 +9,7 @@ Set run configuration using the  **resnet_main\(\)**  function.
 1. Import the following header files to the  **official/r1/resnet/resnet_run_loop.py**  file:
 
     ```python
-    from npu_bridge.estimator.npu.npu_config import NPURunConfig 
+    from npu_bridge.estimator.npu.npu_config import NPURunConfig
     from npu_bridge.estimator.npu.npu_estimator import NPUEstimator
     ```
 
@@ -33,7 +33,7 @@ Set run configuration using the  **resnet_main\(\)**  function.
           hcom_parallel=True
       )
       ############## NPU modify end ###############
-    
+
         # The run configuration in the code is as follows.
       # run_config = tf.estimator.RunConfig(
       #     train_distribute=distribution_strategy,

@@ -26,11 +26,11 @@
 
     如果原图中存在部分算子，在AI Core中该算子的实现不支持float32，比如某算子仅支持float16类型，则该参数不生效，仍然使用支持的float16；如果在AI Core中该算子的实现不支持float32，且又配置了黑名单（precision_reduce = false），则会使用float32的AI CPU算子；如果AI CPU算子也不支持，则执行报错。
 
-  - mixed_float16：
+- mixed_float16：
 
-    表示使用混合精度float16、bfloat16和float32数据类型来处理神经网络。针对原图中float32和bfloat16数据类型的算子，按照内置的优化策略，自动将部分float32和bfloat16的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
+  表示使用混合精度float16、bfloat16和float32数据类型来处理神经网络。针对原图中float32和bfloat16数据类型的算子，按照内置的优化策略，自动将部分float32和bfloat16的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-    开启该功能开关后，用户可以同时使能Loss Scaling，从而补偿降低精度带来的精度损失。
+  开启该功能开关后，用户可以同时使能Loss Scaling，从而补偿降低精度带来的精度损失。
 
 - mixed_bfloat16：
 
@@ -46,7 +46,7 @@
 
 - cube_hif8：
 
-  表示若原图中的cube算子既支持hifloat8，又支持float16、bfloat16或float32数据类型时，强制选择hifloat8数据类型。****当前版本不支持该选项。****
+  表示若原图中的cube算子既支持hifloat8，又支持float16、bfloat16或float32数据类型时，强制选择hifloat8数据类型。**当前版本不支持该选项。**
 
   说明：仅Ascend 950PR&950DT系列产品支持此配置。
 
@@ -177,7 +177,7 @@ ops_info.json中可以指定算子类型，多个算子使用英文逗号分隔�
      ]
   },
   "white-list": {                  // 白名单
-     "to-remove": [                // 白名单算子转换为灰名单算子 
+     "to-remove": [                // 白名单算子转换为灰名单算子
      "Conv2D"
      ],
      "to-add": [                   // 黑名单或灰名单算子转换为白名单算子

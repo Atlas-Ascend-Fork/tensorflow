@@ -39,13 +39,13 @@
                         value: {
                           s: "force_fp16"
                         }
-                      }                                    
+                      }
                     }
                     remapping: OFF
                   }
                 }
               }
-            } 
+            }
           }
         }
       }
@@ -79,7 +79,7 @@
 3. 在“tf_serving_test”路径下放置训练好的**SavedModel模型**，参见如下目录。
 
     ```text
-    squeezenext/ 
+    squeezenext/
     └── 1
          ├── saved_model.pb
          └── variables
@@ -112,10 +112,10 @@
         ```bash
         # 配置CANN软件环境变量，以root用户默认安装路径为例
         source /usr/local/Ascend/cann/set_env.sh
-        
+
         # TF Adapter python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
         export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-        
+
         export JOB_ID=10087
         ```
 

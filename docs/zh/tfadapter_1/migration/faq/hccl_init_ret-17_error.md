@@ -21,14 +21,14 @@ HCCL在初始化时会根据rank table中的Device IP初始化Device网卡。如
     使用hccn_tool可查看Device网卡信息。
 
     ```bash
-    hccn_tool -i 0 -ip -g 
-    hccn_tool -i 1 -ip -g 
-    hccn_tool -i 2 -ip -g 
-    hccn_tool -i 3 -ip -g 
-    hccn_tool -i 4 -ip -g 
-    hccn_tool -i 5 -ip -g 
-    hccn_tool -i 6 -ip -g 
-    hccn_tool -i 7 -ip -g 
+    hccn_tool -i 0 -ip -g
+    hccn_tool -i 1 -ip -g
+    hccn_tool -i 2 -ip -g
+    hccn_tool -i 3 -ip -g
+    hccn_tool -i 4 -ip -g
+    hccn_tool -i 5 -ip -g
+    hccn_tool -i 6 -ip -g
+    hccn_tool -i 7 -ip -g
     或
     for i in {0..7}; do hccn_tool -i $i -ip -g ; done
     ```

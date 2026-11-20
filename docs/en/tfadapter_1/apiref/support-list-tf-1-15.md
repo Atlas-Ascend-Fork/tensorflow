@@ -2066,7 +2066,6 @@ The following table lists part of the supported Python APIs.
 
 The following table lists part of the unsupported Python APIs.
 
-
 | Module | Unsupported Python API |
 | --- | --- |
 | tf | tf.CriticalSection |

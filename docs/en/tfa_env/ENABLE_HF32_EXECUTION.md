@@ -10,7 +10,7 @@ Enables or disables the function of automatically replacing the FP32 data type w
 
 HF32 is a single-precision floating-point type developed by Ascend for internal computation of operators. The following figure shows the comparison of HF32 with other common data types. HF32 shares the same value range with FP32, but its mantissa precision \(11 bits\) is close to FP16 \(10 bits\). Replacing the original FP32 single-precision data type with the HF32 single-precision data type by precision reduction can greatly reduce the space occupied by data and achieve performance improvement.
 
-**Figure  1**  Comparison of HF32 with other data types  
+**Figure  1**  Comparison of HF32 with other data types
 ![](figures/hf32_vs_others_datatype.png)
 
 ## Example

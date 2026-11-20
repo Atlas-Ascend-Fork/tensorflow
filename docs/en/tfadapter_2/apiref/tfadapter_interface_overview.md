@@ -4,7 +4,7 @@
 
 TF Adapter provides APIs for users to develop training or online inference scripts based on the deep learning framework TensorFlow 2.6.5.
 
-**Figure  1**  TF Adapter  
+**Figure  1**  TF Adapter
 ![](figures/TF-Adapter_interface.png)
 
 API path:  \{install_path\}_/python/site-packages/npu_device

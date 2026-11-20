@@ -17,7 +17,7 @@ TensorFlow网络性能数据采集与分析的整体流程如下所示：
     - 全局采集，采集图执行所有行为的性能数据，数据量较大。
     - 局部采集，支持指定采集局部子图或者指定step的性能数据。
 
-    全局采集有两种开启方式，可以通过修改训练脚本、配置“profiling_mode”参数的方式开启（可参见[全局采集Profiling数据（修改训练脚本方式）](#全局采集profiling数据修改训练脚本方式)，也可以通过设置环境变量“PROFILING_MODE”的方式开启（可参见[全局采集Profiling数据（环境变量方式）](#全局采集profiling数据修改训练脚本方式)，其中配置参数“profiling_mode”的优先级高于环境变量“ PROFILING_MODE”。
+    全局采集有两种开启方式，可以通过修改训练脚本、配置“profiling_mode”参数的方式开启（可参见[全局采集Profiling数据（修改训练脚本方式）](#全局采集profiling数据修改训练脚本方式)），也可以通过设置环境变量“PROFILING_MODE”的方式开启（可参见[全局采集Profiling数据（环境变量方式）](#全局采集profiling数据环境变量方式)），其中配置参数“profiling_mode”的优先级高于环境变量“PROFILING_MODE”。
 
     局部采集，指通过with语句调用Profiler类，并将需要开启性能数据采集的操作放入Profiler类作用域内的方式，详细操作方式可参见[局部采集Profiling数据（调用Profiler类方式）](#局部采集profiling数据调用profiler类方式)。
 
@@ -40,7 +40,7 @@ TensorFlow网络性能数据采集与分析的整体流程如下所示：
 
         ```python
         if __name__ == '__main__':
-        
+
           session_config = tf.ConfigProto(allow_soft_placement=True)
           custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
           custom_op.name = "NpuOptimizer"
@@ -50,7 +50,7 @@ TensorFlow网络性能数据采集与分析的整体流程如下所示：
           custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on"}')
           # 采集任务轨迹数据和迭代轨迹数据。可先仅采集任务轨迹数据，如果仍然无法分析到具体问题，可再采集迭代轨迹数据
           # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}')
-        
+
           (npu_sess, npu_shutdown) = init_resource(config=session_config)
           tf.app.run()
           shutdown_resource(npu_sess, npu_shutdown)
@@ -79,12 +79,12 @@ TensorFlow网络性能数据采集与分析的整体流程如下所示：
 
     ```python
     session_config = tf.ConfigProto(allow_soft_placement=True)
-    
+
     run_config = tf.estimator.RunConfig(
         train_distribute=distribution_strategy,
         session_config=session_config,
         save_checkpoints_secs=60*60*24)
-    
+
     classifier = tf.estimator.Estimator(
         model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
     ```
@@ -101,12 +101,12 @@ TensorFlow网络性能数据采集与分析的整体流程如下所示：
     custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on"}')
     # 采集任务轨迹数据和迭代轨迹数据。可先仅采集任务轨迹数据，如果仍然无法分析到具体问题，可再采集迭代轨迹数据
     # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}')
-    
+
     run_config = tf.estimator.RunConfig(
         train_distribute=distribution_strategy,
         session_config=session_config,
         save_checkpoints_secs=60*60*24)
-    
+
     classifier = tf.estimator.Estimator(
         model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
     ```
@@ -161,7 +161,7 @@ config = NPURunConfig(profiling_config=profiling_config, session_config=session_
 
         ```python
         if __name__ == '__main__':
-        
+
           session_config = tf.ConfigProto(allow_soft_placement=True)
           custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
           custom_op.name = "NpuOptimizer"
@@ -171,7 +171,7 @@ config = NPURunConfig(profiling_config=profiling_config, session_config=session_
           custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on"}')
           # 采集任务轨迹数据和迭代轨迹数据。可先仅采集任务轨迹数据，如果仍然无法分析到具体问题，可再采集迭代轨迹数据
           # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}')
-        
+
           (npu_sess, npu_shutdown) = init_resource(config=session_config)
           tf.app.run()
           shutdown_resource(npu_sess, npu_shutdown)
@@ -255,7 +255,7 @@ with tf.Session(config=config) as sess:
 
         ```python
         if __name__ == '__main__':
-        
+
           session_config = tf.ConfigProto(allow_soft_placement=True)
           custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
           custom_op.name = "NpuOptimizer"
@@ -265,7 +265,7 @@ with tf.Session(config=config) as sess:
           custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on"}')
           # 采集任务轨迹数据和迭代轨迹数据。可先仅采集任务轨迹数据，如果仍然无法分析到具体问题，可再采集迭代轨迹数据
           # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}')
-        
+
           (npu_sess, npu_shutdown) = init_resource(config=session_config)
           tf.app.run()
           shutdown_resource(npu_sess, npu_shutdown)
@@ -295,7 +295,7 @@ with tf.Session(config=config) as sess:
     import tensorflow.python.keras as keras
     from tensorflow.python.keras import backend as K
     from npu_bridge.npu_init import *
-    
+
     config_proto = tf.ConfigProto(allow_soft_placement=True)
     custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = 'NpuOptimizer'
@@ -306,7 +306,7 @@ with tf.Session(config=config) as sess:
     # 采集任务轨迹数据和迭代轨迹数据。可先仅采集任务轨迹数据，如果仍然无法分析到具体问题，可再采集迭代轨迹数据
     # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}')
     npu_keras_sess = set_keras_session_npu_config(config=config_proto)
-    
+
     #数据预处理...
     #模型搭建...
     #模型编译...
@@ -319,7 +319,7 @@ with tf.Session(config=config) as sess:
 
 ```bash
 # 开启Profiling功能
-export PROFILING_MODE=true 
+export PROFILING_MODE=true
 # 配置Profiling配置选项
 export PROFILING_OPTIONS='{"output":"/home/test/output","training_trace":"on","task_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}'
 ```
@@ -349,7 +349,7 @@ export PROFILING_OPTIONS='{"output":"/home/test/output","training_trace":"on","t
     b = tf.constant([[1,2],[2,3]], dtype=tf.int32, shape=(2,2))
     c = tf.placeholder(tf.int32, (None,None))
     add = tf.add(a, b)
-    
+
     with tf.Session(config=session_config, graph=g) as sess:
       with profiler.Profiler(level="L1", aic_metrics="ArithmeticUtilization", output_path = "./"):
         result=sess.run(add, feed_dict={a: [[-20, 2],[1,3]],c: [[1],[-21]]})
@@ -365,7 +365,7 @@ export PROFILING_OPTIONS='{"output":"/home/test/output","training_trace":"on","t
     add1 = tf.add(a, b)
     add2 = tf.add(c, d)
     add3 = tf.add(add1, add2)
-    
+
     with tf.Session(config=session_config, graph=g) as sess:
       with profiler.Profiler(level="L1", aic_metrics="PipeUtilization", output_path = "/home/test/profiling_data"):
         for i in range(2):

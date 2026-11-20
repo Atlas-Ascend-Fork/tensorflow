@@ -32,7 +32,7 @@
     ```bash
     # 引用precision_tool/tf_config.py
     import precision_tool.tf_config as npu_tf_config
-    
+
     # 1. 手工迁移网络
     # 1.1 Estimator方式
     dump_config=npu_tf_config.estimator_dump_config(action='overflow')
@@ -40,7 +40,7 @@
     # 1.2 Session run方式
     config = npu_tf_config.session_dump_config(config, action='overflow')
     sess = tf.Session(config)
-    
+
     # 2. 自动迁移网络
     # 若脚本中未配置custom_op，则在脚本中新增如下粗体语句
     session_config = npu_tf_config.session_dump_config(session_config, action='overflow')
@@ -49,7 +49,7 @@
     custom_op.name = 'NpuOptimizer'
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     custom_op = npu_tf_config.update_custom_op(custom_op, action='overflow')
-    
+
     # 2.1 Estimator方式
     run_config = tf.estimator.RunConfig(session_config=session_config,...)
     # 2.2 Session run方式
@@ -73,11 +73,11 @@
 1. 将precision_tool和precision_data文件夹上传到CANN开发环境的任意目录下，目录结构示例：
 
     ```txt
-    ├── precision_tool              
-    │    ├── cli.py                   
+    ├── precision_tool
+    │    ├── cli.py
     │    ├── ...
-    ├── precision_data              
-    │    ├── overflow                   
+    ├── precision_data
+    │    ├── overflow
     │    │    ├── dump
     ```
 
@@ -106,7 +106,7 @@
     > [!NOTE]说明
     > 如需退出，可执行ctrl + c。
 
-5. 执行**[ac -l \[limit_num\] \(-c\)](precision_tool_ommand_ref.md#ac--l-limit_num--c)**命令进行溢出数据分析。
+5. 执行**[ac -l \[limit_num\] \(-c\)](precision_tool_command_ref.md#ac--l-limit_num--c)**命令进行溢出数据分析。
 
     **PrecisionTool \> ac**
 
@@ -125,7 +125,7 @@
     > [!NOTE]说明
     > 当出现多个算子溢出时，会出现N个溢出算子信息，默认按照算子执行顺序排序，由于后面算子溢出可能是因为前一个算子溢出导致，建议用户优先分析第一个异常算子。
 
-6. 执行[pt \(-n\) \[\*.npy\]](precision_tool_ommand_ref.md#pt--n-npy)命令，可以查看对应dump数据块的数据信息。
+6. 执行[pt \(-n\) \[\*.npy\]](precision_tool_command_ref.md#pt--n-npy)命令，可以查看对应dump数据块的数据信息。
 
     ![](../figures/fp_exception_result.png)
 
@@ -151,8 +151,8 @@
 
                 ```python
                 from npu_bridge.npu_init import *
-                with npu_scope.keep_dtype_scope():   
-                  y = tf.mul(x1,x2)
+                with npu_scope.keep_dtype_scope():
+                  y = tf.multiply(x1,x2)
                 ```
 
         - 如果输入输出数据中均未出现溢出值，则需要结合算子公式，分析数据计算过程中是否可能出现溢出。例如AvgPool先求和再平均，求和过程可能溢出，但平均后并未溢出。

@@ -67,10 +67,10 @@ Operator debug enable.
   Note: For the Ascend 950PR&950DT products, no TBE instruction mapping files are generated.
 
 - 3: disables operator debug. The operator .o and .json files are retained in the kernel_meta folder in the training script execution directory.
-- 4: disables operator debug. The operator binary (.o) and operator description file (.json) are retained, and a TBE instruction mapping file (.cce) and a UB fusion description file (\{$kernel_name\}_compute.json) are generated in the kernel_meta folder under the training script execution directory.
+- 4: disables operator debug. The operator binary (.o) and operator description file (.json) are retained, and a TBE instruction mapping file (.cce) and a UB fusion description file (`{$kernel_name}_compute.json`) are generated in the kernel_meta folder under the training script execution directory.
 
   Note:
-  
+
   - For the Ascend 950PR&950DT products, neither TBE instruction mapping files nor UB fusion compute description files are generated.
   - If this option is set to 0 and op_debug_config is configured, the operator compilation directory kernel_meta is still generated in the current execution path during training. The content generated in the directory is subject to op_debug_config.
   - You are advised to set this option to 0 or 3 for training. To locate AI Core errors, set this parameter to 1 or 2, which might compromise the network performance.
@@ -81,7 +81,7 @@ Operator debug enable.
     ```
 
   - If this parameter is set to 2 (the CCE compiler is enabled), the size of the operator kernel file (\*.o file) increases. In dynamic shape scenarios, all possible scenarios are traversed during operator build, which may cause operator build failures due to large operator kernel files. In this case, 2 is not recommended.
-    
+
     If the build failure is caused by the large operator kernel file, the following log is displayed:
 
     ```text

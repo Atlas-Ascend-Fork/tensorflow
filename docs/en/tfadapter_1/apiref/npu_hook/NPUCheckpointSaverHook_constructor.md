@@ -36,7 +36,7 @@ An object of the  **NPUCheckpointSaverHook**  class
 
 ## Restrictions
 
-When  **NPUEstimator**  is used and  **iteration_per_loop**  is set to a value greater than 1, the hook may not take effect.
+When  **NPUEstimator**  is used and  **iterations_per_loop**  is set to a value greater than 1, the hook may not take effect.
 
 ## Example
 
@@ -44,7 +44,7 @@ When  **NPUEstimator**  is used and  **iteration_per_loop**  is set to a value g
 from npu_bridge.npu_init import *
 checkpoint_hook = NPUCheckpointSaverHook(checkpoint_dir='./ckpt', save_steps=2000)
 ...
-mnist_classifier.train(   
+mnist_classifier.train(
    input_fn=train_input_fn,
     steps=2000,
     hooks=[checkpoint_hook])

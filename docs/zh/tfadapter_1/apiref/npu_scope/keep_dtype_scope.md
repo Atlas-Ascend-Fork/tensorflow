@@ -25,6 +25,12 @@ def keep_dtype_scope()
 ## 调用示例
 
 ```python
-with npu_scope.keep_dtype_scope(): 
-    X = tf.conv2d(a)
+import tensorflow as tf
+from npu_bridge.npu_init import *
+
+x = tf.placeholder(tf.float32, (1, 4, 4, 3))
+w = tf.Variable(tf.random_normal([3, 3, 3, 1]))
+
+with npu_scope.keep_dtype_scope():
+    X = tf.nn.conv2d(x, w, strides=[1, 1, 1, 1], padding='SAME')
 ```

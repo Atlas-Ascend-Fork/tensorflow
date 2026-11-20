@@ -89,21 +89,21 @@ The following describes how to use the tool to port a ResNet-50 network.
 
     ```json
     {
-    "server_count":"1", 
+    "server_count":"1",
     "server_list":
     [
        {
-            "device":[ 
+            "device":[
                            {
-                            "device_id":"0", 
-                            "device_ip":"192.168.1.8", 
-                            "rank_id":"0" 
+                            "device_id":"0",
+                            "device_ip":"192.168.1.8",
+                            "rank_id":"0"
                             }
                       ],
              "server_id":"10.0.0.10"
         }
     ],
-    "status":"completed", 
+    "status":"completed",
     "version":"1.0"
     }
     ```
@@ -115,10 +115,10 @@ The following describes how to use the tool to port a ResNet-50 network.
     ```bash
     # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # Script directory, for example:
     export PYTHONPATH="$PYTHONPATH:/root/models"
     export JOB_ID=10087        # User-defined training job ID. Only letters, digits, hyphens (-), and underscores (_) are supported. You are advised not to use a number starting with 0.
@@ -162,7 +162,7 @@ The following describes how to use the tool to port a ResNet-50 network.
                              "rank_id":"1"
                              }
                       ],
-             "server_id":"10.0.0.10" 
+             "server_id":"10.0.0.10"
         }
     ],
     "status":"completed",
@@ -179,14 +179,14 @@ The following describes how to use the tool to port a ResNet-50 network.
     ```bash
     # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # Script directory, for example:
     export PYTHONPATH=/root/models:$PYTHONPATH
     export JOB_ID=10087
-    
+
     export RANK_ID=0
     export RANK_SIZE=2
     export RANK_TABLE_FILE=/root/rank_table_2p.json
@@ -198,14 +198,14 @@ The following describes how to use the tool to port a ResNet-50 network.
     ```bash
     # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # Script directory, for example:
     export PYTHONPATH=/root/models:$PYTHONPATH
     export JOB_ID=10087
-    
+
     export RANK_ID=1
     export RANK_SIZE=2
     export RANK_TABLE_FILE=/root/rank_table_2p.json

@@ -17,13 +17,13 @@ The following describes the process of collecting and analyzing TensorFlow netwo
     - Global collection: collect the profile data of all behaviors executed by graphs. The data size is large.
     - Local collection: collect the profile data of a specified subgraph or step.
 
-    To collect data globally, you can either modify the training script and configure  **profiling_mode**  (see  [Collecting Profile Data Globally (by Modifying the Training Script)](#collecting-profile-data-globally-by-modifying-the-training-script)), or set the environment variable  **PROFILING_MODE**  (see [Collecting Profile Data Globally (By Modifying Environment Variables)](#collecting-profile-data-globally-by-modifying-environment-variables)).  **profiling_mode**  is prior to  **PROFILING_MODE**.
+    To collect data globally, you can either modify the training script and configure **profiling_mode** (see  [Collecting Profile Data Globally (by Modifying the Training Script)](#collecting-profile-data-globally-by-modifying-the-training-script)), or set the environment variable **PROFILING_MODE** (see [Collecting Profile Data Globally (By Modifying Environment Variables)](#collecting-profile-data-globally-by-modifying-environment-variables)).  **profiling_mode**  is prior to  **PROFILING_MODE**.
 
     To collect data locally, you can call the Profiler class through the  **with**  statement and put the operations that require profile data collection into the Profiler class. For details, see  [Collecting Profile Data Locally (by Calling the Profiler Class)](#collecting-profile-data-locally-by-calling-the-profiler-class).
 
 2. Parse and export profile data.
 
-    Regardless of the collection mode, you can use the  **msprof**  command line to parse the profile data and export the parsing result to a specified directory. For details, see  [Parsing and Exporting Profile Data](#parsing-and-exporting-profile-data).
+    Regardless of the collection mode, you can use the **msprof** command line to parse the profile data and export the parsing result to a specified directory. For details, see  [Parsing and Exporting Profile Data](#parsing-and-exporting-profile-data).
 
 3. Analyze profile data.
 
@@ -35,12 +35,12 @@ The following describes the process of collecting and analyzing TensorFlow netwo
 
 #### Automated porting
 
-1. Check whether  **init_resource**  exists in the ported script.
+1. Check whether **init_resource** exists in the ported script.
     - If it exists, modify it by referring to the following example. After the modification is complete, go to the next step.
 
         ```python
         if __name__ == '__main__':
-        
+
           session_config = tf.ConfigProto(allow_soft_placement=True)
           custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
           custom_op.name = "NpuOptimizer"
@@ -50,14 +50,14 @@ The following describes the process of collecting and analyzing TensorFlow netwo
           custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on"}')
           # Collect task trace data and iteration trace data. You can collect only the task trace data. If the problem cannot be analyzed, collect the iteration trace data.
           # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}')
-        
+
           (npu_sess, npu_shutdown) = init_resource(config=session_config)
           tf.app.run()
           shutdown_resource(npu_sess, npu_shutdown)
           close_session(npu_sess)
         ```
 
-        Note that only the configuration options supported in  [initialize_system](../../apiref/npu_ops/initialize_system.md) can be configured in  **config** of the **init_resource**  function. For other functions, configure them in  **run_config** of the  **npu_run_config_init**  function.
+        Note that only the configuration options supported in  [initialize_system](../../apiref/npu_ops/initialize_system.md) can be configured in **config** of the **init_resource** function. For other functions, configure them in **run_config** of the **npu_run_config_init** function.
 
         > [!NOTE]NOTE
         >
@@ -79,12 +79,12 @@ The following describes the process of collecting and analyzing TensorFlow netwo
 
     ```python
     session_config = tf.ConfigProto(allow_soft_placement=True)
-    
+
     run_config = tf.estimator.RunConfig(
         train_distribute=distribution_strategy,
         session_config=session_config,
         save_checkpoints_secs=60*60*24)
-    
+
     classifier = tf.estimator.Estimator(
         model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
     ```
@@ -101,12 +101,12 @@ The following describes the process of collecting and analyzing TensorFlow netwo
     custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on"}')
     # Collect task trace data and iteration trace data. You can collect only the task trace data first. If the problem cannot be analyzed, collect the iteration trace data.
     # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}')
-    
+
     run_config = tf.estimator.RunConfig(
         train_distribute=distribution_strategy,
         session_config=session_config,
         save_checkpoints_secs=60*60*24)
-    
+
     classifier = tf.estimator.Estimator(
         model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
     ```
@@ -161,7 +161,7 @@ For details about related APIs, see  [ProfilingConfig Constructor](../../apiref/
 
         ```python
         if __name__ == '__main__':
-        
+
           session_config = tf.ConfigProto(allow_soft_placement=True)
           custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
           custom_op.name = "NpuOptimizer"
@@ -171,7 +171,7 @@ For details about related APIs, see  [ProfilingConfig Constructor](../../apiref/
           custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on"}')
           # Collect task trace data and iteration trace data. You can collect only the task trace data. If the problem cannot be analyzed, collect the iteration trace data.
           # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}')
-        
+
           (npu_sess, npu_shutdown) = init_resource(config=session_config)
           tf.app.run()
           shutdown_resource(npu_sess, npu_shutdown)
@@ -255,7 +255,7 @@ For details about related APIs, see  [Profiling](../../apiref/session_config/Pro
 
         ```python
         if __name__ == '__main__':
-        
+
           session_config = tf.ConfigProto(allow_soft_placement=True)
           custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
           custom_op.name = "NpuOptimizer"
@@ -265,7 +265,7 @@ For details about related APIs, see  [Profiling](../../apiref/session_config/Pro
           custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on"}')
           # Collect task trace data and iteration trace data. You can collect only the task trace data. If the problem cannot be analyzed, collect the iteration trace data.
           # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}')
-        
+
           (npu_sess, npu_shutdown) = init_resource(config=session_config)
           tf.app.run()
           shutdown_resource(npu_sess, npu_shutdown)
@@ -295,7 +295,7 @@ For details about related APIs, see  [Profiling](../../apiref/session_config/Pro
     import tensorflow.python.keras as keras
     from tensorflow.python.keras import backend as K
     from npu_bridge.npu_init import *
-    
+
     config_proto = tf.ConfigProto(allow_soft_placement=True)
     custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = 'NpuOptimizer'
@@ -306,7 +306,7 @@ For details about related APIs, see  [Profiling](../../apiref/session_config/Pro
     # Collect task trace data and iteration trace data. You can collect only the task trace data first. If the problem cannot be analyzed, collect the iteration trace data.
     # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/home/test/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}')
     npu_keras_sess = set_keras_session_npu_config(config=config_proto)
-    
+
     # Preprocess data...
     # Construct a model...
     # Build the model...
@@ -319,7 +319,7 @@ In addition to collecting profile data by modifying the training script, you can
 
 ```bash
 # Enable profiling.
-export PROFILING_MODE=true 
+export PROFILING_MODE=true
 # Configure profiling configuration options.
 export PROFILING_OPTIONS='{"output":"/home/test/output","training_trace":"on","task_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}'
 ```
@@ -349,7 +349,7 @@ The following describes how to call the Profiler class to enable profile data co
     b = tf.constant([[1,2],[2,3]], dtype=tf.int32, shape=(2,2))
     c = tf.placeholder(tf.int32, (None,None))
     add = tf.add(a, b)
-    
+
     with tf.Session(config=session_config, graph=g) as sess:
       with profiler.Profiler(level="L1", aic_metrics="ArithmeticUtilization", output_path = "./"):
         result=sess.run(add, feed_dict={a: [[-20, 2],[1,3]],c: [[1],[-21]]})
@@ -365,7 +365,7 @@ The following describes how to call the Profiler class to enable profile data co
     add1 = tf.add(a, b)
     add2 = tf.add(c, d)
     add3 = tf.add(add1, add2)
-    
+
     with tf.Session(config=session_config, graph=g) as sess:
       with profiler.Profiler(level="L1", aic_metrics="PipeUtilization", output_path = "/home/test/profiling_data"):
         for i in range(2):

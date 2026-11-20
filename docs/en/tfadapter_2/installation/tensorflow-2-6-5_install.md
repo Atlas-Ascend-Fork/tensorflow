@@ -3,7 +3,7 @@
 ## Preparing for Installation
 
 > [!NOTE]NOTE
->TensorFlow 2.6.5 matches Python 3.7._x_  \(3.7.5–3.7.11\), Python 3.8._x_, and Python 3.9._x_.
+>TensorFlow 2.6.5 matches Python 3.7._x_ \(3.7.5–3.7.11\), Python 3.8._x_, and Python 3.9._x_.
 
 - For the x86 architecture, skip the installation preparations.
 
@@ -103,11 +103,11 @@ TensorFlow must be installed to develop operators and training services.
         ```c
         #include "nsync_cpp.h"
         #include "nsync_atomic.h"
-        
+
         NSYNC_CPP_START_
-        
+
         #define ATM_CB_() __sync_synchronize()
-        
+
         static INLINE int atm_cas_nomb_u32_ (nsync_atomic_uint32_ *p, uint32_t o, uint32_t n) {
             int result = (std::atomic_compare_exchange_strong_explicit (NSYNC_ATOMIC_UINT32_PTR_ (p), &o, n, std::memory_order_relaxed, std::memory_order_relaxed));
             ATM_CB_();

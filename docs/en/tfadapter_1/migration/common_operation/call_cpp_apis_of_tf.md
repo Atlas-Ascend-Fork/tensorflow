@@ -6,21 +6,21 @@ In the scenario where developers compile TensorFlow source code and service code
 
 ## Procedure
 
-1. When compiling code, add a link to  **_tf_adapter.so**  to the dynamic library link option. This .so file is a plugin that enables TensorFlow to find a specified NPU device.
+1. When compiling code, add a link to **_tf_adapter.so** to the dynamic library link option. This .so file is a plugin that enables TensorFlow to find a specified NPU device.
 
-    Take GCC as an example. Assume that  **/usr/local/lib/python3.7/site-packages/npu_bridge/_tf_adapter.so**  is the storage path of the .so file. The usage method is as follows.
+    Take GCC as an example. Assume that **/usr/local/lib/python3.7/site-packages/npu_bridge/_tf_adapter.so** is the storage path of the .so file. The usage method is as follows.
 
     ![](../figures/tf_cpp_calls.png)
 
-2. Adapt  **SessionOptions**  of TensorFlow so that graphs can be delivered to the NPU for computation.
+2. Adapt **SessionOptions** of TensorFlow so that graphs can be delivered to the NPU for computation.
 
-    You can obtain the  **SessionOptions**  variable of TensorFlow by using the following code:
+    You can obtain the **SessionOptions** variable of TensorFlow by using the following code:
 
     ```python
     tensorflow::SessionOptions sessOpts = tensorflow::SessionOptions();
     ```
 
-    Add the following content to  **SessionOptions**:
+    Add the following content to **SessionOptions**:
 
     ```python
     auto *custom_op =

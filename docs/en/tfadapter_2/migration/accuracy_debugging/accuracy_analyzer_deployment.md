@@ -21,7 +21,7 @@ This tool is installation-free. Download the  **precision_tool**  directory from
 
 ```text
 ├── resnet                              // Training working directory.
-│    ├── __init__.py     
+│    ├── __init__.py
 │    ├── imagenet_main.py              // Script for training the network based on the ImageNet dataset.
 │    ├── imagenet_preprocessing.py     // ImageNet preprocessing module.
 │    ├── resnet_model.py               // ResNet model file.
@@ -29,7 +29,7 @@ This tool is installation-free. Download the  **precision_tool**  directory from
 │    ├── cifar10_main                  // Training entry point file.
 │    ├── ...
 │    ├── precision_tool           // Directory of the one-click accuracy analyzer
-│    │    ├── cli.py                   
+│    │    ├── cli.py
 │    │    ├── ...
 ```
 
@@ -42,8 +42,8 @@ This tool is installation-free. Download the  **precision_tool**  directory from
 
 ## Typical Workflow
 
-**Figure  1**  CANN development and operating environments set up on the same server  
+**Figure  1**  CANN development and operating environments set up on the same server
 ![](../figures/dev_run_merge.png)
 
-**Figure  2**  CANN development and operating environments set up separately  
+**Figure  2**  CANN development and operating environments set up separately
 ![](../figures/dev_run_part.png)

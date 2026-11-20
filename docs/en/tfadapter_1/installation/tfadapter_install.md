@@ -2,13 +2,13 @@
 
 Ascend provides the adaptation plugin TF Adapter for interconnecting with the deep-learning framework TensorFlow. If you need to perform training or online inference of the TensorFlow network on NPUs, you need to install the TF Adapter package.
 
-- If you install the plugin package for the first time, see  [Installing the Plugin Package](#installing-the-plugin-package).
-- If you have installed the package, upgrade it to the latest version. For details, see  [Upgrading the Plugin Package](#upgrading-the-plugin-package).
+- If you install the plugin package for the first time, see [Installing the Plugin Package](#installing-the-plugin-package).
+- If you have installed the package, upgrade it to the latest version. For details, see [Upgrading the Plugin Package](#upgrading-the-plugin-package).
 
 ## Installing the Plugin Package
 
 1. Download the TF Adapter installation package.
-    1. Access the  [TF Adapter GitCode](https://gitcode.com/cann/tensorflow/tags)  repository to go to the TF Adapter release tag page.
+    1. Access the [TF Adapter GitCode](https://gitcode.com/cann/tensorflow/tags)  repository to go to the TF Adapter release tag page.
 
     2. Select a matched CANN version and click  **Release**  to go to the  **Release**  page.
 

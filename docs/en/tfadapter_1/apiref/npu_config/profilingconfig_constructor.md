@@ -21,13 +21,12 @@ profiling_options=None
 
 - **profiling_options**: input, profiling configuration options.
 
-  For supported options, refer to the environment variable [PROFILING_OPTIONS](https://gitcode.com/cann/oam-tools/blob/master/docs/zh/env-vars/PROFILING_OPTIONS.md).
+  For supported options, refer to the environment variable [PROFILING_OPTIONS](https://gitcode.com/cann/oam-tools/blob/master/docs/en/user_guide/env-vars/PROFILING_OPTIONS.md).
 
    Example:
 
     ```python
-    profiling_options = 
-    '{"output":"/tmp/profiling","training_trace":"on",task_trace":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}'
+    profiling_options = '{"output":"/tmp/profiling","training_trace":"on","task_trace":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}'
     ```
 
 ## Returns

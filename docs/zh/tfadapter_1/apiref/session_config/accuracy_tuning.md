@@ -46,7 +46,7 @@
 
 - cube_hif8：
 
-  表示若原图中的cube算子既支持hifloat8，又支持float16、bfloat16或float32数据类型时，强制选择hifloat8数据类型。****当前版本不支持该选项。****
+  表示若原图中的cube算子既支持hifloat8，又支持float16、bfloat16或float32数据类型时，强制选择hifloat8数据类型。**当前版本不支持该选项。**
 
   说明：仅Ascend 950PR&950DT系列产品支持此配置。
 
@@ -151,9 +151,9 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
 - 该参数不能与“precision_mode_v2”参数同时使用，建议使用“precision_mode_v2”参数。
 - 在使用此参数设置整个网络的精度模式时，可能会存在个别算子存在精度问题。
-  
+
   训练场景下，建议通过[keep_dtype_scope](../npu_scope/keep_dtype_scope.md)接口设置某些算子保持原图精度。
-  
+
   推理场景下，建议通过[keep_tensors_dtypes](../npu_util/keep_tensors_dtypes.md)接口设置某些算子保持原图精度。
 - 混合精度场景下算子的内置优化策略可参见“modify_mixlist”参数的详细说明。
 - bfloat16数据类型不支持以下产品：
@@ -186,7 +186,7 @@ ops_info.json中可以指定算子类型，多个算子使用英文逗号分隔�
      ]
   },
   "white-list": {                  // 白名单
-     "to-remove": [                // 白名单算子转换为灰名单算子 
+     "to-remove": [                // 白名单算子转换为灰名单算子
      "Conv2D"
      ],
      "to-add": [                   // 黑名单或灰名单算子转换为白名单算子

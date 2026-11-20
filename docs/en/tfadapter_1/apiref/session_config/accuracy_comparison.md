@@ -32,7 +32,7 @@ Dump mode. The values are as follows:
 Example:
 
   ```python
-  custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all") 
+  custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
   ```
 
 ## enable_dump_debug
@@ -59,7 +59,7 @@ Overflow/Underflow detection mode. The values are as follows:
 
 - aicore_overflow: detects AI Core operator overflow/underflow, that is, detecting whether abnormal extreme values (such as 65500, 38400, and 51200 in float16) are output with normal inputs. Once such a fault is detected, analyze the cause of the overflow/underflow and modify the operator implementation based on the network requirements and operator logic.
 - atomic_overflow: detects Atomic Add overflow/underflow. Atomic Add overflow/underflow is detected when data is transferred from the UB to OUT after AI Core computation.
-- all: detects overflow/underflow of both AI Core operators and Atomic Add. The default value is all. 
+- all: detects overflow/underflow of both AI Core operators and Atomic Add. The default value is all.
 
 > [!NOTE]NOTE
 > For the Ascend 950PR&950DT products, Atlas A3 products, and Atlas A2 products, only the default value all can be used.
@@ -67,7 +67,7 @@ Overflow/Underflow detection mode. The values are as follows:
 Example:
 
 ```python
-custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all") 
+custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all")
 ```
 
 ## dump_path
@@ -111,7 +111,7 @@ In large-scale training scenarios, dumping a large amount of data takes a long t
 Example:
 
 ```python
-custom_op.parameter_map["dump_data"].s = tf.compat.as_bytes("stats") 
+custom_op.parameter_map["dump_data"].s = tf.compat.as_bytes("stats")
 ```
 
 ## dump_layer
@@ -123,7 +123,7 @@ If the input of the specified operator involves the data operator, the data oper
 Example:
 
 ```python
-custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
+custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
 ```
 
 ## quant_dumpable
@@ -136,7 +136,7 @@ If the TensorFlow network is quantized by the AMCT tool, this parameter can be u
 Example:
 
 ```python
-custom_op.parameter_map["quant_dumpable"].s = tf.compat.as_bytes("1") 
+custom_op.parameter_map["quant_dumpable"].s = tf.compat.as_bytes("1")
 ```
 
 > [!NOTE]NOTE

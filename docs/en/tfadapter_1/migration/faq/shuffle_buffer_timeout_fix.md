@@ -30,12 +30,12 @@ You can resolve this problem in either of the following ways:
 
 Reduce the number of shuffle operations based on the actual capacity. In this example, only 6232 shuffle operations are complete. Therefore,  **buffer_size**  can be set to  **5000**.
 
-```bash
+```python
 dataset = dataset.shuffle(buffer_size=5000)
 ```
 
 Disable GetNext operator offloading by setting  **enable_data_pre_proc**  to  **False**  so that preprocessing and forward and backward propagation can be executed in serial. However, the performance may be compromised.
 
-```bash
+```python
 run_config = NPURunConfig(enable_data_pre_proc=False)
 ```

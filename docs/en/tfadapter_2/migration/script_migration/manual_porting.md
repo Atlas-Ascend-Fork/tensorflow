@@ -175,7 +175,7 @@ Compared with single NPU training, distributed NPU training requires the followi
     Gradients generated on different workers at training time are aggregated to evaluate the training error.
 
     - If the original script computes and updates gradients in separate steps \(for example, by using  **tf.gradients**  and  **opt.apply_gradients**\), call the  [npu.distribute.all_reduce](../../apiref/npu-distribute-all_reduce.md)  API to aggregate the gradients. This API requires you to pass in the gradients to be aggregated across workers and specify the aggregation operation type \(typically mean reduction\).
-    - If the original script uses a single API \(for example,  **minimize**  or  **model.fit**\) to compute and update gradients, call  [npu.distribute.npu_distributed_keras_optimizer_wrapper](../../apiref/npu-distribute-npu_distributed_keras_optimizer_wrapper.md)  to aggregate the gradients.
+    - If the original script uses a single API \(for example,  **minimize**  or  **model.fit**\) to compute and update gradients, call  [npu.distribute.npu_distributed_keras_optimizer_wrapper](../../apiref/npu_distributed_keras_optimizer_wrapper.md)  to aggregate the gradients.
 
 3. **Sharding dataset to workers**
 

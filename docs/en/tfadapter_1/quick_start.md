@@ -43,10 +43,10 @@ This section uses a simple example to help you quickly understand how to port Te
         ```bash
         # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
         source /usr/local/Ascend/cann/set_env.sh
-        
+
         # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
         export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-        
+
         export JOB_ID=10087        # User-defined training job ID. Only letters, digits, hyphens (-), and underscores (_) are supported. You are advised not to use a number starting with 0.
         export ASCEND_DEVICE_ID=0  # Logical ID of the AI processor, optional in single-device training and defaulted to 0, indicating that training is performed on device 0.
         ```

@@ -33,7 +33,7 @@ b = tf.constant([1, 2, 3, 4, 5], dtype=tf.float32, shape=(5, 1))
 add_0 = tf.add(a, b)
 mul_0 = tf.multiply(add_0, b)
 
-with disable_scope():
+with disable_autofuse():
     # 此作用域中的算子不参与自动融合
     abs_0 = tf.abs(mul_0)
     div_0 = tf.divide(a, abs_0)

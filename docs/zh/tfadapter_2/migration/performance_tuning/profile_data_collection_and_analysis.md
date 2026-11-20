@@ -64,7 +64,7 @@ npu.open().as_default()
 
 ```bash
 # 开启Profiling功能
-export PROFILING_MODE=true 
+export PROFILING_MODE=true
 # 配置Profiling配置选项
 export PROFILING_OPTIONS='{"output":"/home/HwHiAiUser/output","training_trace":"on","task_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}'
 ```
@@ -98,7 +98,7 @@ TF Adapter 2.x暂不支持局部采集Profiling数据，但开发者可通过com
     b = tf.constant([[1,2],[2,3]], dtype=tf.int32, shape=(2,2))
     c = tf.placeholder(tf.int32, (None,None))
     add = tf.add(a, b)
-    
+
     with tf.compat.v1.Session(config=session_config, graph=g) as sess:
       with profiler.Profiler(level="L1", aic_metrics="ArithmeticUtilization", output_path = "./"):
         result=sess.run(add, feed_dict={a: [[-20, 2],[1,3]],c: [[1],[-21]]})
@@ -114,7 +114,7 @@ TF Adapter 2.x暂不支持局部采集Profiling数据，但开发者可通过com
     add1 = tf.add(a, b)
     add2 = tf.add(c, d)
     add3 = tf.add(add1, add2)
-    
+
     with tf.compat.v1.Session(config=session_config, graph=g) as sess:
       with profiler.Profiler(level="L1", aic_metrics="PipeUtilization", output_path = "/home/test/profiling_data"):
         for i in range(2):

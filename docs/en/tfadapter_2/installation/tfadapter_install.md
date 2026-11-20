@@ -2,7 +2,7 @@
 
 Ascend provides the adaptation plugin TF Adapter for interconnecting with the deep-learning framework TensorFlow. If you need to perform training or online inference of the TensorFlow network on NPUs, install the TF Adapter package.
 
-- If you install the plugin package for the first time, see  [Installing the Plugin Package](#installing-the-plugin-package).
+- If you install the plugin package for the first time, see [Installing the Plugin Package](#installing-the-plugin-package).
 - If you have installed the plugin package, upgrade it to the latest version. For details, see  [Upgrading the Plugin Package](#upgrading-the-plugin-package).
 
 ## Installing the Plugin Package
@@ -29,9 +29,9 @@ Ascend provides the adaptation plugin TF Adapter for interconnecting with the de
         ```
 
         - Replace  **npu_device-2.6.5-py3-none-manylinux2014__<arch\>_.whl**  with the actual package name.
-        - _**$\{TFPLUGIN_INSTALL_PATH\}**_  specified by  **-t**  is the installation path of the TF Adapter package, for example,  **/home/HwHiAiUser/Ascend/tfplugin**.
+        - _**$\{TFPLUGIN_INSTALL_PATH\}**_ specified by **-t** is the installation path of the TF Adapter package, for example, **/home/HwHiAiUser/Ascend/tfplugin**.
 
-        The following lists common pip command options. For more options, run the  **pip3 --help**  command.
+        The following lists common pip command options. For more options, run the **pip3 --help** command.
 
         - **--disable-pip-version-check**: shields the pip version check to prevent pip upgrade alarms.
         - **--upgrade**: upgrades the specified software package.

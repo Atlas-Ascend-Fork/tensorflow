@@ -140,7 +140,7 @@ def loop_train(iterator, steps):
     loop_train(train_iter, tf.constant(100))
     ```
 
-您也可以在训练过程中调用npu.set_npu_loop_size来改变NPU上每次下沉执行的步数，假设总共训练100个Steps，希望每次在NPU上循环执行30Steps，此时最后的91\~100Steps小于**npu loop size**，所以可以在训练完90 Steps后调用[npu.set_npu_loop_size](../../apiref/npu-set_npu_loop_size.md)来调整**npu loop size**的大小：
+您也可以在训练过程中调用npu.set_npu_loop_size来改变NPU上每次下沉执行的步数，假设总共训练100个Steps，希望每次在NPU上循环执行30Steps，此时最后的91~100Steps小于**npu loop size**，所以可以在训练完90 Steps后调用[npu.set_npu_loop_size](../../apiref/npu-set_npu_loop_size.md)来调整**npu loop size**的大小：
 
 ```python
 remaining_steps = 100  # 剩余步数
@@ -175,7 +175,7 @@ NPU上执行分布式，相较于单卡NPU训练，主要有三部分的额外�
     执行训练时，不同worker上产生不同的梯度信息grads，通过对多个worker上的梯度进行聚合计算，可以更准确地评估当前训练的误差情况。
 
     - 当原始脚本中分步骤计算并更新梯度（例如tf.gradients和opt.apply_gradients）时，则需要调用[npu.distribute.all_reduce](../../apiref/npu-distribute-all_reduce.md)接口完成梯度聚合运算，该接口要求您传入需要进行worker间聚合计算的梯度以及聚合运算的类型（通常是求平均值）。
-    - 当原始脚本中计算和更新梯度操作被集成到同一接口中（例如minimize/model.fit）时，则需要调用[npu.distribute.npu_distributed_keras_optimizer_wrapper](../../apiref/npu-distribute-npu_distributed_keras_optimizer_wrapper.md)完成梯度聚合运算。
+    - 当原始脚本中计算和更新梯度操作被集成到同一接口中（例如minimize/model.fit）时，则需要调用[npu.distribute.npu_distributed_keras_optimizer_wrapper](../../apiref/npu_distributed_keras_optimizer_wrapper.md)完成梯度聚合运算。
 
 3. **不同worker上的数据集分片**
 

@@ -38,7 +38,7 @@ Data preprocessing of the ImageNet dataset is used as an example. The modified .
            input_context: tf.distribute.InputContext object passed by tf.distribute.Strategy
            drop_remainder: specifies whether to retain or discard the last batch if the data volume of the last batch is smaller than the value of batch_size. If it is set to True, the batch dimension is fixed.
            tf_data_experimental_slack: specifies whether to enable the experimental_slack option of tf.data.
-    
+
          Returns:
            A dataset that can be used for iteration.
          """
@@ -51,23 +51,23 @@ Data preprocessing of the ImageNet dataset is used as an example. The modified .
              ############## NPU modify begin #############
              dataset = dataset.shard(get_rank_size(),get_rank_id())
              ############## NPU modify end ###############
-    
+
              # tf.compat.v1.logging.info(
              #     'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d' % (
              #         input_context.input_pipeline_id, input_context.num_input_pipelines))
              # dataset = dataset.shard(input_context.num_input_pipelines,
              #                         input_context.input_pipeline_id)
-    
+
          if is_training:
              # Randomize the files.
              dataset = dataset.shuffle(buffer_size=_NUM_TRAIN_FILES)
-    
+
          # cycle_length = 10 Read and deserialize 10 files in parallel. You can increase the value if the CPU resources are sufficient.
          dataset = dataset.interleave(
              tf.data.TFRecordDataset,
              cycle_length=10,
              num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    
+
          return resnet_run_loop.process_record_dataset(
              dataset=dataset,
              is_training=is_training,
@@ -100,7 +100,7 @@ Data preprocessing of the ImageNet dataset is used as an example. The modified .
             dtype=tf.float16,
             input_context=input_context,
             drop_remainder=True)
-    
+
       def input_fn_eval():
         # Set dtype to tf.float16 for better data transfer performance.
         # In the current version, drop_remainder can only be set to True.
@@ -114,7 +114,7 @@ Data preprocessing of the ImageNet dataset is used as an example. The modified .
              input_context=True,
              drop_remainder=True)
       ############## NPU modify end ###############
-    
+
       # input_fn() for training and validation in the code are as follows.
       # def input_fn_train(num_epochs, input_context=None):
       #     return input_function(

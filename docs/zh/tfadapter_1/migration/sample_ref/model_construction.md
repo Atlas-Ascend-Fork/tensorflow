@@ -33,7 +33,7 @@
         # 将特征的数据类型改成与dtype一致。
         features = tf.cast(features, dtype)
       ############## NPU modify end ###############
-    
+
       # 原代码中数据类型修改如下：
       # assert features.dtype == dtype
     ```
@@ -47,22 +47,22 @@
         # labels使用float32类型来提升精度。
         accuracy = tf.compat.v1.metrics.accuracy(tf.cast(labels, tf.float32), predictions['classes'])
         ############## NPU modify end ###############
-    
+
         # 原代码中计算accuracy如下：
         # accuracy = tf.compat.v1.metrics.accuracy(labels, predictions['classes'])
-    
+
         accuracy_top_5 = tf.compat.v1.metrics.mean(
             tf.nn.in_top_k(predictions=logits, targets=labels, k=5, name='top_5_op'))
-    
+
         ############## NPU modify begin #############
         # 用于分布式训练时的accuracy计算。
         rank_size = int(os.getenv('RANK_SIZE'))
         newaccuracy = (hccl_ops.allreduce(accuracy[0], "sum") / rank_size, accuracy[1])
         newaccuracy_top_5 = (hccl_ops.allreduce(accuracy_top_5[0], "sum") / rank_size, accuracy_top_5[1])
-        metrics = {'accuracy': newaccuracy,           
+        metrics = {'accuracy': newaccuracy,
                    'accuracy_top_5': newaccuracy_top_5}
         ############## NPU modify end #############
-    
+
         # 原代码中的metrics表示如下：
         # metrics = {'accuracy': accuracy,
         #            'accuracy_top_5': accuracy_top_5}
@@ -82,13 +82,13 @@
                 strides=(1,self.first_pool_stride,self.first_pool_stride,1), padding='SAME',
                 data_format='NCHW' if self.data_format == 'channels_first' else 'NHWC')
             ############## NPU modify end ###############
-    
+
             # 原代码使用max_pooling2d()接口进行池化
             # inputs = tf.compat.v1.layers.max_pooling2d(
             #     inputs=inputs, pool_size=self.first_pool_size,
             #     strides=self.first_pool_stride, padding='SAME',
             #     data_format=self.data_format)
-    
+
             inputs = tf.identity(inputs, 'initial_max_pool')
     ```
 
@@ -116,13 +116,13 @@
               learning_rate=learning_rate,
               momentum=momentum
           )
-    
+
         ############## NPU modify begin #############
         # 使用分布式训练优化器封装单机优化器，用于支持分布式训练。
         # 在原代码中添加如下代码。
         optimizer = NPUDistributedOptimizer(optimizer)
         ############## NPU modify end ###############
-    
+
         fp16_implementation = getattr(flags.FLAGS, 'fp16_implementation', None)
         if fp16_implementation == 'graph_rewrite':
             optimizer = (

@@ -80,12 +80,12 @@ Before model porting to the  AI processor, prepare a training model developed on
 
 3. During the porting, check for the following information, which indicates related files are being scanned for script porting.
 
-    **Figure  1**  Porting information  
+    **Figure  1**  Porting information
     ![](figures/porting_process_info.png "porting-information")
 
 4. After the porting is complete, check the resultant script and porting report.
 
-    **Figure  2**  Porting completion information  
+    **Figure  2**  Porting completion information
     ![](figures/porting_end_info.png "porting-completion-information")
 
     - If no  **failed_report.txt**  file is generated, you can proceed with training the migrated model directly on  AI processors. In case the training fails, carefully analyze the migration report and make necessary modifications to the training script. If the issue persists, please raise an issue in this source code repository..
@@ -108,7 +108,7 @@ The Ascend platform provides functions such as function debugging and performanc
           # Configure session parameters.
           custom_op.parameter_map["profiling_mode"].b = True
           ... ...
-        
+
           (npu_sess, npu_shutdown) = init_resource(config=session_config)
           tf.app.run()
           shutdown_resource(npu_sess, npu_shutdown)
@@ -127,12 +127,12 @@ The Ascend platform provides functions such as function debugging and performanc
         custom_op.name = 'NpuOptimizer'
         # Configure session parameters.
         custom_op.parameter_map["aoe_mode"].s = tf.compat.as_bytes("2")
-        
+
         run_config = tf.estimator.RunConfig(
           train_distribute=distribution_strategy,
           session_config=session_config,
           save_checkpoints_secs=60*60*24)
-        
+
         classifier = tf.estimator.Estimator(
           model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
         ```
@@ -159,7 +159,7 @@ The Ascend platform provides functions such as function debugging and performanc
         import tensorflow.python.keras as keras
         from tensorflow.python.keras import backend as K
         from npu_bridge.npu_init import *
-        
+
         config_proto = tf.ConfigProto(allow_soft_placement=True)
         # Add an NPU optimizer named NpuOptimizer. During network compilation, the NPU traverses only the session configurations under NpuOptimizer.
         custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
@@ -167,7 +167,7 @@ The Ascend platform provides functions such as function debugging and performanc
         # Configure session parameters.
         custom_op.parameter_map["aoe_mode"].s = tf.compat.as_bytes("2")
         npu_keras_sess = set_keras_session_npu_config(config=config_proto)
-        
+
         # Preprocess data...
         # Construct a model...
         # Build the model...

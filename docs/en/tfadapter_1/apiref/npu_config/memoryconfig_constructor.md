@@ -18,22 +18,22 @@ class MemoryConfig():
 
 ## Parameters
 
-- **atomic_clean_policy**: input, whether to clean up the memory occupied by all operators with the  **memset**  attribute \(memset operators\) on the network.
+- **atomic_clean_policy**: input, whether to clean up the memory occupied by all operators with the **memset** attribute \(memset operators\) on the network.
   - **0**  \(default\): enables collective cleanup.
   - **1**: disables collective cleanup. Memory used by each memset operator is cleaned up separately. When the memset operators on the network occupy too much memory, you can try this method. However, this method may cause performance loss.
 
 - **static_memory_policy**: input, memory allocation mode used during network running.
 
-  - **0**  \(default\): dynamic memory allocation. Memory is dynamically allocated based on the actual size.
+  - **0** \(default\): dynamic memory allocation. Memory is dynamically allocated based on the actual size.
   - **2**: dynamic memory expansion supported by only static shape. During network running, this option can be used to implement memory reuse between multiple graphs in a session. That is, the memory required by the maximum graph is allocated. For example, if the memory required by the current graph exceeds the memory of the previous graph, the memory of the previous graph is directly released. The memory is reallocated based on the memory required by the current graph.
   - **3**: dynamic memory expansion supported by only dynamic shape, which solves the fragment problem during dynamic memory allocation and reduces the memory usage of the dynamic-shape network.
   - **4**: dynamic memory expansion supported by both static and dynamic shapes.
 
     > [!NOTE]NOTE
     >
-    > - This option cannot be set to  **2**  or  **4**  when multiple graphs are executed concurrently.
-    > - To be compatible with earlier versions, the system adopts the method of mode 2 even if this option is set to  **1**.
-    > - If this option is set to  **3**  or  **4**, memory gains are generated, but performance may deteriorate.
+    > - This option cannot be set to **2** or **4** when multiple graphs are executed concurrently.
+    > - To be compatible with earlier versions, the system adopts the method of mode 2 even if this option is set to **1**.
+    > - If this option is set to **3** or **4**, memory gains are generated, but performance may deteriorate.
 
 - **memory_optimization_policy**: input, optional memory optimization policy. The default is None, which leaves this option unset in NpuOptimizer. This is not the hugepage option; 1 GB huge pages are controlled by `variable_use_1g_huge_page`, whose values are described below. Prefer keyword arguments, for example `MemoryConfig(variable_use_1g_huge_page=1)`, to avoid positional argument confusion.
 
@@ -56,7 +56,7 @@ class MemoryConfig():
 
 ## Returns
 
-An object of the  **MemoryConfig**  class, as an argument passed to the  **NPURunConfig**  call.
+An object of the **MemoryConfig** class, as an argument passed to the  **NPURunConfig** call.
 
 ## Restrictions
 

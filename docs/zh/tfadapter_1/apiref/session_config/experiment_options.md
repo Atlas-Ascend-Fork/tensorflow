@@ -70,23 +70,21 @@ custom_op.parameter_map["shape_generalization_mode"].s = tf.compat.as_bytes( "FU
 
 - 第二个字段支持“step”和“loss”两种取值，分别表示根据step值或者loss值来分割整个训练流程为低精度训练和高精度训练。
 - 第三个字段代表低精度训练流程在总step或总loss中的占比。
-  - 当第二个字段取值为“step”时，此字段的合法取值范围为“0.2 \~ 0.9”，默认值为“0.9”。
-  - 当第二个字段的取值为“loss”时，此字段的合法取值范围为“1.01 \~ 1.5”，默认值为“1.05”。
+  - 当第二个字段取值为“step”时，此字段的合法取值范围为“0.2 ~ 0.9”，默认值为“0.9”。
+  - 当第二个字段的取值为“loss”时，此字段的合法取值范围为“1.01 ~ 1.5”，默认值为“1.05”。
 
 配置示例：
 
 - 按照step触发加速
 
   ```python
-  custom_op.parameter_map["experimental_accelerate_train_mode"].s =
-  tf.compat.as_bytes("fast|step|0.9")
+  custom_op.parameter_map["experimental_accelerate_train_mode"].s = tf.compat.as_bytes("fast|step|0.9")
   ```
 
 - 按照loss触发加速
 
   ```python
-  custom_op.parameter_map["experimental_accelerate_train_mode"].s =
-  tf.compat.as_bytes("fast|loss|1.05")
+  custom_op.parameter_map["experimental_accelerate_train_mode"].s = tf.compat.as_bytes("fast|loss|1.05")
   ```
 
 **需要注意：**
@@ -149,6 +147,5 @@ custom_op.parameter_map["shape_generalization_mode"].s = tf.compat.as_bytes( "FU
 配置示例：
 
 ```python
-custom_op.parameter_map["auto_multistream_parallel_mode"].s =
-tf.compat.as_bytes("cv")
+custom_op.parameter_map["auto_multistream_parallel_mode"].s = tf.compat.as_bytes("cv")
 ```

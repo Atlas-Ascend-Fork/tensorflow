@@ -33,7 +33,7 @@ The following uses the model function constructed based on ImageNet as an exampl
             # Change the data type of the features to dtype.
         features = tf.cast(features, dtype)
       ############## NPU modify end ###############
-    
+
         # The source code is as follows.
       # assert features.dtype == dtype
     ```
@@ -47,22 +47,22 @@ The following uses the model function constructed based on ImageNet as an exampl
         # Use the float32 type for labels to improve accuracy.
         accuracy = tf.compat.v1.metrics.accuracy(tf.cast(labels, tf.float32), predictions['classes'])
         ############## NPU modify end ###############
-    
+
         # The accuracy computation code is as follows.
         # accuracy = tf.compat.v1.metrics.accuracy(labels, predictions['classes'])
-    
+
         accuracy_top_5 = tf.compat.v1.metrics.mean(
             tf.nn.in_top_k(predictions=logits, targets=labels, k=5, name='top_5_op'))
-    
+
         ############## NPU modify begin #############
     # Calculate accuracy during distributed training.
         rank_size = int(os.getenv('RANK_SIZE'))
         newaccuracy = (hccl_ops.allreduce(accuracy[0], "sum") / rank_size, accuracy[1])
         newaccuracy_top_5 = (hccl_ops.allreduce(accuracy_top_5[0], "sum") / rank_size, accuracy_top_5[1])
-        metrics = {'accuracy': newaccuracy,           
+        metrics = {'accuracy': newaccuracy,
                    'accuracy_top_5': newaccuracy_top_5}
         ############## NPU modify end #############
-    
+
         # Metrics in the source code is as follows.
         # metrics = {'accuracy': accuracy,
         #            'accuracy_top_5': accuracy_top_5}
@@ -82,13 +82,13 @@ The following uses the model function constructed based on ImageNet as an exampl
                 strides=(1,self.first_pool_stride,self.first_pool_stride,1), padding='SAME',
                 data_format='NCHW' if self.data_format == 'channels_first' else 'NHWC')
             ############## NPU modify end ###############
-    
+
                 # The code uses the max_pooling2d() API for pooling.
             # inputs = tf.compat.v1.layers.max_pooling2d(
             #     inputs=inputs, pool_size=self.first_pool_size,
             #     strides=self.first_pool_stride, padding='SAME',
             #     data_format=self.data_format)
-    
+
             inputs = tf.identity(inputs, 'initial_max_pool')
     ```
 
@@ -116,13 +116,13 @@ The following uses the model function constructed based on ImageNet as an exampl
               learning_rate=learning_rate,
               momentum=momentum
           )
-    
+
         ############## NPU modify begin #############
         # Use the distributed training optimizer to encapsulate the single-server optimizer to support distributed training.
         # Add the following content to the code.
         optimizer = NPUDistributedOptimizer(optimizer)
         ############## NPU modify end ###############
-    
+
         fp16_implementation = getattr(flags.FLAGS, 'fp16_implementation', None)
         if fp16_implementation == 'graph_rewrite':
             optimizer = (

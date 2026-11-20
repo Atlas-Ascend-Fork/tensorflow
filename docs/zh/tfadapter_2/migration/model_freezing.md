@@ -26,7 +26,7 @@ TensorFlow保存图graph、权重weights的过程称为freezing，在保存过�
     from tensorflow.keras import models
     from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
     from tensorflow.python.framework import graph_util
-    
+
     # 加载SavedModel模型
     saved_model_dir = "save_path"
     model = tf.saved_model.load(saved_model_dir)

@@ -5,7 +5,7 @@
 Create a  **Client**  folder in any directory \(for example,  **$HOME**\) to store the  **deploy.py**  script for communication with the server and the  **tf_serving_infer.py**  inference script. The directory is as follows:
 
 ```text
-Client/ 
+Client/
  ├── deploy.py
  └── tf_serving_infer.py
 ```
@@ -74,8 +74,8 @@ image_path = sys.argv[1]
 d0 = time.time()
 image = misc.imread(image_path)
 resized = scipy.misc.imresize(image, (304, 304, 3)) # Type value of the input node of the original .pb model. Set it based on the actual situation.
-crop_min = abs(304 / 2 - (304 / 2)) 
-crop_max = crop_min + 304 
+crop_min = abs(304 / 2 - (304 / 2))
+crop_max = crop_min + 304
 crop_min = int(crop_min)
 crop_max = int(crop_max)
 image = resized[crop_min:crop_max, crop_min:crop_max, :]
@@ -119,7 +119,7 @@ The following uses the MobileNetV2 model as an example to describe how to perfor
         from tensorflow.python.framework import tensor_shape
         from tensorflow.python.saved_model import save
         import sys
-        
+
         def read_pb_model(pb_model_path):
             with tf.gfile.GFile(pb_model_path, "rb") as f:
                 graph_def = tf.GraphDef()
@@ -127,7 +127,7 @@ The following uses the MobileNetV2 model as an example to describe how to perfor
                 return graph_def
         def convert_pb_saved_model(graph_def, export_dir, input_name, output_name):
             builder = tf.saved_model.builder.SavedModelBuilder(export_dir)
-        
+
             sigs = {}
             with tf.Session(graph=tf.Graph()) as sess:
                 tf.import_graph_def(graph_def, name="")
@@ -155,8 +155,8 @@ The following uses the MobileNetV2 model as an example to describe how to perfor
         def convert_pb_to_server_model(pb_model_path, export_dir, input_name='input', output_name='output'):
             graph_def = read_pb_model(pb_model_path)
             convert_pb_saved_model(graph_def, export_dir, input_name, output_name)
-        
-        
+
+
         # Convert the .pb file to SavedModel.
         if __name__=="__main__":
             pb_model_path = sys.argv[1]

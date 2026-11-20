@@ -31,7 +31,7 @@
         init_sess, npu_init = resnet_run_loop.init_npu()
         init_sess.run(npu_init)
         ############## NPU modify end ###############
-    
+
         with logger.benchmark_context(flags.FLAGS):
             run_imagenet(flags.FLAGS)
     ```
@@ -52,14 +52,14 @@
         """
         npu_init = npu_ops.initialize_system()
         config = tf.ConfigProto()
-    
+
         config.graph_options.rewrite_options.remapping = rewriter_config_pb2.RewriterConfig.OFF
         custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
         # custom_op.parameter_map["precision_mode"].b = True
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
         custom_op.parameter_map["use_off_line"].b = True
-    
+
         init_sess = tf.Session(config=config)
         return init_sess, npu_init
     ############## NPU modify end ###############
@@ -73,7 +73,7 @@
     for cycle_index, num_train_epochs in enumerate(schedule):
           tf.compat.v1.logging.info('Starting cycle: %d/%d', cycle_index,
                                     int(n_loops))
-    
+
           if num_train_epochs:
             # Since we are calling classifier.train immediately in each loop, the
             # value of num_train_epochs in the lambda function will not be changed
@@ -84,7 +84,7 @@
                     num_train_epochs, input_context=input_context),
                 hooks=train_hooks,
                 max_steps=flags_obj.max_train_steps)
-    
+
           ############## NPU modify begin #############
           # 单次训练结束时，释放NPU资源，在下一次进程开始之前如果要用到HCCL接口需要重新初始化。
           # 在原代码中添加如下内容:
@@ -93,17 +93,17 @@
           init_sess.run(npu_shutdown)
           init_sess.run(npu_init)
           ############## NPU modify end ###############
-    
+
           tf.compat.v1.logging.info('Starting to evaluate.')
           eval_results = classifier.evaluate(input_fn=input_fn_eval,
                                              steps=flags_obj.max_train_steps)
-    
+
           benchmark_logger.log_evaluation_result(eval_results)
-    
+
           if model_helpers.past_stop_threshold(
               flags_obj.stop_threshold, eval_results['accuracy']):
             break
-    
+
           ############## NPU modify begin #############
           # 单次训练结束时，释放NPU资源，在下一次进程开始之前如果要用到HCCL接口需要重新初始化。
           # 在原代码中添加如下内容:
@@ -132,17 +132,17 @@
                     shape, batch_size=flags_obj.batch_size, dtype=export_dtype)
             classifier.export_savedmodel(flags_obj.export_dir, input_receiver_fn,
                                          strip_default_attrs=True)
-    
+
         ############## NPU modify begin #############
         # 在所有训练/验证结束后通过npu_ops.shutdown_system接口释放设备资源。在原代码中添加如下内容：
         npu_shutdown = npu_ops.shutdown_system()
         init_sess.run(npu_shutdown)
         ############## NPU modify end ###############
-    
+
         stats = {}
         stats['eval_results'] = eval_results
         stats['train_hooks'] = train_hooks
-    
+
         return stats
     ```
 

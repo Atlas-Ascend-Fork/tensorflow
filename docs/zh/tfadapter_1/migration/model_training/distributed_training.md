@@ -25,7 +25,7 @@
 1. 已准备好迁移成功的TensorFlow训练脚本和对应数据集。
 2. 多Device上执行训练时，请确保不同Device上执行的模型相同，否则业务会执行失败，详细可参见[多Device上执行模型不同导致应用程序出错](../faq/multi-device_model_error.md)。
 3. 针对Atlas训练系列产品，单Server场景下，要求实际参与集合通信的AI处理器数目为1、2、4、8，且0-3卡和4-7卡各为一个组网，使用2张卡或4张卡训练时，不支持跨组网创建设备集群；Server集群场景，要求参与集合通信的AI处理器数目只能为1\*n、2\*n、4\*n、8\*n（n为参与训练的Server个数），且n为2的指数倍情况下，集群性能最好，建议用户优先采用此种方式进行集群组网。
-4. 针对Atlas A2系列产品，单Server场景，对参与集合通信的AI处理器数量无限制；Server集群场景要求参与集合通信的AI处理器数量为（1\~8）\*n（n为参与训练的Server个数）。建议每个Server中参与集合通信的AI处理器数量保持一致，若不一致，会造成性能劣化。
+4. 针对Atlas A2系列产品，单Server场景，对参与集合通信的AI处理器数量无限制；Server集群场景要求参与集合通信的AI处理器数量为（1~8）\*n（n为参与训练的Server个数）。建议每个Server中参与集合通信的AI处理器数量保持一致，若不一致，会造成性能劣化。
 5. 针对Atlas A3系列产品，建议每个超节点中的Server数量一致，每个Server中的AI处理器数量一致，若不一致，会造成性能劣化。
 6. 一个Device对应执行一个训练进程，当前不支持多进程在同一个Device上进行训练。
 
@@ -48,14 +48,14 @@ rank table为JSON格式，记录了参与集合通信的所有NPU信息，开发
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     export RANK_SIZE=8
     export RANK_TABLE_FILE=/home/test/rank_table_8p.json    # rank table资源配置文件路径，请根据实际情况替换
     export JOB_ID=10087      # 用户自定义，指定任务ID，可以包含大小写字母、数字、中划线或下划线
-    
+
     for((RANK_ID=0;RANK_ID<$((RANK_SIZE));RANK_ID++));
     do
         export RANK_ID=$RANK_ID
@@ -100,10 +100,10 @@ rank table为JSON格式，记录了参与集合通信的所有NPU信息，开发
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # 获取输入参数
     for para in $*
     do
@@ -115,13 +115,13 @@ rank table为JSON格式，记录了参与集合通信的所有NPU信息，开发
             servers_num=`echo ${para#*=}`
         fi
     done
-    
+
     rank_size=${devices_num}
     linux_num=$servers_num
     export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
     export RANK_TABLE_FILE=/home/test/rank_table.json   # rank table资源配置文件路径，请根据实际情况替换
     export JOB_ID=10087  # 用户自定义，指定任务ID，可以包含大小写字母、数字、中划线或下划线
-    
+
     for((RANK_ID=$((rank_size*server_index));RANK_ID<$((((server_index+1))*rank_size));RANK_ID++));
     do
         #设置环境变量
@@ -185,18 +185,18 @@ export HCCL_SOCKET_FAMILY=AF_INET
 
   该环境变量需要配置为整数，取值范围：\[0，Server内的最大Device数量-1\]。
 
-- CM_WORKER_SIZE：用于配置组网中参与集群训练的Device总数量，需要配置为整数，取值范围“0\~32768”。
+- CM_WORKER_SIZE：用于配置组网中参与集群训练的Device总数量，需要配置为整数，取值范围“0~32768”。
 - CM_WORKER_IP：用于配置当前节点与Master进行通信时所用的网卡IP，要求为常规IPv4或IPv6格式。
 - HCCL_SOCKET_FAMILY：**此环境变量可选**，用于控制Device侧通信网卡使用的IP协议版本。AF_INET代表使用IPv4协议，AF_INET6代表使用IPv6协议，**缺省时，优先使用IPv4协议**。
 
 说明：
 
 - 如果环境变量“HCCL_SOCKET_FAMILY”指定的IP协议与实际获取到的网卡信息不匹配，则以实际环境上的网卡信息为准。
-   
+
    例如，环境变量“HCCL_SOCKET_FAMILY”指定为“AF_INET6”，但Device侧只存在IPv4协议的网卡，则实际会使用IPv4协议的网卡。
 - 通过以上环境变量的方式配置集群信息时，环境中不能存在环境变量RANK_TABLE_FILE、RANK_ID、RANK_SIZE。
 - 针对Atlas A2系列产品，若业务为单卡多进程场景，建议通过环境变量“HCCL_NPU_SOCKET_PORT_RANGE”配置HCCL在NPU侧使用的通信端口，否则可能会导致端口冲突，但需要注意，多进程会对资源开销、通信性能产生一定的影响，配置示例：
-   
+
    ```bash
    export HCCL_NPU_SOCKET_PORT_RANGE="auto"
    ```
@@ -238,12 +238,12 @@ export HCCL_SOCKET_FAMILY=AF_INET
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     export JOB_ID=10087  # 用户自定义，指定任务ID，可以包含大小写字母、数字、中划线或下划线
-    
+
     for((CURRENT_DEVICE=0;CURRENT_DEVICE<8;CURRENT_DEVICE++));
     do
         export ASCEND_DEVICE_ID=${CURRENT_DEVICE}
@@ -287,10 +287,10 @@ export HCCL_SOCKET_FAMILY=AF_INET
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # 获取输入参数
     for para in $*
     do
@@ -300,11 +300,11 @@ export HCCL_SOCKET_FAMILY=AF_INET
             devices_num=`echo ${para#*=}`
         fi
     done
-    
+
     rank_size=${devices_num}
     linux_num=$servers_num
     export JOB_ID=10087  # 用户自定义，指定任务ID，可以包含大小写字母、数字、中划线或下划线
-    
+
     for((CURRENT_DEVICE=$((rank_size*server_index));CURRENT_DEVICE<$((((server_index+1))*rank_size));CURRENT_DEVICE++));
     do
         export ASCEND_DEVICE_ID=`expr ${CURRENT_DEVICE} - $((rank_size*server_index))`

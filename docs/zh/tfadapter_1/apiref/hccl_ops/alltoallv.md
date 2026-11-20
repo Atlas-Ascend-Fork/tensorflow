@@ -17,10 +17,10 @@ def all_to_all_v(send_data, send_counts, send_displacements, recv_counts, recv_d
 | 参数名 | 输入/输出 | 描述 |
 | --- | --- | --- |
 | send_data | 输入 | 待发送的数据，TensorFlow的tensor类型。<br>针对Ascend 950PR&950DT系列产品，支持数据类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、float16、float32、float64、bfp16。<br>针对Atlas A3系列产品，支持数据类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、float16、float32、float64、bfp16。<br>针对Atlas A2系列产品，支持数据类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、float16、float32、float64、bfp16。<br>针对Atlas训练系列产品，支持数据类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、float16、float32、float64 。 |
-| send_counts | 输入 | 发送的数据量，send_counts[i]表示本rank发给rank i的数据个数，基本单位是send_data数据类型对应的字节数。<br>例：send_data的数据类型为int32，send_counts[0]=1,send_counts[1]=2，表示本rank给rank0发送1个int32类型的数据，给rank1发送2个int32类型的数据。<br>TensorFlow的tensor类型，tensor支持的数据类型为int64。 |
-| send_displacements | 输入 | 发送数据的偏移量，send_displacements[i]表示本rank发送给rank i的数据块相对于send_data的偏移量，基本单位是send_data数据类型对应字节数。<br>例：<br><br>  - send_data的数据类型为int32。<br>  - send_counts[0]=1,send_counts[1]=2<br>  - send_displacements[0]=0,send_displacements[1]=1<br><br>则表示本rank给rank0发送send_data上的第1个int32类型的数据，给rank1发送send_data上第2个与第3个int32类型的数据。<br>TensorFlow的tensor类型，tensor支持的数据类型为int64。 |
+| send_counts | 输入 | 发送的数据量，send_counts[i]表示本rank发给rank i的数据个数，基本单位为send_data数据类型对应的元素个数。<br>例：send_data的数据类型为int32，send_counts[0]=1,send_counts[1]=2，表示本rank给rank0发送1个int32类型的数据，给rank1发送2个int32类型的数据。<br>TensorFlow的tensor类型，tensor支持的数据类型为int64。 |
+| send_displacements | 输入 | 发送数据的偏移量，send_displacements[i]表示本rank发送给rank i的数据块相对于send_data的偏移量，基本单位为send_data数据类型对应的元素个数。<br>例：<br><br>  - send_data的数据类型为int32。<br>  - send_counts[0]=1,send_counts[1]=2<br>  - send_displacements[0]=0,send_displacements[1]=1<br><br>则表示本rank给rank0发送send_data上的第1个int32类型的数据，给rank1发送send_data上第2个与第3个int32类型的数据。<br>TensorFlow的tensor类型，tensor支持的数据类型为int64。 |
 | recv_counts | 输入 | 接收的数据量，recv_counts[i]表示本rank从rank i收到的数据量。使用方法与send_counts类似。<br>TensorFlow的tensor类型。tensor支持的数据类型为int64。 |
-| recv_displacements | 输入 | 接收数据的偏移量，recv_displacements[i]表示本rank发送给rank i数据块相对于recv_data的偏移量，基本单位是recv_data_type的字节数。使用方法与send_displacements类似。<br>TensorFlow的tensor类型。tensor支持的数据类型为int64。 |
+| recv_displacements | 输入 | 接收数据的偏移量，recv_displacements[i]表示本rank从rank i接收的数据块相对于接收数据起始地址的偏移量，基本单位为接收数据数据类型对应的元素个数。使用方法与send_displacements类似。<br>TensorFlow的tensor类型。tensor支持的数据类型为int64。 |
 | group | 输入 | group名称，可以为用户自定义group或者"hccl_world_group"。<br>String类型，最大长度为128字节，含结束符。 |
 
 ## 返回值

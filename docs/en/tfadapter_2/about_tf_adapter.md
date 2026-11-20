@@ -4,7 +4,7 @@ The Ascend Adapter for TensorFlow 2._x_  \(or TF Adapter\) is provided to develo
 
 The following figure shows the position of the TF Adapter in the Ascend AI software stack.
 
-**Figure  1**  Ascend AI software stack architecture  
+**Figure  1**  Ascend AI software stack architecture
 ![](./migration/figures/ascend_architecture.png)
 
 ## Key Concepts of TF2
@@ -31,14 +31,14 @@ Key TF2 concepts related to the TF Adapter are as follows:
 
 The TF Adapter registers the  AI processor  as a TF2 custom device and sets it as the default device. After the registration, operators that user schedules to the  AI processor  or not scheduled will be executed on the  AI processor. The operator execution API of the  AI processor  invokes CANN's operator/graph execution capability to complete the operator execution on the  AI processor.
 
-**Figure  2**  TF Adapter interconnection framework  
+**Figure  2**  TF Adapter interconnection framework
 ![](./migration/figures/TF-Adapter_architecture.png)
 
 The following shows the interaction between the TF Adapter and other modules.
 
 A typical training workflow goes through the device initialization, model \(variable\) initialization, training execution, and checkpoint saving steps.
 
-**Figure  3**  TF Adapter interconnection sequence  
+**Figure  3**  TF Adapter interconnection sequence
 ![](./migration/figures/TF-Adapter_sequence_diagram.png)
 
 The concepts involved in the workflow diagram are described as follows:

@@ -27,7 +27,7 @@ def hccl_operator(rank_id, root_rank, rank_size,  group, dtype, data):
 
     # allreduce
     list_1=['sum','max','min','prod']
-    for i in range(len(list_1)):  
+    for i in range(len(list_1)):
         exec('list_1=["sum","max","min","prod"]')
         exec('element_list'+str(i)+'=[1 for i in range(data)]')
         exec('tensor_'+str(i)+'= tensor_type(element_list'+str(i)+', dtype)')
@@ -44,10 +44,10 @@ def hccl_operator(rank_id, root_rank, rank_size,  group, dtype, data):
     exec('tensors[\'broadcast\'] = hccl_ops.broadcast(test_list1, root_rank, group=group)')
 
     # allgather
-    exec('tensors[\'gather_tensor\'] = hccl_ops.allgather(new_tensor'+str(1)+', rank_size, group=group)')    
+    exec('tensors[\'gather_tensor\'] = hccl_ops.allgather(new_tensor'+str(1)+', rank_size, group=group)')
 
     # reducescatter
-    for i in range(len(list_1)):  
+    for i in range(len(list_1)):
         exec('list_1=["sum","max","min","prod"]')
         exec('element_list'+str(i+5)+'=[1 for i in range(data)]')
         exec('tensor_'+str(i+5)+'= tensor_type(element_list'+str(i+5)+', dtype)')
@@ -56,7 +56,7 @@ def hccl_operator(rank_id, root_rank, rank_size,  group, dtype, data):
         exec('tensors[\'reducescatter_'+list_1[i]+'\'] = hccl_ops.reduce_scatter(new_tensor'+str(i+5)+','+'\"'+list_1[i]+'\"'+', '+'rank_size, group=group)')
 
     # reduce
-    for i in range(len(list_1)):  
+    for i in range(len(list_1)):
         exec('list_1=["sum","max","min","prod"]')
         exec('element_list'+str(i+10)+'=[1 for i in range(data)]')
         exec('tensor_'+str(i+10)+'= tensor_type(element_list'+str(i+10)+', dtype)')
@@ -78,17 +78,17 @@ def hccl_operator(rank_id, root_rank, rank_size,  group, dtype, data):
     send_displacements = tf.constant([rank_id*(data+i) for i in range(rank_size)],dtype=tf.int64)
 
     # Static shapes recv_counts and recv_displacements must be tf.constant.
-    recv_counts = tf.constant([rank_id+data for _ in range(rank_size)],dtype=tf.int64)     
-    recv_displacements = tf.constant([(rank_id+data)*i for i in range(rank_size)],dtype=tf.int64)    
+    recv_counts = tf.constant([rank_id+data for _ in range(rank_size)],dtype=tf.int64)
+    recv_displacements = tf.constant([(rank_id+data)*i for i in range(rank_size)],dtype=tf.int64)
 
     alltoallv_result = hccl_ops.all_to_all_v(send_data,send_counts,send_displacements,recv_counts,recv_displacements,group=group)
     tensors['alltoallv_tensor'] = alltoallv_result
-    tensors['check_tensors'] = check_data    
+    tensors['check_tensors'] = check_data
     return tensors
 
 def main():
     config = {}
-    hccl_session_config = tf.ConfigProto() 
+    hccl_session_config = tf.ConfigProto()
     custom_op =  hccl_session_config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name =  "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True

@@ -22,7 +22,7 @@
     若java-11-openjdk安装失败，可进行手动安装，参考[手动安装java-11-openjdk](#手动安装java-11-openjdk)。
 
 2. 配置环境变量。
-    1. 执行如下命令，打开“.bashrc“文件。
+    1. 执行如下命令，打开“.bashrc”文件。
 
         ```bash
         vim ~/.bashrc
@@ -95,7 +95,7 @@
 
 ## 手动安装java-11-openjdk
 
-安装“java-11-openjdk“总共需要安装三个包，用户可通过在[https://centos.pkgs.org](https://centos.pkgs.org/)网站右上角搜索“java-11-openjdk“查询以“.rpm“为后缀的软件包的URL。网站搜索结果如下图所示。根据系统版本选择相应软件进行下载，再通过“rpm“命令安装。
+安装“java-11-openjdk”总共需要安装三个包，用户可通过在[https://centos.pkgs.org](https://centos.pkgs.org/)网站右上角搜索“java-11-openjdk“查询以“.rpm“为后缀的软件包的URL。网站搜索结果如下图所示。根据系统版本选择相应软件进行下载，再通过“rpm“命令安装。
 
 ![](../../figures/network_search_result.png "网站搜索截图")
 

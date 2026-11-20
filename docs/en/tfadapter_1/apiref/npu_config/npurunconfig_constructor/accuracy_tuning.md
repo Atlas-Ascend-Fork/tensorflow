@@ -102,7 +102,7 @@ A string for the operator precision mode.
     4. If the float16 input and output data types are not supported, an error is reported.
 
   - For vector compute operators, the operator precision in the original graph is float16 or bfloat16, and float32 is forcibly selected.
-  
+
     This option is invalid if the original graph contains operators not supporting float32 in the AI Core, for example, an operator that supports only float16. In this case, float16 is retained. If the operator in the AI Core does not support float32 and it is configured to the blocklist of precision reduction (by setting precision_reduce to false), the counterpart AI CPU operator supporting float32 is used. If the AI CPU operator does not support float32, an error is reported.
 
 - must_keep_origin_dtype:
@@ -240,6 +240,6 @@ OpType::Relu:InputDtype:float16,int8,OutputDtype:float16,int8
 
 NOTE:
 
-- You can find the operator precisions supported in the operator information library, which is saved in opp/built-in/op_impl/ai_core/tbe/config/<soc_version\>/aic-<soc_version\>-ops-info-<opType\>.json under the CANN component directory by default.
+- You can find the operator precisions supported in the operator information library, which is saved in `opp/built-in/op_impl/ai_core/tbe/config/<soc_version>/aic-<soc_version>-ops-info-<opType>.json` under the CANN component directory by default.
 - The data type specified by this parameter takes high priority, which may invite accuracy or performance degradation. If the specified data type is not supported, the compilation will fail.
 - If the configuration is performed based on the operator name, the operator name may change due to operations such as fusion and splitting during model compilation. As a result, the configuration does not take effect and the accuracy is not improved. In this case, you need to obtain logs to locate the fault. For details about the logs, see [Log Reference](https://www.hiascend.com/document/detail/en/CANNCommunityEdition/latest/maintenref/logreference/logreference_0001.html).

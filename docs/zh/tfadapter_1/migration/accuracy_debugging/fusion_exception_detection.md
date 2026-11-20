@@ -11,7 +11,7 @@
 ## 前提条件
 
 1. 已完成[精度分析工具部署](accuracy_analyzer_deployment.md)。
-2. **已排除浮点异常问题，并关闭溢出检测开关**。
+2. 已排除浮点异常问题，并关闭溢出检测开关。
 
 ## 操作步骤
 
@@ -20,14 +20,14 @@
     ```python
     # 引用precision_tool/tf_config.py
     import precision_tool.tf_config as npu_tf_config
-    
+
     # 1. 手工迁移网络，关闭融合规则
     # 1.1 Estimator方式
-    npu_config = NPURunConfig(fusion_switch_file=npu_tf_config.FUSION_OFF_FILE) 
+    npu_config = NPURunConfig(fusion_switch_file=npu_tf_config.FUSION_OFF_FILE)
     # 1.2 Session run方式
     config = npu_tf_config.session_dump_config(config, action='fusion_off')
     sess = tf.Session(config)
-    
+
     # 2. 自动迁移网络，关闭融合规则
     # 若脚本中未配置custom_op，则在脚本中新增如下粗体语句
     session_config = npu_tf_config.session_dump_config(session_config, action='fusion_off')
@@ -36,7 +36,7 @@
     custom_op.name = 'NpuOptimizer'
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     custom_op = npu_tf_config.update_custom_op(custom_op, action='fusion_off')
-    
+
     # 2.1 Estimator方式
     run_config = tf.estimator.RunConfig(session_config=session_config,...)
     # 2.2 Session run方式
@@ -98,14 +98,14 @@
     # 关闭指定的融合规则
     # 引用precision_tool/tf_config.py
     import precision_tool.tf_config as npu_tf_config
-    
+
     # 1. 手工迁移网络
     # 1.1 Estimator方式
-    npu_config = NPURunConfig(fusion_switch_file=npu_tf_config.FUSION_SWITCH_FILE) 
+    npu_config = NPURunConfig(fusion_switch_file=npu_tf_config.FUSION_SWITCH_FILE)
     # 1.2 Session run方式
     config = npu_tf_config.session_dump_config(config, action='fusion_switch')
     sess = tf.Session(config)
-    
+
     # 2. 自动迁移网络
     session_config = npu_tf_config.session_dump_config(session_config, action='fusion_switch')
     # 2.1 Estimator方式
@@ -116,7 +116,7 @@
         ....
     ```
 
-    同时修改precision_tool/lib/config下的融合规则配置文件fusion_switch.cfg，配置样例如下_，_on表示开启，off表示关闭。
+    同时修改precision_tool/lib/config下的融合规则配置文件fusion_switch.cfg，配置样例如下，on表示开启，off表示关闭。
 
     ```text
     {

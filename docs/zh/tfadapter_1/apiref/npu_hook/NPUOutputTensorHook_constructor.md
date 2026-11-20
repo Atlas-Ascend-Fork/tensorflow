@@ -30,7 +30,7 @@ class NPUOutputTensorHook(basic_session_run_hooks.LoggingTensorHook):
 
 ## 约束说明
 
-Iterations_per_loop\>1的场景下，无法按照output_every_n_steps指定的值调用output_fn。
+iterations_per_loop\>1的场景下，无法按照output_every_n_steps指定的值调用output_fn。
 
 ## 调用示例
 
@@ -48,13 +48,13 @@ def output_fn(inputs):
       f.write("\n")
 
 # 定义output_hook，用于调用用户定义的output_fn
-        tensors = {'global_step': global_step, 'loss': loss}
-        output_hook = NPUOutputTensorHook(
-            tensors,
-            dependencies=train_op_list,
-            output_fn=output_fn,
-            output_every_n_steps=10)
-        train_hook.append(output_hook)
+  tensors = {'global_step': global_step, 'loss': loss}
+  output_hook = NPUOutputTensorHook(
+      tensors,
+      dependencies=train_op_list,
+      output_fn=output_fn,
+      output_every_n_steps=10)
+  train_hook.append(output_hook)
 
 # 在EstimatorSpec传入hook
   return tf.estimator.EstimatorSpec(

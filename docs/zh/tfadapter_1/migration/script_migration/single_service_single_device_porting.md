@@ -74,9 +74,9 @@ from npu_bridge.npu_init import *
     TensorFlow原始代码：
 
     ```python
-    def gelu(x): 
+    def gelu(x):
       cdf = 0.5 * (1.0 + tf.tanh(
-         (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3))))) 
+         (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3)))))
       return x*cdf
     layers = gelu()
     ```
@@ -95,7 +95,7 @@ TensorFlow原始代码：
 
 ```python
 config=tf.estimator.RunConfig(
-  model_dir=FLAGS.model_dir, 
+  model_dir=FLAGS.model_dir,
   save_checkpoints_steps=FLAGS.save_checkpoints_steps,
   session_config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=False))
 ```
@@ -107,7 +107,7 @@ npu_config=NPURunConfig(
   model_dir=FLAGS.model_dir,
   save_checkpoints_steps=FLAGS.save_checkpoints_steps,
   # 如果原始网络中使用了tf.device相关代码，则需要增加session配置“allow_soft_placement=True”，允许TensorFlow自动分配设备。
-  session_config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=False) 
+  session_config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=False)
   )
 ```
 
@@ -217,9 +217,9 @@ from npu_bridge.npu_init import *
     TensorFlow原始代码：
 
     ```python
-    def gelu(x): 
+    def gelu(x):
       cdf = 0.5 * (1.0 + tf.tanh(
-         (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3))))) 
+         (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3)))))
       return x*cdf
     layers = gelu()
     ```
@@ -264,12 +264,12 @@ next_batch=iterator.get_next()
 
 # 迭代器初始化
 training_init_op=iterator.make_initializer(train_dataset)
- 
+
 # 变量初始化
 init=tf.global_variables_initializer()
 sess=tf.Session()
 sess.run(init)
- 
+
 #Get the number of training/validation steps per epoch
 train_batches_per_epoch=int(np.floor(train_size/batch_size))
 ```
@@ -285,7 +285,7 @@ next_batch=iterator.get_next()
 
 # 迭代器初始化
 training_init_op=iterator.make_initializer(train_dataset)
- 
+
 # 变量初始化
 init=tf.global_variables_initializer()
 
@@ -299,7 +299,7 @@ config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 显式关
 config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 显式关闭
 sess = tf.Session(config=config)
 sess.run(init)
- 
+
 #Get the number of training/validation steps per epoch
 train_batches_per_epoch=int(np.floor(train_size/batch_size))
 ```
@@ -317,7 +317,7 @@ tf.Session原生功能在Ascend平台上全部支持。
 for epoch in range(num_epochs):
   ##Initialize iterator with the training dataset
   sess.run(training_init_op)
-  for step in range(train_batches_per_epoch):  
+  for step in range(train_batches_per_epoch):
     #get next batch of data
     img_batch,label_batch=sess.run(next_batch)
     #run the training op

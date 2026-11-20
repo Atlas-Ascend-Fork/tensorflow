@@ -2,7 +2,7 @@
 
 ## 功能说明
 
-KerasDistributeOptimizer类的构造函数，用于包装用户使用tf.Keras构造的脚本中的单机训练优化器，构造NPU分布式训练优化器。
+KerasDistributeOptimizer类的构造函数，用于包装用户使用tf.keras构造的脚本中的单机训练优化器，构造NPU分布式训练优化器。
 
 ## 函数原型
 
@@ -28,6 +28,6 @@ class KerasDistributeOptimizer(optimizer_v2.OptimizerV2):
 import tensorflow as tf
 from npu_bridge.npu_init import *
 
-model=xxx  
+model=xxx
 model.compile(loss='mean_squared_error', optimizer=KerasDistributeOptimizer(tf.keras.optimizers.SGD()))
 ```

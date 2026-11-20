@@ -39,7 +39,7 @@ class NPUEstimatorSpec(model_fn_lib.EstimatorSpec):
 | training_hooks | Input | SessionRunHooks set during training. It is a parameter inherited from EstimatorSpec. |
 | scaffold | Input | Scaffold definition (providing the capabilities of customizing saver, init_op, summary_op, and global_step). It is a parameter inherited from EstimatorSpec. |
 | evaluation_hooks | Input | SessionRunHooks set during validation. It is a parameter inherited from EstimatorSpec. |
-| prediction_hook | Input | SessionRunHooks set during inference. It is a parameter inherited from EstimatorSpec. |
+| prediction_hooks | Input | SessionRunHooks set during inference. It is a parameter inherited from EstimatorSpec. |
 | host_call | Input | Captures the summary information and sends the information of each step back to the host side. It is a new parameter in NPUEstimatorSpec.<br>host_call is a tuple consisting of a function and a list or dictionary of tensors. It is used to return a list of tensors. <br>host_call applies to train() and evaluate(). |
 
 ## Returns

@@ -2,7 +2,7 @@
 
 ## Symptom
 
-After TensorFlow 2.6.5 is installed, the error message "RuntimeError: module compiled against API version 0x10 but this version of numpy is 0xd" is displayed when  **import tensorflow**  is executed.
+After TensorFlow 2.6.5 is installed, the error message "RuntimeError: module compiled against API version 0x10 but this version of numpy is 0xd" is displayed when **import tensorflow** is executed.
 
 **Figure  1**  Screenshot of the error
 ![](../figures/import_tensorflow_error.png)

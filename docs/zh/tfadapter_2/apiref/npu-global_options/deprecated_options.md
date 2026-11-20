@@ -60,18 +60,18 @@ npu.global_options().variable_format_optimize=True
 - 0：不开启算子debug功能。
 - 1：开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中生成BE指令映射文件（算子cce文件\*.cce、python-cce映射文件\*_loc.json、.o.json文件），用于后续工具进行AI Core Error问题定位。
 
-  注意：Ascend 950PR&950DT系列产品不会生成TBE指定映射文件。
+  注意：Ascend 950PR&950DT系列产品不会生成TBE指令映射文件。
 
 - 2：开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中生成BE指令映射文件（算子cce文件\*.cce、python-cce映射文件\*_loc.json、.o.json文件），并关闭ccec编译器的编译优化开关且打开ccec调试功能（ccec编器选项设置为-O0-g），用于后续工具进行AI Core Error问题定位。
 
-  注意：Ascend 950PR&950DT系列产品不会生成TBE指定映射文件。
+  注意：Ascend 950PR&950DT系列产品不会生成TBE指令映射文件。
 
 - 3：不开启算子debug功能，且在训练脚本执行目录下的kernel_meta文件夹中留.o和.json文件。
 - 4：不开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中保留.o（算子二进制文件）和.json文件（算子描述文件），生成TBE指令映射文（算子cce文件\*.cce）和UB融合计算描述文件（\{$kernel_name\}_compute.son）。
 
   注意：
-  
-  - Ascend 950PR&950DT系列产品不会生成TBE指定映射文件和UB融合计算描述文件。
+
+  - Ascend 950PR&950DT系列产品不会生成TBE指令映射文件和UB融合计算描述文件。
   - 当该参数取值为0时，同时又配置了“op_debug_config”参数，则训练执行时，仍会在当前执行路径下生成算子编译目录kernel_meta，目录中生成的内容以“op_debug_config”配置为准。
   - 训练执行时，建议配置为0或3。如果需要进行问题定位，再选择调试开关选项1和2，是因为加入了调试功能后，会导致网络性能下降。
   - 配置为2（即开启ccec编译选项）的场景下，不能与“op_debug_config”中的oom”同时使用，会导致AI Core Error报错，报错信息示例如下。
@@ -81,7 +81,7 @@ npu.global_options().variable_format_optimize=True
     ```
 
   - 配置为2（即开启ccec编译选项）的场景下，会增大算子Kernel（\*.o文件）大小。动态shape场景下，由于算子编译时会遍历可能存在的所有场景，最终可会导致由于算子Kernel文件过大而无法进行编译的情况，此种场景下，建议不配置为2。
-    
+
     由于算子kernel文件过大而无法编译的日志显示如下：
 
     ```text

@@ -41,11 +41,11 @@ image_depth_cropped = tf.random_crop(image_depth, [self.params.height, self.para
 
 1. NPU训练两次，进行整网精度比对，检查精度数据的余弦相似度是否大于0.98。具体方法为：
     1. [基于NPU Dump精度数据](network_accuracy_comparison.md#基于NPU-Dump精度数据)。
-    2. 使用[vc -lt \[left_path\] -rt \[right_path\] -g \[graph\]](precision_tool_ommand_ref.md#vc--lt-left_path--rt-right_path--g-graph)命令比较，生成csv文件。
+    2. 使用[vc -lt \[left_path\] -rt \[right_path\] -g \[graph\]](precision_tool_command_ref.md#vc--lt-left_path--rt-right_path--g-graph)命令比较，生成csv文件。
 
         **PrecisionTool \> vc -lt /path/left -rt /path/right**
 
-    3. 使用[vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_ommand_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit)命令，如果余弦相似度大于0.98，表明已经去随机。
+    3. 使用[vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_command_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit)命令，如果余弦相似度大于0.98，表明已经去随机。
 
         **PrecisionTool \> vcs**
 

@@ -6,7 +6,7 @@ The Auto Cast feature casts a data type to another one compatible with an AI CPU
 
 The following figure is an example when the MatrixInverse operator's input  **x**  does not support float16.
 
-**Figure  1**  Error message  
+**Figure  1**  Error message
 ![](../figures/aicpu_cast_error.png  "error-message")
 
 In this scenario, it is advisable to enable Auto Cast. The Procedure below provides detailed instructions.

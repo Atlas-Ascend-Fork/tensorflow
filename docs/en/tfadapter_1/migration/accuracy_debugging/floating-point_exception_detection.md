@@ -14,7 +14,7 @@ At network run time, floating-point exceptions happen from time to time. In this
 
 The following figure shows the main process of overflow/underflow data detection.
 
-**Figure  1**  Process of overflow/underflow data detection  
+**Figure  1**  Process of overflow/underflow data detection
 ![](../figures/ovf_detection_flow.png)
 
 ## Prerequisites
@@ -32,7 +32,7 @@ The following figure shows the main process of overflow/underflow data detection
     ```bash
     # Import precision_tool/tf_config.py.
     import precision_tool.tf_config as npu_tf_config
-    
+
     # 1. Manual network porting
     # 1.1 Estimator mode
     dump_config=npu_tf_config.estimator_dump_config(action='overflow')
@@ -40,7 +40,7 @@ The following figure shows the main process of overflow/underflow data detection
     # 1.2 Session run mode
     config = npu_tf_config.session_dump_config(config, action='overflow')
     sess = tf.Session(config)
-    
+
     # 2. Automated network porting
     # If custom_op is not configured in the script, add the following statement in bold to the script:
     session_config = npu_tf_config.session_dump_config(session_config, action='overflow')
@@ -49,7 +49,7 @@ The following figure shows the main process of overflow/underflow data detection
     custom_op.name = 'NpuOptimizer'
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     custom_op = npu_tf_config.update_custom_op(custom_op, action='overflow')
-    
+
     # 2.1 Estimator mode
     run_config = tf.estimator.RunConfig(session_config=session_config,...)
     # 2.2 Session run mode
@@ -73,11 +73,11 @@ Overflow/Underflow data analysis depends on the ATC and  **msaccucmp.py**  tools
 1. Upload the  **precision_tool**  and  **precision_data**  directories to any directory in the CANN development environment. The directory structure is as follows:
 
     ```text
-    ├── precision_tool              
-    │    ├── cli.py                   
+    ├── precision_tool
+    │    ├── cli.py
     │    ├── ...
-    ├── precision_data              
-    │    ├── overflow                   
+    ├── precision_data
+    │    ├── overflow
     │    │    ├── dump
     ```
 
@@ -106,7 +106,7 @@ Overflow/Underflow data analysis depends on the ATC and  **msaccucmp.py**  tools
     > [!NOTE]NOTE
     > To exit, press  **Ctrl+C**.
 
-5. Run the  [ac -l \[limit_num\] \(-c\)](precision_tool_ommand_ref.md#ac--l-limit_num--c)  command to analyze the overflow/underflow data.
+5. Run the  [ac -l \[limit_num\] \(-c\)](precision_tool_command_ref.md#ac--l-limit_num--c)  command to analyze the overflow/underflow data.
 
     **PrecisionTool \> ac**
 
@@ -125,7 +125,7 @@ Overflow/Underflow data analysis depends on the ATC and  **msaccucmp.py**  tools
     > [!NOTE]NOTE
     > When overflow/underflow occurs on more than one operator, overflow/underflow information about these faulty operators is displayed in the operator execution order. It is advised to analyze the first faulty operator, as the overflow/underflow of the other operators is usually caused by their upstream operators.
 
-6. Run the  [pt \(-n\) \[\*.npy\]](precision_tool_ommand_ref.md#pt--n-npy)  command to inspect the corresponding dump block information.
+6. Run the  [pt \(-n\) \[\*.npy\]](precision_tool_command_ref.md#pt--n-npy)  command to inspect the corresponding dump block information.
 
     ![](../figures/fp_exception_result.png)
 
@@ -151,8 +151,8 @@ Analyze overflow/underflow data as follows:
 
                 ```python
                 from npu_bridge.npu_init import *
-                with npu_scope.keep_dtype_scope():   
-                  y = tf.mul(x1,x2)
+                with npu_scope.keep_dtype_scope():
+                  y = tf.multiply(x1,x2)
                 ```
 
         - If overflow/underflow does not happen in inputs and outputs, analyze the computation process according to the operator formulas. For example, AvgPool calculates the sum and mean, and overflow/underflow may occur during the sum operation, but disappear after the result is averaged.

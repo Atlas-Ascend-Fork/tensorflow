@@ -18,7 +18,7 @@ npu.ops.gelu(x)
 
 ## Returns
 
-Result tensor after the GELU operation is performed on input  **x**. The data type is the same as the input.
+Result tensor after the GELU operation is performed on input **x**. The data type is the same as the input.
 
 ## Example
 

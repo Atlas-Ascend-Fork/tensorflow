@@ -37,7 +37,7 @@ None
 import tensorflow as tf
 import npu_device as npu
 # Initialize the NPU as the default device.
-npu.open().as_default() 
+npu.open().as_default()
 # For the Atlas A2 products, the following API is called to set the overflow mode during network execution:
 npu.npu_device.set_device_sat_mode(1)
 ```

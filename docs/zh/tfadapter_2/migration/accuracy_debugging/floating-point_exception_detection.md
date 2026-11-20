@@ -38,11 +38,11 @@
 1. 将precision_tool和precision_data文件夹上传到CANN开发环境的任意目录下，目录结构示例：
 
     ```text
-    ├── precision_tool              
-    │    ├── cli.py                   
+    ├── precision_tool
+    │    ├── cli.py
     │    ├── ...
-    ├── precision_data              
-    │    ├── overflow                   
+    ├── precision_data
+    │    ├── overflow
     │    │    ├── dump
     ```
 
@@ -68,7 +68,7 @@
 
     **PrecisionTool \>**
 
-5. 执行如下命令进行溢出数据分析，详细命令说明可参考[precision_tool命令参考](precision_tool_ommand_ref.md)。
+5. 执行如下命令进行溢出数据分析，详细命令说明可参考[precision_tool命令参考](precision_tool_command_ref.md)。
 
     **PrecisionTool \> ac**
 
@@ -87,7 +87,7 @@
     > [!NOTE]说明
     > 当出现多个算子溢出时，会出现N个溢出算子信息，默认按照算子执行顺序排序，由于后面算子溢出可能是因为前一个算子溢出导致，建议用户优先分析第一个异常算子。
 
-6. 执行[pt \(-n\) \[\*.npy\]](precision_tool_ommand_ref.md#pt--n-npy)命令，可以查看对应dump数据块的数据信息。
+6. 执行[pt \(-n\) \[\*.npy\]](precision_tool_command_ref.md#pt--n-npy)命令，可以查看对应dump数据块的数据信息。
 
     ![](../figures/precision_pt-n-npy.png)
 

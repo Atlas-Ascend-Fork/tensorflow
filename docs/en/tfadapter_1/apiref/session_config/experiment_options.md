@@ -77,15 +77,13 @@ Example:
 Acceleration triggered by step:
 
 ```python
-custom_op.parameter_map["experimental_accelerate_train_mode"].s =
-tf.compat.as_bytes("fast|step|0.9")
+custom_op.parameter_map["experimental_accelerate_train_mode"].s = tf.compat.as_bytes("fast|step|0.9")
 ```
 
 Acceleration triggered by loss:
 
 ```python
-custom_op.parameter_map["experimental_accelerate_train_mode"].s =
-tf.compat.as_bytes("fast|loss|1.05")
+custom_op.parameter_map["experimental_accelerate_train_mode"].s = tf.compat.as_bytes("fast|loss|1.05")
 ```
 
 NOTE:
@@ -145,6 +143,5 @@ This option applies to static and dynamic shape graph scenarios. You can enable 
 Example:
 
 ```python
-custom_op.parameter_map["auto_multistream_parallel_mode"].s =
-tf.compat.as_bytes("cv")
+custom_op.parameter_map["auto_multistream_parallel_mode"].s = tf.compat.as_bytes("cv")
 ```

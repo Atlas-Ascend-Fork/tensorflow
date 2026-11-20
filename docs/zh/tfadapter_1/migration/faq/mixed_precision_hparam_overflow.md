@@ -2,7 +2,7 @@
 
 ## 问题现象
 
-SSD-ResNet50V1-FPN网络，在allow_mix_precision精度模式下，设置静态lossscale=1，执行单卡训练，发现global_step不更新，且每个迭代都有Sub融合算子溢出：
+SSD-ResNet50V1-FPN网络，在allow_mix_precision精度模式下，设置静态loss_scale=1，执行单卡训练，发现global_step不更新，且每个迭代都有Sub融合算子溢出：
 
 ![](../figures/SSD-ResNet50V1-FPN-faq.png)
 

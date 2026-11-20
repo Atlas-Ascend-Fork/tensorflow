@@ -89,21 +89,21 @@
 
     ```json
     {
-    "server_count":"1", 
+    "server_count":"1",
     "server_list":
     [
        {
-            "device":[ 
+            "device":[
                            {
-                            "device_id":"0", 
-                            "device_ip":"192.168.1.8", 
-                            "rank_id":"0" 
+                            "device_id":"0",
+                            "device_ip":"192.168.1.8",
+                            "rank_id":"0"
                             }
                       ],
              "server_id":"10.0.0.10"
         }
     ],
-    "status":"completed", 
+    "status":"completed",
     "version":"1.0"
     }
     ```
@@ -115,10 +115,10 @@
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # 当前脚本所在路径，例如：
     export PYTHONPATH="$PYTHONPATH:/root/models"
     export JOB_ID=10087        # 训练任务ID，用户自定义，仅支持大小写字母，数字，中划线，下划线。不建议使用以0开头的纯数字
@@ -162,7 +162,7 @@
                              "rank_id":"1"
                              }
                       ],
-             "server_id":"10.0.0.10" 
+             "server_id":"10.0.0.10"
         }
     ],
     "status":"completed",
@@ -179,14 +179,14 @@
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # 当前脚本所在路径，例如：
     export PYTHONPATH=/root/models:$PYTHONPATH
     export JOB_ID=10087
-    
+
     export RANK_ID=0
     export RANK_SIZE=2
     export RANK_TABLE_FILE=/root/rank_table_2p.json
@@ -198,14 +198,14 @@
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # 当前脚本所在路径，例如：
     export PYTHONPATH=/root/models:$PYTHONPATH
     export JOB_ID=10087
-    
+
     export RANK_ID=1
     export RANK_SIZE=2
     export RANK_TABLE_FILE=/root/rank_table_2p.json

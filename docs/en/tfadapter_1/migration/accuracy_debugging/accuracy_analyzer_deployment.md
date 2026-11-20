@@ -24,7 +24,7 @@ The directory structure is as follows:
 
 ```text
 ├── resnet                              // Training working directory.
-│    ├── __init__.py     
+│    ├── __init__.py
 │    ├── imagenet_main.py              // Script for training the network based on the ImageNet dataset.
 │    ├── imagenet_preprocessing.py     // ImageNet preprocessing module.
  │    ├── resnet_model.py               // ResNet model file.
@@ -32,7 +32,7 @@ The directory structure is as follows:
 │    ├── cifar10_main                  // Training entry point file.
 │    ├── ...
 │    ├── precision_tool           // Directory of the one-click accuracy analyzer
-│    │    ├── cli.py                   
+│    │    ├── cli.py
 │    │    ├── ...
 ```
 
@@ -48,10 +48,10 @@ The directory structure is as follows:
 
 The following figure shows the workflow of using the one-click accuracy analyzer  **precision_tool**  to analyze accuracy when the CANN development and operating environments are deployed on the same server.
 
-**Figure  1**  CANN development and operating environments set up on the same server  
+**Figure  1**  CANN development and operating environments set up on the same server
 ![](../figures/dev_run_merge.png "cann-development-and-operating-environments-set-up-on-the-same-server")
 
 The following figure shows the workflow of using the one-click accuracy analyzer  **precision_tool**  to analyze accuracy when the CANN development and operating environments are deployed separately.
 
-**Figure  2**  CANN development and operating environments set up separately  
+**Figure  2**  CANN development and operating environments set up separately
 ![](../figures/dev_run_part.png "cann-development-and-operating-environments-set-up-separately")

@@ -39,7 +39,7 @@ class NPUEstimatorSpec(model_fn_lib.EstimatorSpec):
 | training_hooks | 输入 | 训练执行时的SessionRunHooks集合，为继承EstimatorSpec的参数。 |
 | scaffold | 输入 | 定义scaffold（提供定制saver、init_op、summary_op、global_step的能力），为继承EstimatorSpec的参数。|
 | evaluation_hooks | 输入 | 验证执行时的SessionRunHooks集合，为继承EstimatorSpec的参数。 |
-| prediction_hook | 输入 | 推理执行时的SessionRunHooks集合，为继承EstimatorSpec的参数。 |
+| prediction_hooks | 输入 | 推理执行时的SessionRunHooks集合，为继承EstimatorSpec的参数。 |
 | host_call | 输入 | 捕捉Summary信息，将每个step的信息传回Host侧查看，NPUEstimatorSpec新增参数。<br>host_call是一个function和一个tensor的列表或字典组成的元组，用于返回tensor列表。<br>host_call目前适用于train()和evaluate()。|
 
 ## 返回值

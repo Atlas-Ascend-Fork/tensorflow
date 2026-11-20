@@ -43,16 +43,16 @@ config = NPURunConfig(variable_format_optimize=True)
 - 0：不开启算子debug功能。
 - 1：开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中生成TBE指令映射文件（算子cce文件\*.cce、python-cce映射文件\*_loc.json、.o和.json文件），用于后续工具进行AI Core Error问题定位。
 
-  注意：Ascend 950PR&950DT系列产品不会生成TBE指定映射文件。
+  注意：Ascend 950PR&950DT系列产品不会生成TBE指令映射文件。
 
 - 2：开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中生成TBE指令映射文件（算子cce文件\*.cce、python-cce映射文件\*_loc.json、.o和.json文件），并关闭ccec编译器的编译优化开关且打开ccec调试功能（ccec编译器选项设置为-O0-g），用于后续工具进行AI Core Error问题定位。
 
-  注意：Ascend 950PR&950DT系列产品不会生成TBE指定映射文件。
+  注意：Ascend 950PR&950DT系列产品不会生成TBE指令映射文件。
 
 - 3：不开启算子debug功能，且在训练脚本执行目录下的kernel_meta文件夹中保留.o和.json文件。
 - 4：不开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中**保留**.o（算子二进制文件）和.json文件（算子描述文件），生成TBE指令映射文件（算子cce文件\*.cce）和UB融合计算描述文件（\{$kernel_name\}_compute.json）。
 
-  Ascend 950PR&950DT系列产品不会生成TBE指定映射文件和UB融合计算描述文件。
+  Ascend 950PR&950DT系列产品不会生成TBE指令映射文件和UB融合计算描述文件。
 
 **注意：**
 
@@ -65,7 +65,7 @@ config = NPURunConfig(variable_format_optimize=True)
   ```
 
 - 配置为2（即开启ccec编译选项）的场景下，会增大算子Kernel（\*.o文件）的大小。动态shape场景下，由于算子编译时会遍历可能存在的所有场景，最终可能会导致由于算子Kernel文件过大而无法进行编译的情况，此种场景下，建议不要配置为2。
-  
+
   由于算子kernel文件过大而无法编译的日志显示如下：
 
   ```text
@@ -168,7 +168,7 @@ config = NPURunConfig(dynamic_inputs_shape_range="getnext:[128 ,3~5, 2~128, -1],
 使用注意事项：
 
 - dataset输入固定标识为“getnext”，placeholder输入固定标识为“data”，不允许用其他表示。
-- 动态维度有shape范围的用波浪号“\~”表示，固定维度用固定数字表示，无限定范围的用-1表示。
+- 动态维度有shape范围的用波浪号“~”表示，固定维度用固定数字表示，无限定范围的用-1表示。
 - 对于多输入场景，例如有三个dataset输入时，如果只有第二个第三个输入具有shape范围，第一个输入为固定输入时，仍需要将固定输入shape填入：
 
   ```python
@@ -189,7 +189,7 @@ config = NPURunConfig(dynamic_inputs_shape_range="getnext:[128 ,3~5, 2~128, -1],
     dataset = dataset.map(func)
     ```
 
-    网络的第一个输入是x（假设shape range为：\[3\~5\]），第二个输入是y（假设shape range为：\[3\~6\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
+    网络的第一个输入是x（假设shape range为：\[3~5\]），第二个输入是y（假设shape range为：\[3~6\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
 
     ```python
     config = NPURunConfig(dynamic_inputs_shape_range ="getnext:[3~5],[3~6]")
@@ -204,7 +204,7 @@ config = NPURunConfig(dynamic_inputs_shape_range="getnext:[128 ,3~5, 2~128, -1],
     y = tf.placeholder(tf.int32)
     ```
 
-    placeholder的顺序和脚本中定义的位置一致，即网络的第一个输入是x（假设shape range为：\[3\~5\]），第二个输入是y（shape range为：\[3\~6\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
+    placeholder的顺序和脚本中定义的位置一致，即网络的第一个输入是x（假设shape range为：\[3~5\]），第二个输入是y（shape range为：\[3~6\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
 
     ```python
     config = NPURunConfig(dynamic_inputs_shape_range= "data:[3~5],[3~6]")
@@ -219,7 +219,7 @@ config = NPURunConfig(dynamic_inputs_shape_range="getnext:[128 ,3~5, 2~128, -1],
 
     则网络输入的顺序按name的字母序排序，即
 
-    即网络的第一个输入是y（假设shape range为：\[3\~6\]），第二个输入是x（shape range为：\[3\~5\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
+    即网络的第一个输入是y（假设shape range为：\[3~6\]），第二个输入是x（shape range为：\[3~5\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
 
     ```python
     config = NPURunConfig(dynamic_inputs_shape_range = "data:[3~6],[3~5]")
@@ -230,7 +230,7 @@ config = NPURunConfig(dynamic_inputs_shape_range="getnext:[128 ,3~5, 2~128, -1],
     - 若网络脚本中未指定placeholder的name，则placeholder会按照如下格式命名：
 
       xxx_0, xxx_1, xxx_2, ……
-      
+
       其中下划线后为placeholder在网络脚本中的定义顺序索引，placeholder会按照此索引的字母顺序进行排布，所以当placeholder的个数大于10时，则排序为“xxx_0 -\> xxx_10 -\> xxx_2 -\> xxx_3”，网络脚本中定义索引为10的placeholder排在了索引为2的placeholder前面，导致定义的shape range与实际输入的placeholder不匹配。
 
       为避免此问题，当placeholder的输入个数大于10时，建议在网络脚本中指定placeholder的name，则placeholder会以指定的name进行命名，实现shape range与placeholder name的关联。

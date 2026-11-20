@@ -64,7 +64,7 @@ A configuration example is provided as follows:
 
 ```bash
 # Enable profiling.
-export PROFILING_MODE=true 
+export PROFILING_MODE=true
 # Configure profiling configuration options.
 export PROFILING_OPTIONS='{"output":"/home/HwHiAiUser/output","training_trace":"on","task_trace":"on","aicpu":"on","fp_point":"","bp_point":"","aic_metrics":"PipeUtilization"}'
 ```
@@ -98,7 +98,7 @@ The following describes how to use the  **compat.v1**  module to call the Profil
     b = tf.constant([[1,2],[2,3]], dtype=tf.int32, shape=(2,2))
     c = tf.placeholder(tf.int32, (None,None))
     add = tf.add(a, b)
-    
+
     with tf.compat.v1.Session(config=session_config, graph=g) as sess:
       with profiler.Profiler(level="L1", aic_metrics="ArithmeticUtilization", output_path = "./"):
         result=sess.run(add, feed_dict={a: [[-20, 2],[1,3]],c: [[1],[-21]]})
@@ -114,7 +114,7 @@ The following describes how to use the  **compat.v1**  module to call the Profil
     add1 = tf.add(a, b)
     add2 = tf.add(c, d)
     add3 = tf.add(add1, add2)
-    
+
     with tf.compat.v1.Session(config=session_config, graph=g) as sess:
       with profiler.Profiler(level="L1", aic_metrics="PipeUtilization", output_path = "/home/test/profiling_data"):
         for i in range(2):
@@ -184,7 +184,7 @@ The following describes only key profile data files. For details about more prof
 
     The following figure shows a data sample. To analyze data, select a proper iteration ID and model ID.
 
-    **Figure  1**  Example of the  **step_trace_\*.csv**  file  
+    **Figure  1**  Example of the  **step_trace_\*.csv**  file
     ![](../figures/step_trace_csv_file.png)
 
     According to the preceding example, data of the model whose ID is 1 is obviously different from the subsequent data. This model is the initialization graph. Data of the model whose ID is 11 is the real iterative computational graph. Therefore, you need to select data of model 11 for analysis. In addition, when the model ID is 11 and iteration ID is 1, you can find that the  **Data Aug Bound**  time is long because compilation is performed in this phase. Therefore, you need to select data after iteration 2 of model 11 for analysis.

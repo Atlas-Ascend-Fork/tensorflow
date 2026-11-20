@@ -4,7 +4,7 @@
 
 安装TensorFlow 2.6.5后，执行import tensorflow时报错：“RuntimeError: module compiled against API version 0x10 but this version of numpy is 0xd”。
 
-**图 1**  报错截图  
+**图 1**  报错截图
 ![报错截图](../figures/import_tensorflow_error.png)
 
 ## 可能原因

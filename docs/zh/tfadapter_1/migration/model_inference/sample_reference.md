@@ -54,7 +54,7 @@ def read_file(image_name, path):
 
 def normalize(inputs):
     '''
-    图像归一化 
+    图像归一化
     '''
     mean = [121.0, 115.0, 100.0]
     std =  [70.0, 68.0, 71.0]
@@ -240,10 +240,10 @@ if __name__ == '__main__':
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # 添加当前脚本所在路径到PYTHONPATH，例如：
     export PYTHONPATH="$PYTHONPATH:/root/models"
     # 指定任务ID

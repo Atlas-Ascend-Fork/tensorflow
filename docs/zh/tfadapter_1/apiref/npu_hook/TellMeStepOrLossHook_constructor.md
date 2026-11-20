@@ -26,7 +26,7 @@ class TellMeStepOrLossHook(session_run_hook.SessionRunHook):
 
 ## 约束说明
 
-Iterations_per_loop\>1的场景下，会按照每增加Iterations_per_loop数量的步数，就会告知底层软件当前执行的步数或者loss，无法做到每增加1步就告知底层软件一次，可能对底层软件某些依赖此hook函数结果的功能产生影响。
+iterations_per_loop\>1的场景下，会按照每增加iterations_per_loop数量的步数，就会告知底层软件当前执行的步数或者loss，无法做到每增加1步就告知底层软件一次，可能对底层软件某些依赖此hook函数结果的功能产生影响。
 
 ## 调用示例
 

@@ -19,7 +19,7 @@ def all_to_all_v_c(send_data, send_count_matrix, rank, fusion=0, fusion_id=-1, g
 | 参数名 | 输入/输出 | 描述 |
 | --- | --- | --- |
 | send_data | 输入 | 待发送的数据，TensorFlow的tensor类型。<br>针对Ascend 950PR&950DT系列产品，支持数据类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、float16、float32、float64、bfp16。<br>针对Atlas A3系列产品，支持数据类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、float16、float32、float64、bfp16。<br>针对Atlas A2系列产品，支持数据类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、float16、float32、float64、bfp16。<br>针对Atlas训练系列产品，支持数据类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、float16、float32、float64 。 |
-| send_count_matrix | 输入 | 所有rank的收发参数，send_count_matrix[i][j]表示rank i发给rank j的数据量，基本单位是send_data_type的字节数。<br>例：send_data_type为int32，send_count_matrix[0][1]=1，表示rank0给rank1发送1个int32。<br>TensorFlow的tensor类型。tensor支持的数据类型为int64。 |
+| send_count_matrix | 输入 | 所有rank的收发参数，send_count_matrix[i][j]表示rank i发给rank j的数据量，基本单位为send_data数据类型对应的元素个数。<br>例：send_data的数据类型为int32，send_count_matrix[0][1]=1，表示rank0给rank1发送1个int32。<br>TensorFlow的tensor类型。tensor支持的数据类型为int64。 |
 | rank | 输入 | 本节点的rank id，该id是group内的rank id，int类型。 |
 | fusion | 输入 | alltoallvc算子融合标识，int类型，支持以下取值：<br><br>  - 0：标识网络编译时不会对该算子进行融合，即该alltoallvc算子不和其他alltoallvc算子融合。<br>  - 2：网络编译时，会对alltoallvc算子按照相同的fusion_id进行融合，即“fusion_id”相同的alltoallvc算子之间会进行融合。说明：“fusion_id”相同的alltoallvc算子之间融合有一定的前提，算子需要在相同的通信域内，并且算子发送数据的数据类型需要相同。 |
 | fusion_id | 输入 | 标识alltoallvc算子的融合id，int类型。<br>开启alltoallvc算子融合功能的场景下，需要配置该参数，取值范围[0, 0x7fffffff]。 |

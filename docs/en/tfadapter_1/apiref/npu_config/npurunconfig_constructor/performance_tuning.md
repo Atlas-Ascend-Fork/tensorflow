@@ -69,7 +69,7 @@ Atlas A2 products
 - keep_fp16: The FP16 data type is used for internal processing of operators. In this scenario, the FP16 data type is not automatically converted to the FP32 data type. If the performance of FP32 computation does not meet the expectation and high precision is not required, you can select the keep_fp16 mode. This low-precision mode sacrifices the precision for improving the performance, which is not recommended.
 - super_performance: ultra-high performance. Compared with high performance, the algorithm calculation formula is optimized.
 
-You can view the precision or performance mode supported by an operator in the opp/built-in/op_impl/ai_core/tbe/impl_mode/all_ops_impl_mode.ini file in the file storage path with the CANN software installed.
+You can view the precision or performance mode supported by an operator in the `opp/built-in/op_impl/ai_core/tbe/impl_mode/all_ops_impl_mode.ini` file in the file storage path with the CANN software installed.
 
 This parameter is mutually exclusive with op_select_implmode and optypelist_for_implmode. If they are all specified, op_precision_mode takes precedence.
 

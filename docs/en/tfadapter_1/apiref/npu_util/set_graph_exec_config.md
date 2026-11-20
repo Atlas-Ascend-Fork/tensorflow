@@ -39,7 +39,7 @@ Generally, gradient update operations are performed in training networks. The re
 
 ```python
 from npu_bridge.estimator.npu import util
-train_op = util.set_graph_exec_config(train_op, 
+train_op = util.set_graph_exec_config(train_op,
                                      dynamic_input=True,
                                      dynamic_inputs_shape_range="data:[1~2];getnext:[1~50,1~50],[1~50,1~50]")
 ```

@@ -84,13 +84,13 @@
 
         ```text
         licenses(["notice"])  # BSD/MIT.
-        
+
         cc_import(
             name = "tf_adapter",
             shared_library = "lib_tf_adapter.so",
-            visibility = ["//visibility:public"] 
+            visibility = ["//visibility:public"]
         )
-        
+
         cc_import(
             name = "tf_python",
             shared_library = "libpython3.7m.so",

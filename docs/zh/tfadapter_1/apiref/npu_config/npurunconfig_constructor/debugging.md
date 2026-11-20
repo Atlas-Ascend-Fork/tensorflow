@@ -89,7 +89,7 @@ Global Memory内存检测功能开关。
 配置示例：
 
 ```python
-config = NPURunConfig(op_debug_config="/root/test0.cfg") 
+config = NPURunConfig(op_debug_config="/root/test0.cfg")
 ```
 
 其中，test0.cfg文件信息为：
@@ -103,7 +103,7 @@ op_debug_config = ccec_O0,ccec_g,oom
 算子编译时，如果用户不想编译所有AI Core算子，而是指定某些AI Core算子进行编译，则需要在上述test0.cfg配置文件中新增**op_debug_list**字段，算子编译时，只编译该列表指定的算子，并按照op_debug_config配置的选项进行编译。op_debug_list字段要求如下：
 
 - 支持指定算子名称或者算子类型。
-- 算子之间使用英文逗号分隔，若为算子类型，则以“OpType::typeName“格式进行配置，支持算子类型和算子名称混合配置。
+- 算子之间使用英文逗号分隔，若为算子类型，则以“OpType::typeName”格式进行配置，支持算子类型和算子名称混合配置。
 - 要编译的算子，必须放在op_debug_config参数指定的配置文件中。
 
 test0.cfg文件配置示例如下：
@@ -118,9 +118,9 @@ op_debug_list=GatherV2,opType::ReduceSum
 **说明：**
 
 - 开启ccec编译选项的场景下（即ccec_O0、ccec_g选项），会增大算子Kernel（\*.o文件）的大小。动态shape场景下，由于算子编译时会遍历可能存在的所有场景，最终可能会导致由于算子Kernel文件过大而无法进行编译的情况，此种场景下，建议不要开启ccec编译选项。
-  
+
   由于算子kernel文件过大而无法编译的日志显示如下：
-  
+
   ```text
   message:link error ld.lld: error: InputSection too large for range extension thunk ./kernel_meta_xxxxx.o:(xxxx)
   ```

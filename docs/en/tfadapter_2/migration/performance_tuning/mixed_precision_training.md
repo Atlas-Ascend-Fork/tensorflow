@@ -29,13 +29,13 @@ When automatic mixed precision is enabled, the system automatically reduces the 
 Find the built-in tiling policy in  **/opp/built-in/op_impl/ai_core/tbe/config/<soc_version\>/aic-<soc_version\>-ops-info-<opType\>.json**  under the CANN installation directory.
 
 ```json
-"Conv2D":{
-    "precision_reduce":{
-        "flag":"true"
+{
+    "Conv2D":{
+        "precision_reduce":{
+            "flag":"true"
+        }
     },
-    {
-    ... ...
-    }
+    ...
 }
 ```
 
@@ -91,7 +91,7 @@ You can specify operators to reduce or preserve the precision based on the built
 
         ```json
         {
-          "black-list": { 
+          "black-list": {
              "to-add": ["A"]
           }
         }

@@ -55,14 +55,14 @@ You can use the gradient splitting API in the training script to set the AllRedu
 **set_split_strategy_by_idx**: sets the backward gradient splitting strategy in the collective communication group based on the gradient index ID.
 
 ```python
-from hccl.split.api import set_split_strategy_by_idx  
+from hccl.split.api import set_split_strategy_by_idx
 set_split_strategy_by_idx([20, 100, 159])
 ```
 
 **set_split_strategy_by_size**: sets the backward gradient splitting strategy in the collective communication group based on the gradient data volume percentage.
 
 ```python
-from hccl.split.api import set_split_strategy_by_size  
+from hccl.split.api import set_split_strategy_by_size
 set_split_strategy_by_size([60, 20, 20])
 ```
 

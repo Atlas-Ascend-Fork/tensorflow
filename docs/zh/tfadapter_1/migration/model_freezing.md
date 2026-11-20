@@ -37,8 +37,8 @@ TensorFlow提供的freeze_graph函数生成pb文件的主要过程为：
         logits = alexnet.inference(inputs, version="he_uniform", num_classes=1000, is_training=False)
     ```
 
-5. 使用tf.train.writegraph将上述推理图保存成pb图文件，作为freeze_graph函数的输入。
-6. 使用freeze_graph将tf.train.writegraph生成的pb图文件与Checkpoint文件合并，生成用于推理的pb图文件。
+5. 使用tf.train.write_graph将上述推理图保存成pb图文件，作为freeze_graph函数的输入。
+6. 使用freeze_graph将tf.train.write_graph生成的pb图文件与Checkpoint文件合并，生成用于推理的pb图文件。
 
 代码示例：
 
@@ -52,7 +52,7 @@ import alexnet
 # 指定checkpoint路径
 ckpt_path = "/opt/npu/model_ckpt/alexnet/model_8p/model.ckpt-0"
 
-def main(): 
+def main():
     tf.reset_default_graph()
     # 定义网络的输入节点
     inputs = tf.placeholder(tf.float32, shape=[None, 224, 224, 3], name="input")
@@ -68,7 +68,7 @@ def main():
         freeze_graph.freeze_graph(
                 input_graph='./pb_model/model.pb',   # 传入write_graph生成的模型文件
                 input_saver='',
-                input_binary=False, 
+                input_binary=False,
                 input_checkpoint=ckpt_path,  # 传入训练生成的Checkpoint文件
                 output_node_names='output',  # 与定义的推理网络输出节点保持一致
                 restore_op_name='save/restore_all',
@@ -78,7 +78,7 @@ def main():
                 initializer_nodes='')
     print("done")
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     main()
 ```
 
@@ -138,17 +138,17 @@ Estimator可以保存ckpt和saved_model两种格式的模型。ckpt方式与sess
     ```python
     import tensorflow as tf
     from tensorflow.python.tools import freeze_graph
-    from npu_bridge.npu_init import * 
-    
+    from npu_bridge.npu_init import *
+
     freeze_graph.freeze_graph(
-                    input_saved_model_dir='savedModel',  
+                    input_saved_model_dir='savedModel',
                     output_node_names='output',      # 与定义的推理网络输出节点保持一致
                     output_graph='test.pb',          # 需要生成的推理网络的名称
                             initializer_nodes='',
                     input_graph= None,
                     input_saver= False,
-                    input_binary=False, 
-                    input_checkpoint=None, 
+                    input_binary=False,
+                    input_checkpoint=None,
                     restore_op_name=None,
                     filename_tensor_name=None,
                     clear_devices=False,

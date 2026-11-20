@@ -14,7 +14,7 @@ npu.distribute.broadcast(values, root_rank, fusion=2, fusion_id=0, group="hccl_w
 
 | Parameter | Input/Output | Description |
 | --- | --- | --- |
-| values | Input | A TensorFlow variable or variable set.<br>For the Atlas training products, the supported data types are int8, int32, float16, float32, int64, and uint64.<br>For the Atlas inference products, the supported data types are int8, int16, int32, float16, float32, int64, and uint64.<br>For the Atlas A2 training products, the supported data types are int8, int32, float16, float32, int64, uint64, and bfloat16.<br>For the Atlas A3 products, the supported data types are int8, int32, float16, float32, int64, uint64, and bfloat16. |
+| values | Input | A TensorFlow variable or variable set.<br>For the Atlas training products, the supported data types are int8, int32, float16, float32, int64, and uint64.<br>For the Atlas A2 training products, the supported data types are int8, int32, float16, float32, int64, uint64, and bfloat16.<br>For the Atlas A3 products, the supported data types are int8, int32, float16, float32, int64, uint64, and bfloat16. |
 | root_rank | Input | An int.<br>Rank ID of the root rank. Must be a rank ID in the group. |
 | fusion | Input | An int.<br>Broadcast operator fusion flag. The value can be one of the following:<br><br>  - 0: The Broadcast operator is not fused with other Broadcast operators during network compilation.<br>  - 2: Broadcast operators with the same fusion_id are fused during network compilation. |
 | fusion_id | Input | An int.<br>Broadcast operator fusion ID.<br>If fusion is set to 2, Broadcast operators with the same fusion_id are fused during network compilation. |

@@ -38,7 +38,7 @@
            input_context: 由'tf.distribute.Strategy'传入的'tf.distribute.InputContext'对象。
            drop_remainder: 用于标示对于最后一个batch如果数据量达不到batch_size时保留还是抛弃。设置为True,则batch的维度固定。
            tf_data_experimental_slack: 是否启用tf.data的'experimental_slack'选项。
-    
+
          Returns:
            返回一个可用于迭代的数据集。
          """
@@ -51,23 +51,23 @@
              ############## NPU modify begin #############
              dataset = dataset.shard(get_rank_size(),get_rank_id())
              ############## NPU modify end ###############
-    
+
              # tf.compat.v1.logging.info(
              #     'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d' % (
              #         input_context.input_pipeline_id, input_context.num_input_pipelines))
              # dataset = dataset.shard(input_context.num_input_pipelines,
              #                         input_context.input_pipeline_id)
-    
+
          if is_training:
              # 将文件顺序打乱
              dataset = dataset.shuffle(buffer_size=_NUM_TRAIN_FILES)
-    
+
          # cycle_length = 10 并行读取并反序列化10个文件，CPU资源充足的场景下可适当增加该值。
          dataset = dataset.interleave(
              tf.data.TFRecordDataset,
              cycle_length=10,
              num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    
+
          return resnet_run_loop.process_record_dataset(
              dataset=dataset,
              is_training=is_training,
@@ -100,7 +100,7 @@
             dtype=tf.float16,
             input_context=input_context,
             drop_remainder=True)
-    
+
       def input_fn_eval():
         # 使用dtype=tf.float16提高数据传输性能
         # 当前版本的drop_remainder只支持为True
@@ -114,7 +114,7 @@
              input_context=True,
              drop_remainder=True)
       ############## NPU modify end ###############
-    
+
       # 原代码中用于训练的输入函数接口和用于验证的输入函数接口。
       # def input_fn_train(num_epochs, input_context=None):
       #     return input_function(

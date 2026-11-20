@@ -32,7 +32,7 @@ Data Dump模式，用于指定dump算子输入还是输出数据。取值如下�
 配置示例：
 
   ```python
-  custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all") 
+  custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
   ```
 
 ## enable_dump_debug
@@ -67,7 +67,7 @@ custom_op.parameter_map["enable_dump_debug"].b = True
 配置示例：
 
 ```python
-custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all") 
+custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all")
 ```
 
 ## dump_path
@@ -111,7 +111,7 @@ custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0|5|10")
 配置示例：
 
 ```python
-custom_op.parameter_map["dump_data"].s = tf.compat.as_bytes("stats") 
+custom_op.parameter_map["dump_data"].s = tf.compat.as_bytes("stats")
 ```
 
 ## dump_layer
@@ -123,7 +123,7 @@ custom_op.parameter_map["dump_data"].s = tf.compat.as_bytes("stats")
 配置示例：
 
 ```python
-custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3") 
+custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename2 nodename3")
 ```
 
 ## quant_dumpable
@@ -136,7 +136,7 @@ custom_op.parameter_map["dump_layer"].s = tf.compat.as_bytes("nodename1 nodename
 配置示例：
 
 ```python
-custom_op.parameter_map["quant_dumpable"].s = tf.compat.as_bytes("1") 
+custom_op.parameter_map["quant_dumpable"].s = tf.compat.as_bytes("1")
 ```
 
 > [!NOTE]说明

@@ -41,11 +41,11 @@ Validate that your training script will not execute random preprocessing.
 
 1. Perform NPU training twice and perform network accuracy comparison. Check whether the cosine similarity is greater than 0.98.
     1. Perform  [Dumping User Model on NPU](network_accuracy_comparison.md#dumping-user-model-on-npu).
-    2. Run the  [vc -lt \[left_path\] -rt \[right_path\] -g \[graph\]](precision_tool_ommand_ref.md#vc--lt-left_path--rt-right_path--g-graph)  command to compare the two networks. A CSV file will be generated.
+    2. Run the  [vc -lt \[left_path\] -rt \[right_path\] -g \[graph\]](precision_tool_command_ref.md#vc--lt-left_path--rt-right_path--g-graph)  command to compare the two networks. A CSV file will be generated.
 
         **PrecisionTool \> vc -lt /path/left -rt /path/right**
 
-    3. Run the  [vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_ommand_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit) command. If the cosine similarity is greater than 0.98, random preprocessings are disabled.
+    3. Run the  [vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_command_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit) command. If the cosine similarity is greater than 0.98, random preprocessings are disabled.
 
         **PrecisionTool \> vcs**
 

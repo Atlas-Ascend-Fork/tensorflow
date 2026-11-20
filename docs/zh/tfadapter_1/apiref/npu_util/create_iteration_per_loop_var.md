@@ -44,10 +44,10 @@ with tf.Session(config=config) as sess:
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```

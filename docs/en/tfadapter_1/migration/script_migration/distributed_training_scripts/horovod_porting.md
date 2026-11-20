@@ -81,7 +81,7 @@ custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name =  "NpuOptimizer"
 # Explicitly disable the remapping and memory_optimization functions of TensorFlow to avoid conflicts with the functions of the NPU.
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
-config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  
+config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 init_sess = tf.Session(config=config)
 init_sess.run(npu_int)
 
@@ -94,7 +94,7 @@ opt = tf.train.AdagradOptimizer(0.01 * get_rank_size())   # Change "hvd.size" to
 
 # NPU allreduce
 # Change hvd.DistributedOptimizer to npu_distributed_optimizer_wrapper.
-opt = npu_distributed_optimizer_wrapper(opt)   
+opt = npu_distributed_optimizer_wrapper(opt)
 # Add hook to broadcast variables from rank 0 to all other processes during initialization.
 hooks = [NPUBroadcastGlobalVariablesHook(0)]
 
@@ -115,11 +115,11 @@ with tf.train.MonitoredTrainingSession(checkpoint_dir=checkpoint_dir,
                                        config=config,
                                        hooks=hooks) as mon_sess:
   # Broadcast the variables.
-  mon_sess.run(bcast_global_variables_op)  
+  mon_sess.run(bcast_global_variables_op)
   while not mon_sess.should_stop():
     # Perform synchronous training.
-    mon_sess.run(train_op) 
-  
+    mon_sess.run(train_op)
+
 # After training, call the shutdown_system function to close the session.
 init_sess.run(npu_shutdown)
 init_sess.close()

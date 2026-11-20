@@ -17,7 +17,7 @@ custom_op.parameter_map["profiling_mode"].b = True
 
 ## profiling_options
 
-Profiling配置选项。支持的配置选项可参见环境变量[PROFILING_OPTIONS](https://gitcode.com/cann/oam-tools/blob/master/docs/zh/env-vars/PROFILING_OPTIONS.md)。
+Profiling配置选项。支持的配置选项可参见环境变量[PROFILING_OPTIONS](https://gitcode.com/cann/oam-tools/blob/master/docs/zh/user_guide/env-vars/PROFILING_OPTIONS.md)。
 
 配置示例：
 

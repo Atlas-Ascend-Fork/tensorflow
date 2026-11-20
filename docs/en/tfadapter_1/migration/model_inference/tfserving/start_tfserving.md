@@ -39,13 +39,13 @@ This section describes how to start TF Serving. Replace the example paths with y
                         value: {
                           s: "force_fp16"
                         }
-                      }                                    
+                      }
                     }
                     remapping: OFF
                   }
                 }
               }
-            } 
+            }
           }
         }
       }
@@ -79,7 +79,7 @@ This section describes how to start TF Serving. Replace the example paths with y
 3. Place the trained SavedModel in the  **tf_serving_test**  directory. For details, see the following directory structure.
 
     ```text
-    squeezenext/ 
+    squeezenext/
     └── 1
          ├── saved_model.pb
          └── variables
@@ -112,10 +112,10 @@ This section describes how to start TF Serving. Replace the example paths with y
         ```bash
         # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
         source /usr/local/Ascend/cann/set_env.sh
-        
+
         # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
         export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-        
+
         export JOB_ID=10087
         ```
 

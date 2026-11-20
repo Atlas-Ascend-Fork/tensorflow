@@ -36,11 +36,11 @@ Overflow/Underflow data analysis depends on the **atc** and **msaccucmp.py** too
 1. Upload the  **precision_tool**  and  **precision_data**  folders to any directory in the CANN development environment. The following is an example of the directory structure:
 
     ```text
-    ├── precision_tool              
-    │    ├── cli.py                   
+    ├── precision_tool
+    │    ├── cli.py
     │    ├── ...
-    ├── precision_data              
-    │    ├── overflow                   
+    ├── precision_data
+    │    ├── overflow
     │    │    ├── dump
     ```
 
@@ -66,7 +66,7 @@ Overflow/Underflow data analysis depends on the **atc** and **msaccucmp.py** too
 
     **PrecisionTool \>**
 
-5. Run the following command to analyze overflow/underflow data. For details about the command, see  [precision_tool Command Reference](precision_tool_ommand_ref.md).
+5. Run the following command to analyze overflow/underflow data. For details about the command, see  [precision_tool Command Reference](precision_tool_command_ref.md).
 
     **PrecisionTool \> ac**
 
@@ -85,7 +85,7 @@ Overflow/Underflow data analysis depends on the **atc** and **msaccucmp.py** too
     > [!NOTE]NOTE
     > When overflow/underflow occurs on more than one operator, overflow/underflow information about these faulty operators is displayed in the operator execution order. It is advised to analyze the first faulty operator, as the overflow/underflow of the rest operators is usually caused by their upstream operators.
 
-6. Run the  [pt \(-n\) \[\*.npy\]](precision_tool_ommand_ref.md#pt--n-npy)  command to check the corresponding dump block information.
+6. Run the  [pt \(-n\) \[\*.npy\]](precision_tool_command_ref.md#pt--n-npy)  command to check the corresponding dump block information.
 
     ![](../figures/precision_pt-n-npy.png)
 

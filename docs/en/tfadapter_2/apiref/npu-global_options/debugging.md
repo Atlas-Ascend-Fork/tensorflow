@@ -124,7 +124,7 @@ Whether to dump data of exception operators.
 
 - 0: disables the exception operator data dump function.
 - 1: enables the common ExceptionDump function to dump the input and output data, tensor description information (such as shape, dtype, and format), and workspace information of exception operators.
-  
+
   The dump data is stored in the following directories in descending order of priority: NPU_COLLECT_PATH > ASCEND_WORK_PATH > default directory (extra-info in the script execution directory).
 
 - 2 (default): enables the LiteExceptionDump function to dump the input and output data, workspace information, and tiling information of exception operators. The exported data is used to analyze AI Core errors. For details about how to collect and locate AI Core errors, see "Typical Faults > AI Core Error Locating" in [Troubleshooting](https://www.hiascend.com/document/detail/en/CANNCommunityEdition/latest/maintenref/troubleshooting/troubleshooting_0001.html).
@@ -157,7 +157,7 @@ npu.global_options().debug_dir="/home/test"
 
 ## export_compile_stat
 
-Whether to generate the operator fusion result file fusion_result.json during graph compilation. 
+Whether to generate the operator fusion result file fusion_result.json during graph compilation.
 
 The values are as follows:
 

@@ -42,7 +42,7 @@ NPURunConfig配置的通用使用方式如下所示：
 from npu_bridge.npu_init import *
 session_config=tf.ConfigProto()
 config = NPURunConfig(
-    session_config=session_config, 
-    mix_compile_mode=False, 
+    session_config=session_config,
+    mix_compile_mode=False,
     iterations_per_loop=1000)
 ```

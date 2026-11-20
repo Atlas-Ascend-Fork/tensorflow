@@ -11,7 +11,7 @@ The fusion exception detection process is shown in the following figure.
 ## Prerequisites
 
 1. You have completed  [Model Accuracy Analyzer Deployment](accuracy_analyzer_deployment.md).
-2. **Floating-point exceptions have been excluded, and the overflow/underflow detection function has been disabled.**
+2. Floating-point exceptions have been excluded, and the overflow/underflow detection function has been disabled.
 
 ## Procedure
 
@@ -20,14 +20,14 @@ The fusion exception detection process is shown in the following figure.
     ```python
     # Import precision_tool/tf_config.py.
     import precision_tool.tf_config as npu_tf_config
-    
+
     # 1. Manual network porting: disable fusion patterns.
     # 1.1 Estimator mode
-    npu_config = NPURunConfig(fusion_switch_file=npu_tf_config.FUSION_OFF_FILE) 
+    npu_config = NPURunConfig(fusion_switch_file=npu_tf_config.FUSION_OFF_FILE)
     # 1.2 Session run mode
     config = npu_tf_config.session_dump_config(config, action='fusion_off')
     sess = tf.Session(config)
-    
+
     # 2. Automated network porting: disable fusion patterns.
     # If custom_op is not configured in the script, add the following statement in bold to the script:
     session_config = npu_tf_config.session_dump_config(session_config, action='fusion_off')
@@ -36,7 +36,7 @@ The fusion exception detection process is shown in the following figure.
     custom_op.name = 'NpuOptimizer'
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     custom_op = npu_tf_config.update_custom_op(custom_op, action='fusion_off')
-    
+
     # 2.1 Estimator mode
     run_config = tf.estimator.RunConfig(session_config=session_config,...)
     # 2.2 Session run mode
@@ -98,14 +98,14 @@ The fusion exception detection process is shown in the following figure.
     # Disable the selected fusion pattern.
     # Import precision_tool/tf_config.py.
     import precision_tool.tf_config as npu_tf_config
-    
+
     # 1. Manual network porting
     # 1.1 Estimator mode
-    npu_config = NPURunConfig(fusion_switch_file=npu_tf_config.FUSION_SWITCH_FILE) 
+    npu_config = NPURunConfig(fusion_switch_file=npu_tf_config.FUSION_SWITCH_FILE)
     # 1.2 Session run mode
     config = npu_tf_config.session_dump_config(config, action='fusion_switch')
     sess = tf.Session(config)
-    
+
     # 2. Automated network porting
     session_config = npu_tf_config.session_dump_config(session_config, action='fusion_switch')
     # 2.1 Estimator mode

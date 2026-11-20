@@ -11,7 +11,7 @@ ResNet50为一个深度残差网络，可用于对CIFAR-10和ImageNet的1000类�
 ```text
 ├── r1   // 原始模型目录
 │   ├── resnet    // ResNet主目录
-│        ├── __init__.py     
+│        ├── __init__.py
 │        ├── imagenet_main.py      // 基于ImageNet数据集训练网络模型
 │        ├── imagenet_preprocessing.py     // ImageNet数据集数据预处理模块
 │        ├── resnet_model.py     // ResNet模型文件

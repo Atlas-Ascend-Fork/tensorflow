@@ -27,7 +27,7 @@
   - [Random Error Detection](./accuracy_debugging/random_error_detection.md)
   - [Version-related Accuracy Issue Detection](./accuracy_debugging/version-related_accuracy_issue_detection.md)
   - [Appendixes](./accuracy_debugging/appendixes.md)
-    - [precision_tool Command Reference](./accuracy_debugging/precision_tool_ommand_ref.md)
+    - [precision_tool Command Reference](./accuracy_debugging/precision_tool_command_ref.md)
     - [Network Accuracy Comparison Result File](./accuracy_debugging/network_accuracy_comparison_result_file.md)
     - [Disabling Random Preprocessings in the Training Script](./accuracy_debugging/train_script_derandomize.md)
 
@@ -46,7 +46,7 @@
 - [Model Freezing](model_freezing.md)
 - [Model Inference](./model_inference/model_inference.md)
   - [Offline Inference](./model_inference/offline_inference.md)
-  - [Online Inference](./model_inference/onlne_inference.md)
+  - [Online Inference](./model_inference/online_inference.md)
     - [Introduction](./model_inference/introduction.md)
     - [Build Configurations](./model_inference/compilation_config.md)
     - [Sample Reference](./model_inference/sample_reference.md)
@@ -112,7 +112,7 @@
   - [What Do I Do If an Error Message Indicating Unsupported V1 Control Flow Operators Is Displayed During Dynamic-Shape Network Execution?](./faq/dynamic_shape_v1_control_unsupported_error.md)
   - [What Do I Do When an Error Indicating Uninitialized Variables Is Reported During Training?](./faq/tf_keras_backend_zeros_uninitialized_variable.md)
   - [What Do I Do If "get rank id error" Occurred When Distributed Training Is Performed?](./faq/get_rank_id_error_distributed_training.md)
-  - [What Do I Do If the HCCL Fails to Initialize the NIC and the HCCP Returns Error Code ret\[-17\]?](./faq/hccl_init_ret_-17_error.md)
+  - [What Do I Do If the HCCL Fails to Initialize the NIC and the HCCP Returns Error Code ret\[-17\]?](./faq/hccl_init_ret-17_error.md)
   - [hat Do I Do If the GetNext Operator Times Out and Returns Error Code E30008?](./faq/getnext_timeout_e30008_error.md)
   - [How Do I Fix Application Errors Caused by Model Execution on Multiple Devices?](./faq/multi-device_model_error.md)
 

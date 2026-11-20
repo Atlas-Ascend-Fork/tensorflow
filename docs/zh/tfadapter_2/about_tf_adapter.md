@@ -4,7 +4,7 @@ Ascend Adapter for TensorFlow 2.x （下称TF Adapter）是TensorFlow 2.x（下�
 
 TF Adapter在昇腾AI软件栈中的位置如下图所示。
 
-**图 1**  昇腾AI软件栈架构图  
+**图 1**  昇腾AI软件栈架构图
 ![昇腾AI软件栈架构图](./migration/figures/ascend_architecture.png)
 
 ## TF2关键概念
@@ -31,14 +31,14 @@ TF Adapter涉及的TF2关键概念：
 
 TF Adapter将AI处理器注册成为TF2自定义设备，并且设置为默认设备，注册成为默认设备后，所有用户指定到AI处理器或未指定执行设备的运算操作，都将被TF2框架分发到AI处理器执行，AI处理器的算子执行接口内部实现时调用CANN的算子/图执行能力，完成AI处理器上的算子执行。
 
-**图 2**  TF Adapter对接框架图  
+**图 2**  TF Adapter对接框架图
 ![TF-Adapter对接框架图](./migration/figures/TF-Adapter_architecture.png)
 
 TF Adapter对接时序图：
 
 下图以一次典型的训练流程为例：包括设备初始化，模型（变量）初始化，执行训练，保存Checkpoint几个阶段。
 
-**图 3**  TF Adapter对接时序图  
+**图 3**  TF Adapter对接时序图
 ![TF-Adapter对接时序图](./migration/figures/TF-Adapter_sequence_diagram.png)
 
 时序图中涉及的概念说明：

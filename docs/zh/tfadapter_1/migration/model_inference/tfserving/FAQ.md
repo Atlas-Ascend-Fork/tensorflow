@@ -27,7 +27,7 @@ E: The package ascend-cann-toolkit needs to be reinstalled, but I can't  find an
     ```bash
     vim /var/lib/dpkg/status
     ```
-  
+
     ![](../../figures/swing_error.png "出错的软件包记录")
 
 3. 重新安装swig。
@@ -100,7 +100,7 @@ E: The package ascend-cann-toolkit needs to be reinstalled, but I can't  find an
     ```text
     CONFIGURE_DIR=$(dirname "$0")
     cd "${CONFIGURE_DIR}"
-    
+
     ############## NPU modify begin #############
     if [ "$(arch)" != "xxx" ];then
       mkdir -p build/dist/python/dist/
@@ -108,7 +108,7 @@ E: The package ascend-cann-toolkit needs to be reinstalled, but I can't  find an
       exit 0
     fi
     ############## NPU modify end ###############
-    
+
     # 原代码如下：
     if [ "$(arch)" != "x86_64" ];then
       mkdir -p build/dist/python/dist/

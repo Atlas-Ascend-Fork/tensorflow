@@ -41,7 +41,7 @@ config = npu_config_proto(config_proto=config)
 with tf.Session(config=config) as sess:
     sess.run(init)
     # sess.run模式下设置小循环次数为10
-    iteration = util.IterationPerLoop() 
+    iteration = util.IterationPerLoop()
     train_op = iteration.create_iteration_per_loop_var(optimizer) #修改图
     tf.train.Supervisor(logdir="/home/xxxx",init_op=init)  #冻结图
     iteration.load_iteration_per_loop_var(sess, 10)  #设置小循环次数
@@ -49,10 +49,10 @@ with tf.Session(config=config) as sess:
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```

@@ -2,7 +2,7 @@
 
 If the performance of the network ported to the  AI processor  for training is not satisfactory, you can perform the following steps to tune the performance:
 
-**Figure  1**  Performance tuning process  
+**Figure  1**  Performance tuning process
 ![](../figures/performance_tune_process.png)
 
 1. If the performance is not satisfactory, you are advised to perform the following common operations to improve it:

@@ -10,9 +10,9 @@ This section details how to run a ported TensorFlow training script on a single 
 ## Prerequisites
 
 - You have prepared a TensorFlow training script and a matched dataset.
-- **If HCCL collective communication interfaces are used in the training script**, you need to configure the device resource information before training by using the configuration file \(ranktable file\) or environment variables.  **You only need to configure the current device resource for this single-device training**  and start the training process. This section does not describe the procedure. For details, see  [Distributed Training with Multiple Devices](distributed_training.md).
+- **If HCCL collective communication interfaces are used in the training script**, you need to configure the device resource information before training by using the configuration file \(ranktable file\) or environment variables. **You only need to configure the current device resource for this single-device training** and start the training process. This section does not describe the procedure. For details, see  [Distributed Training with Multiple Devices](distributed_training.md).
 
-    If you use the ranktable file, set the distributed environment variables  **RANK_ID**  to  **0**  and  **RANK_SIZE**  to  **1**.
+    If you use the ranktable file, set the distributed environment variables **RANK_ID** to **0** and **RANK_SIZE** to **1**.
 
 ## Procedure
 

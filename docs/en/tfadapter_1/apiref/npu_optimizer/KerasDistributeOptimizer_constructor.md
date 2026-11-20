@@ -2,7 +2,7 @@
 
 ## Description
 
-Constructs an object of class  **KerasDistributeOptimizer**, which wraps around the single-server training optimizer constructed by  **tf.Keras**  to an NPU distributed training optimizer.
+Constructs an object of class  **KerasDistributeOptimizer**, which wraps around the single-server training optimizer constructed by  **tf.keras**  to an NPU distributed training optimizer.
 
 ## Prototype
 
@@ -28,6 +28,6 @@ An object of the  **KerasDistributeOptimizer**  class
 import tensorflow as tf
 from npu_bridge.npu_init import *
 
-model=xxx  
+model=xxx
 model.compile(loss='mean_squared_error', optimizer=KerasDistributeOptimizer(tf.keras.optimizers.SGD()))
 ```

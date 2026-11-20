@@ -100,7 +100,7 @@ config = NPURunConfig(enable_scope_fusion_passes="ScopeLayerNormPass,ScopeClipBo
 
 此配置仅适用于NMT网络。
 
-用于指定AICPU/AICORE引擎的并行度，从而实现AICPU/AICORE算子间的并行执行。
+用于指定AICPU/AI Core引擎的并行度，从而实现AICPU/AI Core算子间的并行执行。
 
 配置示例：
 
@@ -110,9 +110,9 @@ config = NPURunConfig(stream_max_parallel_num="DNN_VM_AICPU:10,AIcoreEngine:1")
 
 - DNN_VM_AICPU为AICPU引擎名称，本示例指定了AICPU引擎的并发数为10；
 
-- AIcoreEngine为AICORE引擎名称，本示例指定了AICORE引擎的并发数为1。
+- AIcoreEngine为AI Core引擎名称，本示例指定了AI Core引擎的并发数为1。
 
-- AICPU/AICORE引擎的并行度默认为1，取值不能超过AI Core的最大核数。
+- AICPU/AI Core引擎的并行度默认为1，取值不能超过AI Core的最大核数。
 
 ### is_tailing_optimization
 

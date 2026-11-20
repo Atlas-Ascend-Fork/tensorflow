@@ -43,10 +43,10 @@
         ```bash
         # 配置CANN软件环境变量，以root用户默认安装路径为例
         source /usr/local/Ascend/cann/set_env.sh
-        
+
         # TF Adapter python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
         export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-        
+
         export JOB_ID=10087        # 训练任务ID，用户自定义，仅支持大小写字母，数字，中划线，下划线。不建议使用以0开头的纯数字
         export ASCEND_DEVICE_ID=0  # 指定AI处理器的逻辑ID，单卡训练也可不配置，默认为0，在0卡执行训练
         ```

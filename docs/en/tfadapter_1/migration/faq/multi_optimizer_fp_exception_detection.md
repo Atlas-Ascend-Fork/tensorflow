@@ -33,21 +33,21 @@ def sequential_train_steps(sess, train_ops, global_step, train_step_kwargs):
     should_stop_op = train_step_kwargs['should_stop']
     train_kwargs = train_step_kwargs.copy()
     del train_kwargs['should_stop']
- 
+
   # Run generator training steps.
   gen_loss = 0
   for _ in range(train_steps.generator_train_steps):
     cur_gen_loss, _ = train_step(
         sess, train_ops.generator_train_op, global_step, train_kwargs)
     gen_loss += cur_gen_loss
- 
+
   # Run discriminator training steps.
   dis_loss = 0
   for _ in range(train_steps.discriminator_train_steps):
     cur_dis_loss, _ = train_step(
         sess, train_ops.discriminator_train_op, global_step, train_kwargs)
     dis_loss += cur_dis_loss
- 
+
   sess.run(train_ops.global_step_inc_op)
 ```
 
@@ -56,7 +56,7 @@ The related definition of  **train_step\(\)**  is as follows:
 ```python
 def train_step(sess, train_op, global_step, train_step_kwargs):
   start_time = time.time()
- 
+
   trace_run_options = None
   run_metadata = None
   if 'should_trace' in train_step_kwargs:
@@ -67,7 +67,7 @@ def train_step(sess, train_op, global_step, train_step_kwargs):
       trace_run_options = tf.compat.v1.RunOptions(
           trace_level=tf.compat.v1.RunOptions.FULL_TRACE)
       run_metadata = tf.compat.v1.RunMetadata()
- 
+
   total_loss, np_global_step = sess.run([train_op, global_step],
                                         options=trace_run_options,
                                         run_metadata=run_metadata)
@@ -85,7 +85,7 @@ The following uses a GAN network as an example. The two optimizers are computed 
 ```python
 d_optimizer = self.optimizer(self.d_lr)
 e_optimizer = self.optimizer(self.e_lr)
- 
+
 self.e_opt = e_optimizer.minimize(
     self.e_loss, global_step=self.global_step, var_list=self.E_var)
 if not self.encoder_only:
@@ -118,7 +118,7 @@ with tf.Session(config=config) as sess:
                 "loss_3d_params": self.e_loss_3d,
                 "loss_3d_joints": self.e_loss_3d_joints
             })
-    
+
         if step % self.log_img_step == 0:
             fetch_dict.update({
                 "input_img": self.show_imgs,
@@ -132,7 +132,7 @@ with tf.Session(config=config) as sess:
                     "summary_occasional":
                     self.summary_op_occ
                 })
-    
+
         t0 = time()
         result = sess.run(fetch_dict)
         t1 = time()
@@ -150,7 +150,7 @@ Two solutions are provided for the preceding scenario:
     from tensorflow.python.ops import math_ops
     from npu_bridge.helper import helper
     gen_npu_ops = helper.get_gen_ops()
-     
+
     def down_scale(grads_vars, loss_scale):
         # Down scale grads by the loss_scale.
         gv = []
@@ -161,40 +161,40 @@ Two solutions are provided for the preceding scenario:
             else:
                 gv.append((g, v))
         return gv
-     
+
     d_optimizer = self.optimizer(self.d_lr)
     e_optimizer = self.optimizer(self.e_lr)
-     
+
     loss_scale_mngr = FixedLossScaleManager(loss_scale=1)
     loss_scale = loss_scale_mngr.get_loss_scale()
-     
+
     self.float_status = gen_npu_ops.npu_alloc_float_status()
-     
+
     e_scaled_loss = self.e_loss * math_ops.cast(loss_scale, self.e_loss.dtype.base_dtype)
     e_grads_and_vars = e_optimizer.compute_gradients(e_scaled_loss, var_list=self.E_var)
     e_grads_and_vars = down_scale(e_grads_and_vars, loss_scale)
-     
+
     grads = []
     for (g, _) in e_grads_and_vars:
         if g is not None:
             grads.append(g)
-     
+
     if not self.encoder_only:
         d_scaled_loss = self.d_loss * math_ops.cast(loss_scale, self.d_loss.dtype.base_dtype)
         d_grads_and_vars = d_optimizer.compute_gradients(d_scaled_loss, var_list=self.D_var)
         d_grads_and_vars = down_scale(d_grads_and_vars, loss_scale)
-     
+
         for (g, _) in d_grads_and_vars:
             if g is not None:
                 grads.append(g)
-     
+
     with tf.get_default_graph().control_dependencies(grads):
         local_float_status = gen_npu_ops.npu_get_float_status(self.float_status)
         cleared_float_status = gen_npu_ops.npu_clear_float_status(local_float_status)
-     
+
     is_overall_finite = math_ops.reduce_all(tf.equal(self.float_status,
                                             cleared_float_status), name="overflow_status_reduce_all")
-     
+
     def true_apply_gradients_fn():
         def true_apply_gradients(e_grads_and_vars, d_grads_and_vars, global_step=None, name=None):
             e_opt = e_optimizer.apply_gradients(e_grads_and_vars, global_step)
@@ -202,7 +202,7 @@ Two solutions are provided for the preceding scenario:
                 d_opt = d_optimizer.apply_gradients(d_grads_and_vars)
             return tf.group(e_opt, d_opt)
         return true_apply_gradients(e_grads_and_vars, d_grads_and_vars, self.global_step)
-     
+
     self.update_opt_ops = control_flow_ops.cond(is_overall_finite,
                           true_apply_gradients_fn,
                           tf.no_op)

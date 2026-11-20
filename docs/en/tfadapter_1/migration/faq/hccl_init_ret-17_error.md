@@ -21,14 +21,14 @@ During initialization, the HCCL initializes the device NIC based on the device I
     You can run the  **hccn_tool**  command to view the device NIC information.
 
     ```bash
-    hccn_tool -i 0 -ip -g 
-    hccn_tool -i 1 -ip -g 
-    hccn_tool -i 2 -ip -g 
-    hccn_tool -i 3 -ip -g 
-    hccn_tool -i 4 -ip -g 
-    hccn_tool -i 5 -ip -g 
-    hccn_tool -i 6 -ip -g 
-    hccn_tool -i 7 -ip -g 
+    hccn_tool -i 0 -ip -g
+    hccn_tool -i 1 -ip -g
+    hccn_tool -i 2 -ip -g
+    hccn_tool -i 3 -ip -g
+    hccn_tool -i 4 -ip -g
+    hccn_tool -i 5 -ip -g
+    hccn_tool -i 6 -ip -g
+    hccn_tool -i 7 -ip -g
     Or
     for i in {0..7}; do hccn_tool -i $i -ip -g ; done
     ```

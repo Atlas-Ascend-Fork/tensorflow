@@ -43,14 +43,14 @@ with tf.Session(config=config) as sess:
     sess.run(init)
     # sess.run模式下设置小循环次数为10
     train_op = util.set_iteration_per_loop(sess, optimizer, 10)  # 其中sess为TensorFlow会话，optimizer为更新梯度的操作,10为设置的在Device侧进行训练迭代的次数
- 
+
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```

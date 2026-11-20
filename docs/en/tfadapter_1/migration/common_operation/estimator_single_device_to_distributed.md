@@ -5,15 +5,15 @@ The porting tool is able to directly port Estimator distributed training scripts
 Single-device training script after tool-based porting:
 
 ```python
-def cnn_model_fn(features,labels,mode):    
+def cnn_model_fn(features,labels,mode):
   # Construct the network.
-  xxx    
+  xxx
   # Calculate the loss.
-  xxx    
-  #Configure the TrainingOp(for TRAIN mode)    
-  if mode == tf.estimator.ModeKeys.TRAIN:      
+  xxx
+  #Configure the TrainingOp(for TRAIN mode)
+  if mode == tf.estimator.ModeKeys.TRAIN:
     optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001) # Use the SGD optimizer.
-    train_op=distributedOptimizer.minimize(loss=loss,global_step=tf.train.get_global_step()) # Minimize the loss.
+    train_op=optimizer.minimize(loss=loss,global_step=tf.train.get_global_step()) # Minimize the loss.
     return tf.estimator.EstimatorSpec(mode=mode,loss=loss,train_op=train_op)
 ...
 hook=hk._LoggerHook(FLAGS)
@@ -26,16 +26,16 @@ estimator.train(train_data_fn, max_steps=num_steps // rank_size, hooks=training_
 Modified script for distributed training \(using method 1\):
 
 ```python
-def cnn_model_fn(features,labels,mode):    
+def cnn_model_fn(features,labels,mode):
   # Construct the network.
-  xxx    
+  xxx
   # Calculate the loss.
-  xxx    
-  #Configure the TrainingOp(for TRAIN mode)    
-  if mode == tf.estimator.ModeKeys.TRAIN:      
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001) 
+  xxx
+  #Configure the TrainingOp(for TRAIN mode)
+  if mode == tf.estimator.ModeKeys.TRAIN:
+    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
     optimizer = npu_distributed_optimizer_wrapper(optimizer) # Update the gradient.
-    train_op=distributedOptimizer.minimize(loss=loss,global_step=tf.train.get_global_step()) 
+    train_op=optimizer.minimize(loss=loss,global_step=tf.train.get_global_step())
     return tf.estimator.EstimatorSpec(mode=mode,loss=loss,train_op=train_op)
 ...
 hook=hk._LoggerHook(FLAGS)
@@ -49,16 +49,16 @@ estimator.train(train_data_fn, max_steps=num_steps, hooks=training_hooks)
 Modified script for distributed training \(using method 2\):
 
 ```python
-def cnn_model_fn(features,labels,mode):    
+def cnn_model_fn(features,labels,mode):
   # Construct the network.
-  xxx    
+  xxx
   # Calculate the loss.
-  xxx    
-  #Configure the TrainingOp(for TRAIN mode)    
-  if mode == tf.estimator.ModeKeys.TRAIN:      
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001) 
+  xxx
+  #Configure the TrainingOp(for TRAIN mode)
+  if mode == tf.estimator.ModeKeys.TRAIN:
+    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
     optimizer = npu_distributed_optimizer_wrapper(optimizer) # Update the gradient.
-    train_op=distributedOptimizer.minimize(loss=loss,global_step=tf.train.get_global_step())
+    train_op=optimizer.minimize(loss=loss,global_step=tf.train.get_global_step())
     return tf.estimator.EstimatorSpec(mode=mode,loss=loss,train_op=train_op)
 ...
 hook=hk._LoggerHook(FLAGS)

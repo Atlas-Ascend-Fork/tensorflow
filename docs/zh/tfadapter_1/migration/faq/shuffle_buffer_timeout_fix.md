@@ -30,12 +30,12 @@ Fatal Python error: Aborted
 
 可以根据超时时间内实际完成的shuffle数量，适当减少shuffle的数量。例如本例中实际完成的shuffle数量为6232个数据，此处配置为5000。
 
-```bash
+```python
 dataset = dataset.shuffle(buffer_size=5000)
 ```
 
 也可以将enable_data_pre_proc设置为False，关闭GetNext算子下沉开关，从而保证预处理与前后向运算串行，但是可能会有性能上的损失。
 
-```bash
+```python
 run_config = NPURunConfig(enable_data_pre_proc=False)
 ```

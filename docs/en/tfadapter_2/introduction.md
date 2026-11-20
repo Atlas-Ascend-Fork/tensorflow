@@ -32,10 +32,10 @@ Atlas training products
 
 - This is a specific guide for TensorFlow 2.6.5.
 - Data types float64, complex64, complex128, and DT_VARIANT are not supported.
-- Operations related to  **tf.Variable**  must be performed on the NPU.
+- Operations related to **tf.Variable** must be performed on the NPU.
 - Function operators \(**tf.function**\) must be executed on the NPU.
-- The  **tf.compat.v1**  API must not be used together with eager APIs in TensorFlow 2.6.5.
-- The TensorFlow 2.6.5 data preprocessing is performed on the host by default. However, variables need to be offloaded to the device for initialization. If the data preprocessing script contains variables, it may fail to be executed on the NPU. To solve this problem, you need to embed the data preprocessing code that contains variables in  **context.device\('CPU:0'\)**  to ensure that the variables in the preprocessing code are initialized on the host.
+- The **tf.compat.v1** API must not be used together with eager APIs in TensorFlow 2.6.5.
+- The TensorFlow 2.6.5 data preprocessing is performed on the host by default. However, variables need to be offloaded to the device for initialization. If the data preprocessing script contains variables, it may fail to be executed on the NPU. To solve this problem, you need to embed the data preprocessing code that contains variables in **context.device\('CPU:0'\)** to ensure that the variables in the preprocessing code are initialized on the host.
 
     ```python
     import tensorflow as tf
@@ -46,4 +46,4 @@ Atlas training products
         y = tf.square(x)
     ```
 
-- If you spawn processes using the Python package  **multiprocessing**, you are advised to use the  **forkserver**  method instead of the  **fork**  method.
+- If you spawn processes using the Python package **multiprocessing**, you are advised to use the **forkserver** method instead of the **fork** method.

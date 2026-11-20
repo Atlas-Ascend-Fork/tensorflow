@@ -41,7 +41,7 @@ config = npu_config_proto(config_proto=config)
 with tf.Session(config=config) as sess:
     sess.run(init)
     # Set the number of iterations per loop to 10 in sess.run mode.
-    iteration = util.IterationPerLoop() 
+    iteration = util.IterationPerLoop()
     train_op = iteration.create_iteration_per_loop_var(optimizer) # Modify the graph.
     tf.train.Supervisor(logdir="/home/xxxx",init_op=init)  # Freeze the graph.
     iteration.load_iteration_per_loop_var(sess, 10)  # Set the number of iterations per loop.
@@ -49,10 +49,10 @@ with tf.Session(config=config) as sess:
     for epoch in range(training_epochs):
         avg_cost = 0
         total_batch = int(mnist.train.num_examples / batch_size)
- 
+
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             _, c = sess.run([train_op, cost], feed_dict={x: batch_xs, y: batch_ys})
- 
+
             avg_cost += c / total_batch
 ```

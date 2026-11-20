@@ -55,11 +55,11 @@ npu_device.compat.enable_v1()
     TensorFlow原始代码：
 
     ```python
-    def gelu(x): 
+    def gelu(x):
       cdf = 0.5 * (1.0 + tf.tanh(
-         (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3))))) 
+         (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3)))))
       return x*cdf
-    layers = gelu()
+    layers = gelu(x)
     ```
 
     迁移后的代码：
@@ -92,49 +92,49 @@ npu_device.compat.enable_v1()
 TensorFlow原始代码：
 
 ```python
-#构造迭代器 
-iterator=Iterator.from_structure(train_dataset.output_types,train_dataset.output_shapes) 
- 
-#取batch数据 
-next_batch=iterator.get_next() 
- 
-#迭代器初始化 
-training_init_op=iterator.make_initializer(train_dataset) 
-  
-#变量初始化 
-init=tf.compat.v1.global_variables_initializer() 
-sess=tf.compat.v1.Session() 
-sess.run(init) 
-  
-#Get the number of training/validation steps per epoch 
+#构造迭代器
+iterator=Iterator.from_structure(train_dataset.output_types,train_dataset.output_shapes)
+
+#取batch数据
+next_batch=iterator.get_next()
+
+#迭代器初始化
+training_init_op=iterator.make_initializer(train_dataset)
+
+#变量初始化
+init=tf.compat.v1.global_variables_initializer()
+sess=tf.compat.v1.Session()
+sess.run(init)
+
+#Get the number of training/validation steps per epoch
 train_batches_per_epoch=int(np.floor(train_size/batch_size))
 ```
 
 迁移后的代码：
 
 ```python
-#构造迭代器 
-iterator=Iterator.from_structure(train_dataset.output_types,train_dataset.output_shapes) 
- 
-#取batch数据 
-next_batch=iterator.get_next() 
- 
-#迭代器初始化 
-training_init_op=iterator.make_initializer(train_dataset) 
-  
-#变量初始化 
-init=tf.compat.v1.global_variables_initializer() 
- 
-#创建session 
-config = tf.compat.v1.ConfigProto() 
-custom_op = config.graph_options.rewrite_options.custom_optimizers.add() 
-custom_op.name = "NpuOptimizer" 
-config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭 
-config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭 
-sess = tf.compat.v1.Session(config=config) 
-sess.run(init) 
-  
-#Get the number of training/validation steps per epoch 
+#构造迭代器
+iterator=Iterator.from_structure(train_dataset.output_types,train_dataset.output_shapes)
+
+#取batch数据
+next_batch=iterator.get_next()
+
+#迭代器初始化
+training_init_op=iterator.make_initializer(train_dataset)
+
+#变量初始化
+init=tf.compat.v1.global_variables_initializer()
+
+#创建session
+config = tf.compat.v1.ConfigProto()
+custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
+custom_op.name = "NpuOptimizer"
+config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
+config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
+sess = tf.compat.v1.Session(config=config)
+sess.run(init)
+
+#Get the number of training/validation steps per epoch
 train_batches_per_epoch=int(np.floor(train_size/batch_size))
 ```
 
@@ -151,7 +151,7 @@ tf.compat.v1.Session原生功能在NPU上全部支持。
 for epoch in range(num_epochs):
   ##Initialize iterator with the training dataset
   sess.run(training_init_op)
-  for step in range(train_batches_per_epoch):  
+  for step in range(train_batches_per_epoch):
     #get next batch of data
     img_batch,label_batch=sess.run(next_batch)
     #run the training op

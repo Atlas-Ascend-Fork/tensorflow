@@ -9,16 +9,16 @@
 - 0：不开启算子debug功能。
 - 1：开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中生成TBE指令映射文件（算子cce文件\*.cce、python-cce映射文件\*_loc.json、.o和.json文件），用于后续工具进行AI Core Error问题定位。
 
-  注意：Ascend 950PR&950DT系列产品不会生成TBE指定映射文件。
+  注意：Ascend 950PR&950DT系列产品不会生成TBE指令映射文件。
 
 - 2：开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中生成TBE指令映射文件（算子cce文件\*.cce、python-cce映射文件\*_loc.json、.o和.json文件），并关闭ccec编译器的编译优化开关且打开ccec调试功能（ccec编译器选项设置为-O0-g），用于后续工具进行AI Core Error问题定位。
 
-  注意：Ascend 950PR&950DT系列产品不会生成TBE指定映射文件。
+  注意：Ascend 950PR&950DT系列产品不会生成TBE指令映射文件。
 
 - 3：不开启算子debug功能，且在训练脚本执行目录下的kernel_meta文件夹中保留.o和.json文件。
 - 4：不开启算子debug功能，在训练脚本执行目录下的kernel_meta文件夹中**保留**.o（算子二进制文件）和.json文件（算子描述文件），生成TBE指令映射文件（算子cce文件\*.cce）和UB融合计算描述文件（\{$kernel_name\}_compute.json）。
 
-  Ascend 950PR&950DT系列产品不会生成TBE指定映射文件和UB融合计算描述文件。
+  Ascend 950PR&950DT系列产品不会生成TBE指令映射文件和UB融合计算描述文件。
 
   注意：
   - 当该参数取值为0时，同时又配置了“op_debug_config”参数，则训练执行时，仍会在当前执行路径下生成算子编译目录kernel_meta，目录中生成的内容以“op_debug_config”配置为准。
@@ -30,7 +30,7 @@
     ```
 
   - 配置为2（即开启ccec编译选项）的场景下，会增大算子Kernel（\*.o文件）的大小。动态shape场景下，由于算子编译时会遍历可能存在的所有场景，最终可能会导致由于算子Kernel文件过大而无法进行编译的情况，此种场景下，建议不要配置为2。
-    
+
     由于算子kernel文件过大而无法编译的日志显示如下：
 
     ```text
@@ -40,7 +40,7 @@
   - 当该参数取值不为0时，可通过“debug_dir”参数指定调试相关过程文件的存放路径。
   - 该参数取值为0，同时设置了NPU_COLLECT_PATH环境变量的场景，执行命令当前路径**下仍旧会生成**算子编译目录kernel_meta；若设置了ASCEND_WORK_PATH环境变量，则在该环境变量指定路径下生成kernel_meta。关于环境变量的详细说明，可参见《[环境变量参考](https://hiascend.com/document/redirect/CannCommunityEnvRef)》。
   - debug功能开关打开场景下，若模型中含有如下通算融合算子，算子编译目录kernel_meta中，不会生成下述算子的\*.o、\*.json、\*.cce文件。
-  
+
     ```text
     MatMulAllReduce
     MatMulAllReduceAddRmsNorm
@@ -64,8 +64,8 @@ custom_op.parameter_map["op_debug_level"].i = 0
 
 性能调优配置项，用于配置GetNext算子是否下沉到NPU侧执行。GetNext算子下沉是使能训练迭代循环下沉的必要条件。
 
-- True：下沉，GetNext算子下沉的前提是必须使用TensorFlow Dataset方式读数据。
-- False（默认值）：不下沉。
+- True（默认值）：下沉，GetNext算子下沉的前提是必须使用TensorFlow Dataset方式读数据。
+- False：不下沉。
 
 配置示例：
 
@@ -174,7 +174,7 @@ custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("ge
 
 - 使用此参数时，不支持将常量设置为用户输入。
 - dataset输入固定标识为“getnext”，placeholder输入固定标识为“data”，不允许用其他表示。
-- 动态维度有shape范围的用波浪号“\~”表示，固定维度用固定数字表示，无限定范围的用-1表示。
+- 动态维度有shape范围的用波浪号“~”表示，固定维度用固定数字表示，无限定范围的用-1表示。
 - 对于多输入场景，例如有三个dataset输入时，如果只有第二个第三个输入具有shape范围，第一个输入为固定输入时，仍需要将固定输入shape填入：
 
   ```python
@@ -195,7 +195,7 @@ custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("ge
     dataset = dataset.map(func)
     ```
 
-    网络的第一个输入是x（假设shape range为：\[3\~5\]），第二个输入是y（假设shape range为：\[3\~6\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
+    网络的第一个输入是x（假设shape range为：\[3~5\]），第二个输入是y（假设shape range为：\[3~6\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
 
     ```python
     custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("getnext:[3~5],[3~6]")
@@ -210,7 +210,7 @@ custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("ge
     y = tf.placeholder(tf.int32)
     ```
 
-    placeholder的顺序和脚本中定义的位置一致，网络的第一个输入是x（假设shape range为：\[3\~5\]），第二个输入是y（shape range为：\[3\~6\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
+    placeholder的顺序和脚本中定义的位置一致，网络的第一个输入是x（假设shape range为：\[3~5\]），第二个输入是y（shape range为：\[3~6\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
 
     ```python
     custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("data:[3~5],[3~6]")
@@ -223,7 +223,7 @@ custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("ge
     y = tf.placeholder(tf.int32, name='a')
     ```
 
-    则网络输入的顺序按name的字母序排序，网络的第一个输入是y（假设shape range为：\[3\~6\]），第二个输入是x（shape range为：\[3\~5\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
+    则网络输入的顺序按name的字母序排序，网络的第一个输入是y（假设shape range为：\[3~6\]），第二个输入是x（shape range为：\[3~5\]），配置到dynamic_inputs_shape_range中时，需要保持顺序关系，即
 
     ```python
     custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("data:[3~6],[3~5]")
@@ -235,7 +235,7 @@ custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("ge
     - 若网络脚本中未指定placeholder的name，则placeholder会按照会如下格式命名：
 
       xxx_0, xxx_1, xxx_2, ……
-      
+
       其中下划线后为placeholder在网络脚本中的定义顺序索引，placeholder会按照此索引的字母顺序进行排布，所以当placeholder的个数大于10时，则排序为“xxx_0 -\> xxx_10 -\> xxx_2 -\> xxx_3”，网络脚本中定义索引为10的placeholder排在了索引为2的placeholder前面，导致定义的shape range与实际输入的placeholder不匹配。
 
       为避免此问题，当placeholder的输入个数大于10时，建议在网络脚本中指定placeholder的name，则placeholder会以指定的name进行命名，实现shape range与placeholder name的关联。

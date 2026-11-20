@@ -11,7 +11,7 @@ The directory is organized as follows. \(Only certain involved files are listed.
 ```text
 ├── r1   // Original model directory.
 │   ├── resnet    // ResNet main directory.
-│        ├── __init__.py     
+│        ├── __init__.py
 │        ├── imagenet_main.py      // Script for training the network based on the ImageNet dataset.
 │        ├── imagenet_preprocessing.py     // ImageNet preprocessing module.
 │        ├── resnet_model.py     // ResNet model file.

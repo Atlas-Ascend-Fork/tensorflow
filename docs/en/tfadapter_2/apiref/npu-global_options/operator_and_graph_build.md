@@ -16,7 +16,7 @@ Notes:
 - If [op_debug_config](./debugging.md#op_debug_config) is not empty and the op_debug_list field is not configured, the op_compiler_cache_mode configuration is ignored, the operator compilation cache function is disabled, and all operators are recompiled.
 - If [op_debug_config](./debugging.md#op_debug_config) is not empty, the op_debug_list field is configured, and op_compiler_cache_mode is set to enable or force, the operators in the list are recompiled, and the operator compilation cache function is enabled for operators that are not in the list. However, operators that are not in the list will not be recompiled.
 - When the operator compilation cache function is enabled, the default disk space allocated for cache files is 500 MB. If disk space becomes insufficient, cache files are deleted and 50% of the cache space is reserved by default. You can also customize the disk space allocated for cache files and the percentage of cache space to retain as follows:
-  1. Using the op_cache.ini configuration file
+  1. Using the op_cache.ini configuration file.
 
      After the operator is compiled, the op_cache.ini file is automatically generated in the directory specified by op_compiler_cache_dir. You can use this file to set the disk space allocated for cache files and the percentage of cache space to retain. If the op_cache.ini file does not exist, manually create it.
 
@@ -36,8 +36,8 @@ Notes:
      - To disable the compilation cache aging function, set max_op_cache_size to -1. In this case, the access time is not updated when the operator cache is accessed, the operator compilation cache is not aged, and the default disk space of 500 MB is used.
      - If multiple users use the same cache path, the configuration file affects all users.
 
-  2. Using environment variable ASCEND_MAX_OP_CACHE_SIZE
-  
+  2. Using environment variable ASCEND_MAX_OP_CACHE_SIZE.
+
     You can use the environment variable ASCEND_MAX_OP_CACHE_SIZE to limit the disk space for cache files under an AI processor. When the compilation cache space reaches the value set by ASCEND_MAX_OP_CACHE_SIZE and a cache file has not been accessed for more than half an hour, the cache file will be aged out. ASCEND_REMAIN_CACHE_SIZE_RATIO can be used to set the percentage of cache space to retain. For details about environment variables, see in [Environment Variables](https://www.hiascend.com/document/detail/en/CANNCommunityEdition/latest/maintenref/envvar/envref_07_0001.html).
 
     To disable the compilation cache aging function, set ASCEND_MAX_OP_CACHE_SIZE to -1.
@@ -80,7 +80,7 @@ Format: Integer 1|Integer 2, where the two values are separated by vertical bars
   - Atlas A3 products
   - Atlas A2 products
 - The maximum number of Cube cores and Vector cores for different AI processors can be found in the CANN installation directory/<arch\>-linux/data/platform_config/<soc_version\>.ini file. The following example indicates that there are 24 Cube cores and 48 Vector cores on the AI processor.
-  
+
   ```text
   [SoCInfo]
   ai_core_cnt=24

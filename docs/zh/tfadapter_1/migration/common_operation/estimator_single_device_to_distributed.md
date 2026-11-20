@@ -5,15 +5,15 @@
 工具迁移后的单机脚本：
 
 ```python
-def cnn_model_fn(features,labels,mode):    
-  #搭建网络   
-  xxx    
+def cnn_model_fn(features,labels,mode):
+  #搭建网络
+  xxx
   #计算loss
-  xxx    
-  #Configure the TrainingOp(for TRAIN mode)    
-  if mode == tf.estimator.ModeKeys.TRAIN:      
+  xxx
+  #Configure the TrainingOp(for TRAIN mode)
+  if mode == tf.estimator.ModeKeys.TRAIN:
     optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001) # 使用SGD优化器
-    train_op=distributedOptimizer.minimize(loss=loss,global_step=tf.train.get_global_step()) # 最小化loss
+    train_op=optimizer.minimize(loss=loss,global_step=tf.train.get_global_step()) # 最小化loss
     return tf.estimator.EstimatorSpec(mode=mode,loss=loss,train_op=train_op)
 ...
 hook=hk._LoggerHook(FLAGS)
@@ -26,16 +26,16 @@ estimator.train(train_data_fn, max_steps=num_steps // rank_size, hooks=training_
 手工修改后支持分布式训练（方法一）：
 
 ```python
-def cnn_model_fn(features,labels,mode):    
-  #搭建网络   
-  xxx    
+def cnn_model_fn(features,labels,mode):
+  #搭建网络
+  xxx
   #计算loss
-  xxx    
-  #Configure the TrainingOp(for TRAIN mode)    
-  if mode == tf.estimator.ModeKeys.TRAIN:      
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001) 
+  xxx
+  #Configure the TrainingOp(for TRAIN mode)
+  if mode == tf.estimator.ModeKeys.TRAIN:
+    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
     optimizer = npu_distributed_optimizer_wrapper(optimizer) # 梯度更新
-    train_op=distributedOptimizer.minimize(loss=loss,global_step=tf.train.get_global_step()) 
+    train_op=optimizer.minimize(loss=loss,global_step=tf.train.get_global_step())
     return tf.estimator.EstimatorSpec(mode=mode,loss=loss,train_op=train_op)
 ...
 hook=hk._LoggerHook(FLAGS)
@@ -49,16 +49,16 @@ estimator.train(train_data_fn, max_steps=num_steps, hooks=training_hooks)
 手工修改后支持分布式训练（方法二）：
 
 ```python
-def cnn_model_fn(features,labels,mode):    
-  #搭建网络   
-  xxx    
+def cnn_model_fn(features,labels,mode):
+  #搭建网络
+  xxx
   #计算loss
-  xxx    
-  #Configure the TrainingOp(for TRAIN mode)    
-  if mode == tf.estimator.ModeKeys.TRAIN:      
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001) 
+  xxx
+  #Configure the TrainingOp(for TRAIN mode)
+  if mode == tf.estimator.ModeKeys.TRAIN:
+    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
     optimizer = npu_distributed_optimizer_wrapper(optimizer) # 梯度更新
-    train_op=distributedOptimizer.minimize(loss=loss,global_step=tf.train.get_global_step())
+    train_op=optimizer.minimize(loss=loss,global_step=tf.train.get_global_step())
     return tf.estimator.EstimatorSpec(mode=mode,loss=loss,train_op=train_op)
 ...
 hook=hk._LoggerHook(FLAGS)

@@ -4,12 +4,12 @@ TF Adapter is a TensorFlow plugin that enables TensorFlow graphs to run on the N
 
 The following figure shows the position of TF Adapter in the Ascend AI software stack.
 
-**Figure  1**  Ascend AI software stack architecture  
+**Figure  1**  Ascend AI software stack architecture
 ![](./migration/figures/ascend_architecture.png "ascend-ai-software-stack-architecture")
 
 The following figure  shows the TF Adapter architecture.
 
-**Figure  2**  TF Adapter architecture  
+**Figure  2**  TF Adapter architecture
 ![](./migration/figures/tfadapter_architecture.png "tf-adapter-architecture")
 
 In the preceding figure, the left section illustrates the TensorFlow 1.15 architecture, while the right section depicts the TF Adapter architecture. Each layer of the TensorFlow framework is matched by a corresponding implementation within TF Adapter.

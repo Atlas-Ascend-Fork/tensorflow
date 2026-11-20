@@ -52,13 +52,13 @@ You can call the gradient splitting API in the training script to set the AllRed
 **set_split_strategy_by_idx**: sets the gradient splitting strategy in the collective communication group based on the gradient index.
 
 ```python
-from hccl.split.api import set_split_strategy_by_idx  
+from hccl.split.api import set_split_strategy_by_idx
 set_split_strategy_by_idx([20, 100, 159])
 ```
 
 **set_split_strategy_by_size**: sets the gradient splitting strategy in the collective communication group by percent.
 
 ```python
-from hccl.split.api import set_split_strategy_by_size  
+from hccl.split.api import set_split_strategy_by_size
 set_split_strategy_by_size([60, 20, 20])
 ```

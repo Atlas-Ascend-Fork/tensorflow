@@ -100,7 +100,7 @@ The solution is to modify the  **tf_adapter_2.x/CI_Build**  file and perform rec
     ```text
     CONFIGURE_DIR=$(dirname "$0")
     cd "${CONFIGURE_DIR}"
-    
+
     ############## NPU modify begin #############
     if [ "$(arch)" != "xxx" ];then
       mkdir -p build/dist/python/dist/
@@ -108,7 +108,7 @@ The solution is to modify the  **tf_adapter_2.x/CI_Build**  file and perform rec
       exit 0
     fi
     ############## NPU modify end ###############
-    
+
     # The source code is as follows:
     if [ "$(arch)" != "x86_64" ];then
       mkdir -p build/dist/python/dist/

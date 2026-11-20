@@ -84,7 +84,7 @@
     ![](../figures/query_npy_file.png "查询-npy文件")
 
     > [!NOTE]说明
-    > - npy文件命名规则：_\{op_name\}.\{output_index\}.\{timestamp\}_.npy，其中op_name字段需满足“A-Za-z0-9_-“正则表达式规则，timestamp需满足\[0-9\]\{1,255\}正则表达式，output_index为0\~9数字组成。
+    > - npy文件命名规则：_\{op_name\}.\{output_index\}.\{timestamp\}_.npy，其中op_name字段需满足“A-Za-z0-9_-“正则表达式规则，timestamp需满足\[0-9\]\{1,255\}正则表达式，output_index为0~9数字组成。
     > - 如果因算子名较长，造成按命名规则生成的npy文件名超过255字符而产生文件名异常，这类算子不支持精度比对。
 
 ## 基于NPU Dump精度数据
@@ -162,7 +162,7 @@
 
     **PrecisionTool \>**
 
-5. 执行[ac -l \[limit_num\] \(-c\)](precision_tool_ommand_ref.md#ac--l-limit_num--c)命令进行整网精度比对。
+5. 执行[ac -l \[limit_num\] \(-c\)](precision_tool_command_ref.md#ac--l-limit_num--c)命令进行整网精度比对。
 
     **PrecisionTool \> ac -c**
 
@@ -174,7 +174,7 @@
 
     您可以直接打开csv文件进行分析，具体请参考[整网精度比对结果文件说明](network_accuracy_comparison_result_file.md)。
 
-6. 除了直接打开csv文件进行精度分析外，您也可以使用[vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_ommand_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit)命令筛选比对结果。
+6. 除了直接打开csv文件进行精度分析外，您也可以使用[vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_command_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit)命令筛选比对结果。
 
     vcs命令默认筛选余弦相似度小于0.98的结果，您也可以通过-c参数自定义阈值：
 
@@ -189,7 +189,7 @@
     > [!NOTE]说明
     > 当出现多个算子精度问题时，会出现N个异常算子信息，默认按照算子执行顺序排序，由于后面算子精度问题可能是因为前一个算子精度问题导致，建议用户优先分析第一个异常算子。
 
-7. 执行[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_ommand_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令，可以查询异常算子的节点信息。
+7. 执行[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_command_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令，可以查询异常算子的节点信息。
 
     ![](../figures/precision_ni-n.png)
 
@@ -209,7 +209,7 @@
 整网数据比对提供了一个全网Dump数据与TF标杆数据的逐层累计比对报表，整网数据由于硬件差异本身是存在一定误差的，且误差会随着层数增多而累计，即便精度正常的网络数值上也会存在细微误差，一般采用余弦相似度做初步的可疑算子筛选（注意：余弦相似度较高也不一定说明没有问题，但较低一般代表可能存在问题），精度比对结果可以给出一个大致的分析方向。
 
 1. 根据算子类型，可以判断该算子是否为用户自定义算子：
-    - 对于自定义算子，一般由用户自行分析算子的实现逻辑是否与标杆一致，可以根据[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_ommand_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令提供的算子参数信息，以及dump数据进行单算子分析。
+    - 对于自定义算子，一般由用户自行分析算子的实现逻辑是否与标杆一致，可以根据[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_command_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令提供的算子参数信息，以及dump数据进行单算子分析。
     - 对于CANN内置算子，如果算子输入或输出类型为float16，则可以切换算子类型至float32计算。用户可以尝试以下两种方法：
       1.（推荐）方法一：通过[modify_mixlist](../../apiref/npu-global_options/accuracy_tuning.md#modify_mixlist)的修改混合精度模式算子黑白灰名单，调整算子精度模式。
       1. 方法二：通过[npu.keep_dtype_scope](../../apiref/npu-keep_dtype_scope.md)接口，指定哪些算子保持原有精度。

@@ -53,13 +53,10 @@ class DumpConfig():
     > [!NOTE]NOTE
     > If this parameter is set to  **all**, the input data of some operators, such as collective communication operators HcomAllGather and HcomAllReduce, will be modified during execution. Therefore, the system dumps the operator input before operator execution and dumps the operator output after operator execution. In this way, the dumped input and output data of the same operator is flushed to disks separately, and multiple dump files are generated. After parsing the dump files, you can determine whether the data is an input or output based on the file content.
 
-- **enable_dump_debug**: input, overflow/underflow detection mode. The options are as follows:
-  - **aicore_overflow**: detects AI Core operator overflow, that is, detecting whether abnormal extreme values \(such as 65500, 38400, and 51200 in float16\) are output with normal inputs. Once such a fault is detected, analyze the cause of the overflow/underflow and modify the operator implementation based on the network requirements and operator logic.
-  - **atomic_overflow**: detects Atomic Add overflow/underflow. Atomic Add overflow/underflow is detected when data is transferred from the UB to OUT after AI Core computation.
-  - **all**: detects overflow/underflow of both AI Core operators and Atomic Add. Defaults to  **all**.
+- **enable_dump_debug**: input, indicating whether to enable overflow/underflow data collection.
 
-    > [!NOTE]NOTE
-    > For Ascend 950PR&950DT products, Atlas A3 products and Atlas A2 products, only the default value  **all**  can be used.
+  - **True**: enables overflow/underflow data collection. The dump file path is read from  **dump_path**. An exception is reported if  **dump_path**  is set to  **None**.
+  - **False**  \(default\): disables overflow/underflow data collection.
 
 - **dump_debug_mode**: input, overflow/underflow detection mode. The options are as follows:
   - **aicore_overflow**: detects AI Core operator overflow, that is, detecting whether abnormal extreme values \(such as 65500, 38400, and 51200 in float16\) are output with normal inputs. Once such a fault is detected, analyze the cause of the overflow/underflow and modify the operator implementation based on the network requirements and operator logic.

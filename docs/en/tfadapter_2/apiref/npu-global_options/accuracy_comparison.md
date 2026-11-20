@@ -6,6 +6,7 @@ Whether to enable the data dump function.
 
 - True: enabled. The dump file path is read from dump_path.
 - False (default): disabled.
+
   > [!NOTE]NOTE
   >
   > - Data dump and overflow/underflow data collection cannot be enabled at the same time.

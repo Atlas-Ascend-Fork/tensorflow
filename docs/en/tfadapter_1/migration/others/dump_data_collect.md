@@ -47,13 +47,13 @@ If the training network's accuracy does not meet your expectation, you can colle
               close_session(npu_sess)
             ```
 
-            Note that only the configuration options supported in  [initialize_system](../../apiref/npu_ops/initialize_system.md)  can be configured in  **config**  of the  **init_resource**  function. For other functions, configure them in  **run_config**  of the  **npu_run_config_init**  function.
+            Note that only the configuration options supported in  [initialize_system](../../apiref/npu_ops/initialize_system.md)  can be configured in **config** of the **init_resource** function. For other functions, configure them in **run_config** of the **npu_run_config_init** function.
 
         - If it does not exist, go to the next step.
 
-    2. Search for  **npu_run_config_init**  in the ported script and find the run configuration function, such as  **run_config**  in the example.
+    2. Search for **npu_run_config_init** in the ported script and find the run configuration function, such as  **run_config**  in the example.
 
-        If the  **session_config**  parameter does not exist in the run configuration function, add the parameter according to the following example. If the  **session_config**  parameter exists, go to the next step.
+        If the **session_config** parameter does not exist in the run configuration function, add the parameter according to the following example. If the **session_config** parameter exists, go to the next step.
 
         ```python
         session_config = tf.ConfigProto(allow_soft_placement=True)
@@ -67,7 +67,7 @@ If the training network's accuracy does not meet your expectation, you can colle
             model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
         ```
 
-    3. Modify the  **session_config**  configuration and add related dump parameters.
+    3. Modify the **session_config** configuration and add related dump parameters.
 
         ```python
         session_config = tf.ConfigProto(allow_soft_placement=True)
@@ -95,7 +95,7 @@ If the training network's accuracy does not meet your expectation, you can colle
 
 - Manual porting
 
-    In  **Estimator**  mode, use  **dump_config**  in  **NPURunConfig**  to collect dump data. Before  **NPURunConfig**  is created, instantiate a  **DumpConfig**  class for dump configuration, including the dump path, iterations to dump, and dump mode.
+    In **Estimator** mode, use **dump_config** in **NPURunConfig** to collect dump data. Before **NPURunConfig** is created, instantiate a **DumpConfig** class for dump configuration, including the dump path, iterations to dump, and dump mode.
 
     For details about each field in the constructor of the  **DumpConfig**  class, see  [DumpConfig Constructor](../../apiref/npu_config/dumpconfig_constructor.md).
 

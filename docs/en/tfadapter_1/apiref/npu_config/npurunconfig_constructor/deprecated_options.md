@@ -65,7 +65,7 @@ Operator debug enable.
   ```
 
 - If this parameter is set to 2 (the CCE compiler is enabled), the size of the operator kernel file (\*.o file) increases. In dynamic shape scenarios, all possible scenarios are traversed during operator build, which may cause operator build failures due to large operator kernel files. In this case, 2 is not recommended.
-  
+
   If the build failure is caused by the large operator kernel file, the following log is displayed:
 
   ```text
@@ -168,7 +168,7 @@ config = NPURunConfig(dynamic_inputs_shape_range="getnext:[128 ,3~5, 2~128, -1],
 Precautions:
 
 - The dataset input is identified by "getnext" and the placeholder input is identified by "data". No other identifiers are allowed.
-- The size of a static dimension is specified by a fixed number. The size range of a dynamic dimension is specified by using a tilde ("\~"). A dynamic dimension without size range specified is denoted by -1.
+- The size of a static dimension is specified by a fixed number. The size range of a dynamic dimension is specified by using a tilde ("~"). A dynamic dimension without size range specified is denoted by -1.
 - For multiple inputs, for example, if there are three dataset inputs but only the second and third inputs have shape ranges while the first input is static, the static input shape must still be specified:
 
   ```python
@@ -189,7 +189,7 @@ Precautions:
     dataset = dataset.map(func)
     ```
 
-    Assume that the first input of the network is x (with shape range \[3\~5\]) and the second input is y (with shape range \[3\~6\]). When configuring the dynamic ranges in dynamic_inputs_shape_range, the ordering must be preserved.
+    Assume that the first input of the network is x (with shape range \[3~5\]) and the second input is y (with shape range \[3~6\]). When configuring the dynamic ranges in dynamic_inputs_shape_range, the ordering must be preserved.
 
     ```python
     config = NPURunConfig(dynamic_inputs_shape_range ="getnext:[3~5],[3~6]")
@@ -204,7 +204,7 @@ Precautions:
     y = tf.placeholder(tf.int32)
     ```
 
-    The placeholder order is consistent with the definition order in the script. That is, the first input of the network is x (with shape range \[3\~5\]) and the second input is y (with shape range \[3\~6\]). When configuring the dynamic ranges in dynamic_inputs_shape_range, the ordering must be preserved.
+    The placeholder order is consistent with the definition order in the script. That is, the first input of the network is x (with shape range \[3~5\]) and the second input is y (with shape range \[3~6\]). When configuring the dynamic ranges in dynamic_inputs_shape_range, the ordering must be preserved.
 
     ```python
     config = NPURunConfig(dynamic_inputs_shape_range= "data:[3~5],[3~6]")
@@ -217,7 +217,7 @@ Precautions:
     y = tf.placeholder(tf.int32, name='a')
     ```
 
-    The network inputs are sorted in alphabetical order of the name fields. That is, the first input of the network is y (with shape range \[3\~6\]) and the second input is x (with shape range \[3\~5\]). When configuring the dynamic ranges in dynamic_inputs_shape_range, the ordering must be preserved.
+    The network inputs are sorted in alphabetical order of the name fields. That is, the first input of the network is y (with shape range \[3~6\]) and the second input is x (with shape range \[3~5\]). When configuring the dynamic ranges in dynamic_inputs_shape_range, the ordering must be preserved.
 
     ```python
     config = NPURunConfig(dynamic_inputs_shape_range = "data:[3~6],[3~5]")
@@ -228,7 +228,7 @@ Precautions:
     - If the placeholder names are not specified in the network script, the placeholders are named in the following format:
 
       xxx_0, xxx_1, xxx_2, ......
-      
+
       The content following the underscore (_) is the sequence index of a placeholder in the network script. Placeholders are arranged in alphabetical order of the index. If the number of placeholders is greater than 10, the sequence is xxx_0 -> xxx_10 -> xxx_2 -> xxx_3. In the network script, the placeholder with index 10 is placed before the placeholder with index 2, causing the defined shape range to not match the input placeholder.
 
       To avoid this problem, when the number of input placeholders is greater than 10, you are advised to specify the placeholder names in the network script. In this case, the placeholders are named based on the specified names, to associate the shape ranges with the placeholder names.

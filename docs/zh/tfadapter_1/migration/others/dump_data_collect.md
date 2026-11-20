@@ -285,12 +285,12 @@ export DUMP_GRAPH_PATH=/home/dumpgraph
     - dump图文件：生成在\$\{DUMP_GRAPH_PATH\}/pid_$\{pid\}_deviceid_\$\{deviceid\}目录下，以“ge”开头。
     - dump数据文件：生成在配置参数“dump_path”指定的目录下，即\{dump_path\}/\{time\}/\{deviceid\}/\{model_name\}/\{model_id\}/\{data_index\}目录下，以\{dump_path\}配置/home/test/output为例，例如存放在“/home/test/output/20200808163566/0/ge_default_20200808163719_121/11/0“目录下。
 
-        说明:
+        说明：
         - 每次迭代都会产生dump数据，在训练数据集较大的情况下，每次迭代的dump数据量很大（约几十G，甚至更多），建议控制迭代次数，一般仅执行一次迭代。
         - 多p环境下，因训练脚本中多device进程调起时间有差异会导致落盘时产生多个时间戳目录。
         - 在docker内执行时，生成的数据存在docker里。
         - 在图执行过程中，以下算子不会产生dump数据：
-            - 在图执行前，已明确不会在Device侧执行的算子，如条件类算子\(if/while/for/case等\)、数据类算子\(Data/RefData/Const等\)、数据流算子\(StackPush/StackPop/Concat/Split等\)。
+            - 在图执行前，已明确不会在Device侧执行的算子，如条件类算子（if/while/for/case等）、数据类算子（Data/RefData/Const等）、数据流算子（StackPush/StackPop/Concat/Split等）。
             - 在图优化阶段，被GE标记为不在Device侧执行的算子，这些算子在dump图中的attr的_no_task属性为true。
             - 图中不会到达最终执行分支的算子。
 

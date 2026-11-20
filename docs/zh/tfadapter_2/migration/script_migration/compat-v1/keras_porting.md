@@ -39,23 +39,23 @@ npu_device.compat.enable_v1()
 创建一个TensorFlow会话并注册Keras，需要增加相关配置项以便在AI处理器执行训练。同时在训练结束时，关闭会话。
 
 ```python
-import tensorflow as tf 
-import tensorflow.keras as keras 
-from tensorflow.keras import backend as K 
-from npu_device.compat.v1.npu_init import * 
- 
+import tensorflow as tf
+import tensorflow.keras as keras
+from tensorflow.keras import backend as K
+from npu_device.compat.v1.npu_init import *
+
 sess_config = tf.compat.v1.ConfigProto()
-custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add() 
-custom_op.name = "NpuOptimizer" 
-sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF 
-sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF 
-sess = tf.compat.v1.Session(config=sess_config) 
-K.set_session(sess) 
- 
-#数据预处理... 
-#模型搭建... 
-#模型编译... 
-#模型训练... 
- 
+custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
+custom_op.name = "NpuOptimizer"
+sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+sess = tf.compat.v1.Session(config=sess_config)
+K.set_session(sess)
+
+#数据预处理...
+#模型搭建...
+#模型编译...
+#模型训练...
+
 sess.close()
 ```

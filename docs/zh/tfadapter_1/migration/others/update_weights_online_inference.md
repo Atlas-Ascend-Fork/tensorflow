@@ -46,7 +46,7 @@ class TestPolicy(object):
         # 配置4：设置graph_run_mode为推理
         custom_op.parameter_map["graph_run_mode"].i = 0
 
-        # 配置5：指定AICORE引擎的并行度为4
+        # 配置5：指定AI Core引擎的并行度为4
         custom_op.parameter_map["stream_max_parallel_num"].s = tf.compat.as_bytes("AIcoreEngine:4")
         # --------------------------------------------------------------------------------
 

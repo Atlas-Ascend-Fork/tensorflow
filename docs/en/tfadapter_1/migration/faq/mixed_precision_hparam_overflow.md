@@ -2,7 +2,7 @@
 
 ## Symptom
 
-In the SSD-ResNet50V1-FPN network, static loss scaling is set to  **1**  when the  **allow_mix_precision**  mode is used. After the single-device training is performed, it is found that  **global_step**  is not updated and overflow occurs for Sub fusion operators in each iteration.
+In the SSD-ResNet50V1-FPN network, static loss scaling is set to **1** when the **allow_mix_precision** mode is used. After the single-device training is performed, it is found that **global_step** is not updated and overflow occurs for Sub fusion operators in each iteration.
 
 ![](../figures/SSD-ResNet50V1-FPN-faq.png)
 

@@ -37,6 +37,6 @@ def set_device_sat_mode(mode)
 import tensorflow as tf
 import npu_device as npu
 # 初始化NPU为默认设备
-npu.open().as_default() 
+npu.open().as_default()
 npu.npu_device.set_device_sat_mode(1)
 ```

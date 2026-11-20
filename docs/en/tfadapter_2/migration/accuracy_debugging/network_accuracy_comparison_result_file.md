@@ -1,8 +1,8 @@
 # Network Accuracy Comparison Result File
 
-The comparison result file  **result_\*.csv**  is generated after the network accuracy comparison is complete. The following figure shows an example of the file content.
+The comparison result file **result_\*.csv** is generated after the network accuracy comparison is complete. The following figure shows an example of the file content.
 
-**Figure  1**  Comparison result example  
+**Figure  1**  Comparison result example
 ![](../figures/comparison_result_example.png "comparison-result-example")
 
 The following table describes the meaning of each field in the file.

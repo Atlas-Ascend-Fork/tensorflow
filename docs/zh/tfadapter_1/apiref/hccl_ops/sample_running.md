@@ -13,14 +13,14 @@
     ```bash
     # 配置CANN软件环境变量，以root用户默认安装路径为例
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter python库，其中${TFPLUGIN_INSTALL_PATH}为TF Adapter软件包安装路径
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     export RANK_SIZE=8
     export RANK_TABLE_FILE=/home/test/ranktable.json    # rank table资源配置文件路径，请根据实际情况替换
     export JOB_ID=10087      # 用户自定义，指定任务ID，可以包含大小写字母、数字、中划线或下划线
-    
+
     for((RANK_ID=0;RANK_ID<$((RANK_SIZE));RANK_ID++));
     do
         export RANK_ID=$RANK_ID
@@ -33,7 +33,7 @@
 3. 执行启动脚本。
 
     ```bash
-    bash hccl_start_8p.sh 
+    bash hccl_start_8p.sh
     ```
 
     结果示例如下：

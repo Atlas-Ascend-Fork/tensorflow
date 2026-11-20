@@ -74,7 +74,7 @@
     npu_tf_config.npu_device_dump_config(npu_device, action='fusion_switch')
     ```
 
-    同时修改precision_tool/lib/config下的融合规则配置文件fusion_switch.cfg，配置样例如下_，_on表示开启，off表示关闭。
+    同时修改precision_tool/lib/config下的融合规则配置文件fusion_switch.cfg，配置样例如下，on表示开启，off表示关闭。
 
     ```text
     {

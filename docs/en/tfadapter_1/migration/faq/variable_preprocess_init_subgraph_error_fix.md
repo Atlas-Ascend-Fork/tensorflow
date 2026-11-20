@@ -13,7 +13,7 @@ In addition, it is found that all variables are initialized to 0s.
 The user training script is analyzed as follows.
 
 ```python
-sess.run(tf.group(      
+sess.run(tf.group(
     tf.global_variables_initializer(),  # Variable initialization
     tf.local_variables_initializer(),   # Variable initialization
     iterator.initializer                # Data preprocessing initialization
@@ -29,7 +29,7 @@ Because variable initialization is performed on the host, all variables are init
 Schedule variable initialization and data preprocessing initialization to different subgraphs during TensorFlow graph partitioning.
 
 ```python
-sess.run(tf.group(      
+sess.run(tf.group(
     tf.global_variables_initializer(),  # Variable initialization
     tf.local_variables_initializer()    # Variable initialization
     ))

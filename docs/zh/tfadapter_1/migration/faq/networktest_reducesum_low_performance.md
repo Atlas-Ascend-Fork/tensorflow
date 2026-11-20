@@ -37,11 +37,11 @@
           precision_mode="allow_mix_precision",
           modify_mixlist="/home/test/ops_info.json"
           )
-        
+
         # sess.run模式修改方法
         config = tf.ConfigProto()
         custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
-        custom_op.name =  "NpuOptimizer" 
+        custom_op.name =  "NpuOptimizer"
         custom_op.parameter_map["use_off_line"].b = True
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
         custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("/home/test/ops_info.json")

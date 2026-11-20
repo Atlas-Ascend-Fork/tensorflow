@@ -33,11 +33,11 @@
     ```python
     # 引用precision_tool/tf_config.py
     import precision_tool.tf_config as npu_tf_config
-    
+
     # 如果使用的是Estimator，EstimatorSpec加入training_hooks
     # 等价于：estim_specs = tf_debug.DumpingDebugHook("precision_data/tf/tf_debug")
-    estim_specs = tf.estimator.EstimatorSpec(training_hooks=[npu_tf_config.estimator_dump()])    
-    
+    estim_specs = tf.estimator.EstimatorSpec(training_hooks=[npu_tf_config.estimator_dump()])
+
     # 如果使用的session.run，以下代码为sess加上了tf_debug的wrapper
     # 等价于：sess = tf_debug.DumpingDebugWrapperSession(sess, "precision_data/tf/tf_debug")
     sess = npu_tf_config.sess_dump(sess=sess)
@@ -45,7 +45,7 @@
 
 3. 执行GPU/CPU训练。
 
-    根据代码中run的次数，会在precision_data/tf/tf_debug/目录生成1\~N个离线tf_debug的dump目录。
+    根据代码中run的次数，会在precision_data/tf/tf_debug/目录生成1~N个离线tf_debug的dump目录。
 
 4. 使用precision_tool中提供的辅助命令行自动解析tf debug的Dump文件，生成算子输出tensor文件。
 
@@ -83,7 +83,7 @@
     ```python
     # 引用precision_tool/tf_config.py
     import precision_tool.tf_config as npu_tf_config
-    
+
     # 1. 手工迁移网络
     # 1.1 Estimator方式
     dump_config=npu_tf_config.estimator_dump_config(action='dump')
@@ -91,7 +91,7 @@
     # 1.2 Session run方式
     config = npu_tf_config.session_dump_config(config, action='dump')
     sess = tf.Session(config)
-    
+
     # 2. 自动迁移网络
     # 若脚本中未配置custom_op，则在脚本中新增如下粗体语句
     session_config = npu_tf_config.session_dump_config(session_config, action='dump')
@@ -100,7 +100,7 @@
     custom_op.name = 'NpuOptimizer'
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     custom_op = npu_tf_config.update_custom_op(custom_op, action='dump')
-    
+
     # 2.1 Estimator方式
     run_config = tf.estimator.RunConfig(session_config=session_config,...)
     # 2.2 Session run方式
@@ -124,11 +124,11 @@
 1. 将precision_tool和precision_data（包括标杆数据和NPU的精度数据）文件夹上传到CANN开发环境的任意目录下，目录结构示例：
 
     ```text
-    ├── precision_tool              
-    │    ├── cli.py                   
+    ├── precision_tool
+    │    ├── cli.py
     │    ├── ...
-    ├── precision_data              
-    │    ├── npu                   
+    ├── precision_data
+    │    ├── npu
     │    │    ├── debug_0  // 存放npu dump数据
     │    ├── tf
     │    │    ├── dump     // 存放标杆dump数据
@@ -164,7 +164,7 @@
     > [!NOTE]说明
     > 如需退出，可按下Ctrl+C组合键。
 
-5. 执行[ac -l \[limit_num\] \(-c\)](precision_tool_ommand_ref.md#ac--l-limit_num--c)命令进行整网精度比对。
+5. 执行[ac -l \[limit_num\] \(-c\)](precision_tool_command_ref.md#ac--l-limit_num--c)命令进行整网精度比对。
 
     **PrecisionTool \> ac -c**
 
@@ -176,7 +176,7 @@
 
     可打开csv文件进行分析，具体请参考[整网精度比对结果文件说明](network_accuracy_comparison_result_file.md)。
 
-6. 除了打开csv文件进行精度分析外，也可以使用[vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_ommand_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit)命令筛选比对结果。
+6. 除了打开csv文件进行精度分析外，也可以使用[vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_command_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit)命令筛选比对结果。
 
     vcs命令默认筛选余弦相似度小于0.98的结果，您也可以通过-c参数自定义阈值：
 
@@ -191,7 +191,7 @@
     > [!NOTE]说明
     > 当出现多个算子精度问题时，会出现N个异常算子信息，默认按照算子执行顺序排序，由于后面算子精度问题可能由前一个算子精度问题导致，建议用户优先分析第一个异常算子。
 
-7. 执行[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_ommand_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令，可以查询异常算子的节点信息。
+7. 执行[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_command_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令，可以查询异常算子的节点信息。
 
     ![](../figures/precision_ni-op.png)
 
@@ -211,15 +211,15 @@
 整网数据比对提供了一个全网Dump数据与TensorFlow标杆数据的逐层累计比对报表，整网数据由于硬件差异本身会存在一定的误差，且误差会随着层数增多而累计，即便精度正常的网络数值上也会存在细微误差，一般采用余弦相似度做初步的可疑算子筛选（注意：余弦相似度较高也不一定说明没有问题，但较低一般代表可能存在问题），精度对比结果可以给出一个大致的分析方向。
 
 1. 根据算子类型，可以判断该算子是否为用户自定义算子：
-    - 对于自定义算子，一般由用户自行分析算子的实现逻辑是否与标杆一致，可以根据[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_ommand_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令提供的算子参数信息，以及dump数据进行单算子分析。
+    - 对于自定义算子，一般由用户自行分析算子的实现逻辑是否与标杆一致，可以根据[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_command_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令提供的算子参数信息，以及dump数据进行单算子分析。
     - 对于CANN内置算子，如果算子输入或输出类型为float16，则可以切换算子类型至float32计算。用户可以尝试以下两种方法：
         1. （推荐）方法一：修改混合精度模式算子黑白灰名单，调整算子精度模式，请参考[修改混合精度黑白灰名单](../performance_tuning/mixed_precision_training.md#修改混合精度黑白灰名单)。
         2. 方法二：通过keep_dtype_scope接口，指定哪些算子保持原有精度。
 
             ```python
             from npu_bridge.npu_init import *
-            with npu_scope.keep_dtype_scope():   
-              y = tf.mul(x1,x2)
+            with npu_scope.keep_dtype_scope():
+              y = tf.multiply(x1,x2)
             ```
 
 2. 如果依旧无法解决，请在本源码仓提issue。

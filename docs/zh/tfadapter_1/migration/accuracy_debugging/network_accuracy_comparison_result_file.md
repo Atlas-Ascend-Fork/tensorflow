@@ -13,10 +13,10 @@
 | OpType | 算子类型。指定-f参数时获取算子类型。 |
 | NPUDump | 表示My Output模型的算子名。 |
 | DataType | 表示NPU侧dump数据的算子数据类型。 |
-| Address | dump tensor的内存地址。用于判断算子的内存问题。仅基于 AI处理器 运行生成的dump数据文件在整网比对时可提取该数据。 |
+| Address | dump tensor的内存地址。用于判断算子的内存问题。仅基于AI处理器运行生成的dump数据文件在整网比对时可提取该数据。 |
 | GroundTruth | 表示Ground Truth模型的算子名。 |
 | DataType | 表示Ground Truth侧数据算子的数据类型。 |
-| TensorIndex | 表示基于 AI处理器 运行生成的dump数据的算子的input ID和output ID。 |
+| TensorIndex | 表示基于AI处理器运行生成的dump数据的算子的input ID和output ID。 |
 | Shape | 比对的Tensor的Shape。 |
 | OverFlow | 溢出算子。显示YES表示该算子存在溢出；显示NO表示算子无溢出；显示NaN表示不做溢出检测。配置-overflow_detection参数时展示。 |
 | CosineSimilarity | 进行余弦相似度算法比对出来的结果，取值范围为：[-1, 1]，比对的结果如果越接近1，表示两者的值越相近，越接近-1意味着两者的值越相反。 |

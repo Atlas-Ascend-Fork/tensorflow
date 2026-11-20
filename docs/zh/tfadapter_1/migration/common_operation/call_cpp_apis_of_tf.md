@@ -14,13 +14,13 @@
 
 2. 对TensorFlow的SessionOptions做适配，使其能将图下发到NPU上计算。
 
-    TensorFlow的SessionOptions变量可以通过以下代码获取:
+    TensorFlow的SessionOptions变量可以通过以下代码获取：
 
     ```python
     tensorflow::SessionOptions sessOpts = tensorflow::SessionOptions();
     ```
 
-    接着对此SessionOptions的内容增加以下内容:
+    接着对此SessionOptions的内容增加以下内容：
 
     ```python
     auto *custom_op =

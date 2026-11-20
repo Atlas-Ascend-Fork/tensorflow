@@ -36,7 +36,7 @@ class NPUCheckpointSaverHook(basic_session_run_hooks.CheckpointSaverHook):
 
 ## 约束说明
 
-在使用NPUEstimator并且配置iteration_per_loop\>1时，该Hook可能不生效。
+在使用NPUEstimator并且配置iterations_per_loop\>1时，该Hook可能不生效。
 
 ## 调用示例
 
@@ -44,7 +44,7 @@ class NPUCheckpointSaverHook(basic_session_run_hooks.CheckpointSaverHook):
 from npu_bridge.npu_init import *
 checkpoint_hook = NPUCheckpointSaverHook(checkpoint_dir='./ckpt', save_steps=2000)
 ...
-mnist_classifier.train(   
+mnist_classifier.train(
    input_fn=train_input_fn,
     steps=2000,
     hooks=[checkpoint_hook])

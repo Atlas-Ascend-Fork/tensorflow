@@ -34,7 +34,7 @@ dump_config = DumpConfig(enable_dump_debug = True, dump_path = "/home/test/outpu
 session_config=tf.ConfigProto()
 
 config = NPURunConfig(
-    dump_config=dump_config, 
+    dump_config=dump_config,
     session_config=session_config)
 ```
 
@@ -50,11 +50,11 @@ custom_op.name =  "NpuOptimizer"
 custom_op.parameter_map["use_off_line"].b = True
 
 # dump_path：dump数据存放路径，该参数指定的目录需要在启动训练的环境上（容器或Host侧）提前创建且确保安装时配置的运行用户具有读写权限。
-custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output") 
+custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/home/test/output")
 # enable_dump_debug：是否开启采集溢出数据的功能
 custom_op.parameter_map["enable_dump_debug"].b = True
 # dump_debug_mode：溢出检测模式，取值：all/aicore_overflow/atomic_overflow
-custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all") 
+custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all")
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 

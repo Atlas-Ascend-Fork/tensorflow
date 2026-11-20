@@ -15,14 +15,14 @@ This section uses the single-server 8-device networking and ranktable file as an
     ```bash
     # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     export RANK_SIZE=8
     export RANK_TABLE_FILE=/home/test/ranktable.json    # Path of the ranktable resource configuration file. Replace it with the actual path.
     export JOB_ID=10087      # User-defined task ID, which can contain uppercase letters, lowercase letters, digits, hyphens (-), and underscores (_).
-    
+
     for((RANK_ID=0;RANK_ID<$((RANK_SIZE));RANK_ID++));
     do
         export RANK_ID=$RANK_ID
@@ -35,7 +35,7 @@ This section uses the single-server 8-device networking and ranktable file as an
 3. Execute the startup script.
 
     ```bash
-    bash hccl_start_8p.sh 
+    bash hccl_start_8p.sh
     ```
 
     Result example:

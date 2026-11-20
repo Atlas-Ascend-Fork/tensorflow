@@ -26,7 +26,7 @@
   - [随机错误检测](./accuracy_debugging/random_error_detection.md)
   - [跨版本精度问题检测](./accuracy_debugging/version-related_accuracy_issue_detection.md)
   - [参考](./accuracy_debugging/appendixes.md)
-    - [precision_tool命令参考](./accuracy_debugging/precision_tool_ommand_ref.md)
+    - [precision_tool命令参考](./accuracy_debugging/precision_tool_command_ref.md)
     - [整网精度比对结果文件说明](./accuracy_debugging/network_accuracy_comparison_result_file.md)
 
 - [性能调优](./performance_tuning/performance_tuning.md)
@@ -43,7 +43,7 @@
 - [模型固化](model_freezing.md)
 - [模型推理](./model_inference/model_inference.md)
   - [离线推理](./model_inference/offline_inference.md)
-  - [在线推理](./model_inference/onlne_inference.md)
+  - [在线推理](./model_inference/online_inference.md)
 
 - [更多特性](./others/additional_features.md)
   - [调整梯度切分策略](./others/adjust_gradient_split_strategy.md)

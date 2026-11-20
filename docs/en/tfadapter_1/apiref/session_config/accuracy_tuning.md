@@ -12,7 +12,7 @@ A string for the operator precision mode.
   - If the precision of an operator in the original graph is float16, and the implementation of the operator in the AI Core does not support float16 but supports only bfloat16, the AI CPU operator of float16 is used. If the AI CPU operator is not supported, an error is reported.
   - If the precision of an operator in the original graph is float32, and the implementation of the operator in the AI Core does not support float32 but supports only float16, the AI CPU operator of float32 is used. If the AI CPU operator is not supported, an error is reported.
 
-- cube_fp16in_fp32out: 
+- cube_fp16in_fp32out:
 
   The system selects a processing mode based on the operator type for AI Core operators supporting both float32 and float16.
 
@@ -36,7 +36,7 @@ A string for the operator precision mode.
 
   Mixed precision of bfloat16 and float32 is used for neural network processing. In this mode, bfloat16 is automatically used for certain float32 operators in the original graph based on the built-in tuning policy. This will improve system performance and reduce memory usage with minimal precision degradation. If the operators do not support bfloat16 and float32, the AI CPU operators are used for computation. If AI CPU operators also do not support float16 and float32, an error is reported during execution.
 
-    Note: This configuration is supported only by the Ascend 950PR&950DT products, Atlas A3 products, and Atlas A2 products.
+  Note: This configuration is supported only by the Ascend 950PR&950DT products, Atlas A3 products, and Atlas A2 products.
 
 - mixed_hif8:
 
@@ -102,7 +102,7 @@ A string for the operator precision mode.
     4. If the float16 input and output data types are not supported, an error is reported.
 
   - For vector compute operators, the operator precision in the original graph is float16 or bfloat16, and float32 is forcibly selected.
-  
+
     This option is invalid if the original graph contains operators not supporting float32 in the AI Core, for example, an operator that supports only float16. In this case, float16 is retained. If the operator in the AI Core does not support float32 and it is configured to the blocklist of precision reduction (by setting precision_reduce to false), the counterpart AI CPU operator supporting float32 is used. If the AI CPU operator does not support float32, an error is reported.
 
 - must_keep_origin_dtype:

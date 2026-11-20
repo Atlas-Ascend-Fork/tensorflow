@@ -36,7 +36,7 @@ You can enable AOE tuning in training scenarios using either of the following me
 
     ```python
     config = NPURunConfig(
-        session_config=session_config, 
+        session_config=session_config,
         aoe_mode=2)
     ```
 

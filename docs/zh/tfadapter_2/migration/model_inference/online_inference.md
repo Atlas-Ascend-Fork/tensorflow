@@ -37,7 +37,7 @@ def NetworkRun(modelPath,inputPath,outputPath):
     graph = load_graph(modelPath)
     input_nodes = graph.get_tensor_by_name('Input:0')
     output_nodes = graph.get_tensor_by_name('Identity:0')
-    
+
     with tf.compat.v1.Session(graph=graph) as sess:
         files = os.listdir(inputPath)
         files.sort()

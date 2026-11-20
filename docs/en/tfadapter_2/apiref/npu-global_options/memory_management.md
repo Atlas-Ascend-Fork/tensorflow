@@ -64,18 +64,18 @@ npu.global_options().memory_config.variable_use_1g_huge_page=1
 When multiple models are loaded in a session, if the weights of these models can be reused, you are advised to use this configuration item to externalize the weights of the Const/Constant nodes on the network to implement weight reuse among multiple models and reduce the memory usage of the weights.
 
 - False (default): The weights are not externalized but are saved in graphs.
-- True: The weights are externalized, the weights of all Const/Constant nodes on the network are flushed to the disk, and the node type is converted to FileConstant. The weight file is named in the format of weight_\<hash value\>.
+- True: The weights are externalized, the weights of all Const/Constant nodes on the network are flushed to the disk, and the node type is converted to FileConstant. The weight file is named in the format of `weight_<hash value>`.
 
-  If the environment variable ASCEND_WORK_PATH is not configured in the environment, the weight files are flushed to the current execution directory tmp_weight_<pid\>_<sessionid\>.
-  
-  If ASCEND_WORK_PATH is configured in the environment, the weight files are flushed to the ${ASCEND_WORK_PATH}/tmp_weight_<pid\>_<sessionid\> directory.
-  
-  When the model is uninstalled, the tmp_weight_<pid\>_<sessionid\> directory is automatically deleted.
-  
+  If the environment variable ASCEND_WORK_PATH is not configured in the environment, the weight files are flushed to the current execution directory `tmp_weight_<pid>_<sessionid>`.
+
+  If ASCEND_WORK_PATH is configured in the environment, the weight files are flushed to the `${ASCEND_WORK_PATH}/tmp_weight_<pid>_<sessionid>` directory.
+
+  When the model is uninstalled, the `tmp_weight_<pid>_<sessionid>` directory is automatically deleted.
+
 **Note**: This option is usually not required. If the model loading environment has limitations on memory, you can flush the weight externally.
-  
+
 Example:
-  
+
 ```python
 npu.global_options().external_weight=True
 ```

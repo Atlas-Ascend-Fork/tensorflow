@@ -22,14 +22,14 @@ The fusion exception detection process is shown in the following figure.
 
 2. Perform training and check whether the network accuracy improves remarkably.
     - If yes, the problem is caused by operator fusion. Locate the error fusion patterns and the corresponding operators by referring to  step3.
-    - If no, restore the fusion patterns by commenting out the code for disabling all fusion patterns in step1 and go to  [Network Accuracy Comparison](network_accuracy_comparison.md).
+    - If no, restore the fusion patterns by commenting out the code for disabling all fusion patterns in step1 and go to [Network Accuracy Comparison](network_accuracy_comparison.md).
 
 3. Locate the error fusion patterns.
 
     Locating fusion exceptions depends on the  **atc**  and  **msaccucmp.py**  tools in the CANN package. Perform the following operations in the CANN development environment:
 
     1. Enable fusion patterns to generate dump data and graph files.
-        1. Restore the fusion patterns by commenting out the code for disabling all fusion patterns in  [1](#step1)）. Start training on the NPU by referring to  [Dumping User Model on the NPU](network_accuracy_comparison.md#dumping-user-model-on-the-npu)  and collect dump data. The data will be saved to the  **precision_data/npu/debug_0**  directory by default.
+        1. Restore the fusion patterns by commenting out the code for disabling all fusion patterns in [1](#step1). Start training on the NPU by referring to  [Dumping User Model on the NPU](network_accuracy_comparison.md#dumping-user-model-on-the-npu)  and collect dump data. The data will be saved to the  **precision_data/npu/debug_0**  directory by default.
         2. Copy the preceding data to the  **precision_data/npu/debug_1**  directory.
 
             **mv precision_data/npu/debug_0/ precision_data/npu/debug_1**

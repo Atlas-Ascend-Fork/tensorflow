@@ -36,7 +36,7 @@ AOE自动调优工具通过生成调优策略、编译、在运行环境上验�
 
     ```python
     config = NPURunConfig(
-        session_config=session_config, 
+        session_config=session_config,
         aoe_mode=2)
     ```
 

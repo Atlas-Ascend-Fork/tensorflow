@@ -11,7 +11,7 @@ Whether to dump data of exception operators.
 
 - 2 (default): enables the LiteExceptionDump function to dump the input and output data, workspace information, and tiling information of exception operators. The exported data is used to analyze AI Core errors.
 
-  The dump data is stored in the following directories in descending order of priority: ASCEND_WORK_PATH > default directory (extra-info/data-dump/<device_id\> in the script execution directory).
+  The dump data is stored in the following directories in descending order of priority: ASCEND_WORK_PATH > default directory (`extra-info/data-dump/<device_id>` in the script execution directory).
 
 > [!NOTE]NOTE
 > If the environment variable NPU_COLLECT_PATH is configured, exception operator data is dumped in accordance with mode 1 (common ExceptionDump) regardless of the value of enable_exception_dump, and the dump data is stored in the directory specified by NPU_COLLECT_PATH.

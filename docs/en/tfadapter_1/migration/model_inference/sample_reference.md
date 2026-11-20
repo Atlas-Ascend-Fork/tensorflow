@@ -240,10 +240,10 @@ The following uses the ResNet-50 model as an example to describe how to perform 
     ```bash
     # Configure environment variables of the CANN software. The default installation path of the root user is used as an example.
     source /usr/local/Ascend/cann/set_env.sh
-    
+
     # TF Adapter Python library. ${TFPLUGIN_INSTALL_PATH} indicates the installation path of the TF Adapter package.
     export PYTHONPATH=${TFPLUGIN_INSTALL_PATH}:$PYTHONPATH
-    
+
     # Add the path of the current script to PYTHONPATH. For example:
     export PYTHONPATH="$PYTHONPATH:/root/models"
     # Specify the job ID.

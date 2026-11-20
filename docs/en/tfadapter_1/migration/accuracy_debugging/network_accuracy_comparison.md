@@ -33,11 +33,11 @@ Perform the following operations in the GPU/CPU training environment.
     ```python
     # Import precision_tool/tf_config.py.
     import precision_tool.tf_config as npu_tf_config
-    
+
     # If Estimator is used, add training_hooks to EstimatorSpec.
     # It is equivalent to estim_specs = tf_debug.DumpingDebugHook("precision_data/tf/tf_debug").
-    estim_specs = tf.estimator.EstimatorSpec(training_hooks=[npu_tf_config.estimator_dump()])    
-    
+    estim_specs = tf.estimator.EstimatorSpec(training_hooks=[npu_tf_config.estimator_dump()])
+
     # If session.run is used, add the tf_debug wrapper to sess.
     # It is equivalent to sess = tf_debug.DumpingDebugWrapperSession(sess, "precision_data/tf/tf_debug").
     sess = npu_tf_config.sess_dump(sess=sess)
@@ -83,7 +83,7 @@ Generally, dump of the first step is enough for comparison and analysis. To avoi
     ```python
     # Import precision_tool/tf_config.py.
     import precision_tool.tf_config as npu_tf_config
-    
+
     # 1. Manual network porting
     # 1.1 Estimator mode
     dump_config=npu_tf_config.estimator_dump_config(action='dump')
@@ -91,7 +91,7 @@ Generally, dump of the first step is enough for comparison and analysis. To avoi
     # 1.2 Session run mode
     config = npu_tf_config.session_dump_config(config, action='dump')
     sess = tf.Session(config)
-    
+
     # 2. Automated network porting
     # If custom_op is not configured in the script, add the following statement in bold to the script:
     session_config = npu_tf_config.session_dump_config(session_config, action='dump')
@@ -100,7 +100,7 @@ Generally, dump of the first step is enough for comparison and analysis. To avoi
     custom_op.name = 'NpuOptimizer'
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     custom_op = npu_tf_config.update_custom_op(custom_op, action='dump')
-    
+
     # 2.1 Estimator mode
     run_config = tf.estimator.RunConfig(session_config=session_config,...)
     # 2.2 Session run mode
@@ -124,11 +124,11 @@ Accuracy analysis depends on the ATC and  **msaccucmp.py**  tools in the CANN pa
 1. Upload the  **precision_tool**  and  **precision_data**  directories \(containing the benchmark and NPU dump data\) to any directory in the CANN development environment. The two directories are organized as follows:
 
     ```text
-    ├── precision_tool              
-    │    ├── cli.py                   
+    ├── precision_tool
+    │    ├── cli.py
     │    ├── ...
-    ├── precision_data              
-    │    ├── npu                   
+    ├── precision_data
+    │    ├── npu
      │    │    ├── debug_0  // NPU dump data.
     │    ├── tf
     │    │    ├── dump     // Benchmark dump data
@@ -164,7 +164,7 @@ Accuracy analysis depends on the ATC and  **msaccucmp.py**  tools in the CANN pa
     > [!NOTE]NOTE
     > To exit, press  **Ctrl+C**.
 
-5. Run the  [ac -l \[limit_num\] \(-c\)](precision_tool_ommand_ref.md#ac--l-limit_num--c)  command for network-wide accuracy comparison.
+5. Run the  [ac -l \[limit_num\] \(-c\)](precision_tool_command_ref.md#ac--l-limit_num--c)  command for network-wide accuracy comparison.
 
     **PrecisionTool \> ac -c**
 
@@ -176,7 +176,7 @@ Accuracy analysis depends on the ATC and  **msaccucmp.py**  tools in the CANN pa
 
     You can directly inspect the CSV file. For details, see  [Network Accuracy Comparison Result File](network_accuracy_comparison_result_file.md).
 
-6. \(Optional\) Run the  [vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_ommand_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit)  command to narrow down the operators with potential accuracy issues.
+6. \(Optional\) Run the  [vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_command_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit)  command to narrow down the operators with potential accuracy issues.
 
     By default, the  **vcs**  command returns operators with cosine similarity values less than  **0.98**. The threshold can be user-defined by using the  **-c**  argument.
 
@@ -191,7 +191,7 @@ Accuracy analysis depends on the ATC and  **msaccucmp.py**  tools in the CANN pa
     > [!NOTE]NOTE
     > The list sorts operators with accuracy drop by execution sequence. As there are close ties between successive operators, analyze the top operator on the list.
 
-7. Run the  [ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_ommand_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)  command to query the node information of a particular operator.
+7. Run the  [ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_command_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)  command to query the node information of a particular operator.
 
     ![](../figures/precision_ni-op.png)
 
@@ -211,15 +211,15 @@ Accuracy analysis depends on the ATC and  **msaccucmp.py**  tools in the CANN pa
 Network-wide data comparison provides a layer-wise cumulative comparison report between network dump data and TensorFlow benchmark data. Even for networks without accuracy drop, errors caused by hardware differences are inevitable in the comparison result, and such errors will accumulate as the number of layers increases. Cosine similarity is a feasible metric to narrow down the operators with potential accuracy issues. A low cosine similarity always points to an accuracy bug while a high cosine similarity does not guarantee that the operator is 100% bug-free.
 
 1. Determine whether an error operator is a custom operator based on the operator type.
-    - For a custom operator, check that the implementation logic of the operator is consistent with that of the benchmark by inspecting the  [ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_ommand_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)  command output or the dump analysis report.
+    - For a custom operator, check that the implementation logic of the operator is consistent with that of the benchmark by inspecting the  [ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_command_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)  command output or the dump analysis report.
     - For a built-in CANN operator, if the operator input or output type is float16, you can switch the operator type to float32. You can try either of the following methods:
         1. \(Recommended\) Method 1: Modify the blocklist, trustlist, and graylist for the operator that uses the mixed precision mode. For details, see  [Modifying the Blocklist, Trustlist, and Graylist for Mixed Precision](../performance_tuning/mixed_precision_training.md#modifying-the-blocklist-trustlist-and-graylist-for-mixed-precision).
         2. Method 2: Use the  **keep_dtype_scope**  API to preserve the original precision for a selected operator.
 
             ```python
             from npu_bridge.npu_init import *
-            with npu_scope.keep_dtype_scope():   
-              y = tf.mul(x1,x2)
+            with npu_scope.keep_dtype_scope():
+              y = tf.multiply(x1,x2)
             ```
 
 2. If the fault persists: please raise an issue in this source code repository.

@@ -162,7 +162,7 @@ Accuracy analysis depends on the  **atc**  and  **msaccucmp.py**  tools in the C
 
     **PrecisionTool \>**
 
-5. Run the  [ac -l \[limit_num\] \(-c\)](precision_tool_ommand_ref.md#ac--l-limit_num--c)  command for network comparison.
+5. Run the  [ac -l \[limit_num\] \(-c\)](precision_tool_command_ref.md#ac--l-limit_num--c)  command for network comparison.
 
     **PrecisionTool \> ac -c**
 
@@ -174,7 +174,7 @@ Accuracy analysis depends on the  **atc**  and  **msaccucmp.py**  tools in the C
 
     You can directly inspect the CSV file. For details, see  [Network Accuracy Comparison Result File](network_accuracy_comparison_result_file.md).
 
-6. \(Optional\) Run the  [vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_ommand_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit)  command to narrow down the operators with potential accuracy issues.
+6. \(Optional\) Run the  [vcs -f \[file_name\] -c \[cos_sim_threshold\] -l \[limit\]](precision_tool_command_ref.md#vcs--f-file_name--c-cos_sim_threshold--l-limit)  command to narrow down the operators with potential accuracy issues.
 
     By default, the  **vcs**  command returns operators with cosine similarity values less than  **0.98**. The threshold can be user-defined by using the  **-c**  argument.
 
@@ -189,7 +189,7 @@ Accuracy analysis depends on the  **atc**  and  **msaccucmp.py**  tools in the C
     > [!NOTE]NOTE
     > The list sorts operators with accuracy drop by execution sequence. As there are close ties between successive operators, analyze the top operator on the list.
 
-7. Run the  [ni \(-n\) \[op_name\] -s \[save sub graph deep\]](precision_tool_ommand_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)  command to query the node information of a particular operator.
+7. Run the  [ni \(-n\) \[op_name\] -s \[save sub graph deep\]](precision_tool_command_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)  command to query the node information of a particular operator.
 
     ![](../figures/precision_ni-n.png)
 
@@ -209,7 +209,7 @@ Accuracy analysis depends on the  **atc**  and  **msaccucmp.py**  tools in the C
 Network comparison provides a layer-by-layer cumulative comparison report between the dumped network data and the TensorFlow benchmark data. Due to hardware differences, networks have inherent numerical deviations that accumulate as the number of layers increases. Even for networks with normal accuracy, minor numerical discrepancies exist. Cosine similarity is generally used for preliminary screening of suspicious operators. Note that high cosine similarity does not necessarily indicate the absence of issues, while low cosine similarity usually suggests potential issues. The accuracy comparison results can provide a general direction for analysis.
 
 1. Determine whether an error operator is a custom operator based on the operator type.
-    - For a custom operator, check that the implementation logic of the operator is consistent with that of the benchmark by inspecting the  [ni \(-n\) \[op_name\] -s \[save sub graph deep\]](precision_tool_ommand_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)  command output or the dump analysis report.
+    - For a custom operator, check that the implementation logic of the operator is consistent with that of the benchmark by inspecting the  [ni \(-n\) \[op_name\] -s \[save sub graph deep\]](precision_tool_command_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)  command output or the dump analysis report.
     - For a built-in CANN operator, if the operator input or output type is float16, you can switch the operator type to float32. You can try either of the following methods:
         1. \(Recommended\) Method 1: Use  [modify_mixlist](../../apiref/npu-global_options/accuracy_tuning.md#modify_mixlist) to modify the blocklist, trustlist, and graylist for the operator that uses the mixed precision mode.
         2. Method 2: Use the  [npu.keep_dtype_scope](../../apiref/npu-keep_dtype_scope.md)  API to preserve the original precision for a selected operator.

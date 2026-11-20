@@ -26,7 +26,7 @@ The process of saving graphs and weights using TensorFlow is called freezing. Du
     from tensorflow.keras import models
     from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
     from tensorflow.python.framework import graph_util
-    
+
     # Load the model.
     saved_model_dir = "save_path"
     model = tf.saved_model.load(saved_model_dir)

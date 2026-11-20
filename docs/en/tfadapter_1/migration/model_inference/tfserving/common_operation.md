@@ -22,7 +22,7 @@
     If java-11-openjdk fails to be installed, manually install it by referring to  [Installing java-11-openjdk1 Manually](#installing-java-11-openjdk1-manually).
 
 2. Set environment variables.
-    1. Open the  **.bashrc**  file.
+    1. Open the **.bashrc** file.
 
         ```bash
         vim ~/.bashrc
@@ -35,7 +35,7 @@
         export PATH=$JAVA_HOME/bin:$PATH
         ```
 
-    3. Run the  **:wq!**  command to save the file and exit.
+    3. Run the **:wq!** command to save the file and exit.
     4. Run the following command for the environment variables to take effect:
 
         ```bash
@@ -95,11 +95,11 @@
 
 ## Installing java-11-openjdk1 Manually
 
-Three packages are required for installing **java-11-openjdk**. You can go to [https://centos.pkgs.org](https://centos.pkgs.org/)  and search for  **java-11-openjdk**  in the upper-right corner to obtain URLs of the software packages with the  **.rpm**  extension.  The following figure is an example of the search result. Download the corresponding software based on the system version, and then run the  **rpm**  command to install the software.
+Three packages are required for installing **java-11-openjdk**. You can go to [https://centos.pkgs.org](https://centos.pkgs.org/)  and search for **java-11-openjdk** in the upper-right corner to obtain URLs of the software packages with the **.rpm** extension.  The following figure is an example of the search result. Download the corresponding software based on the system version, and then run the **rpm** command to install the software.
 
 ![](../../figures/network_search_result.png "search-result")
 
-The following uses CentOS 8.3 AArch64 as an example to describe how to install  **java-11-openjdk**  software packages.
+The following uses CentOS 8.3 AArch64 as an example to describe how to install **java-11-openjdk** software packages.
 
 | Software Package | Package Download Path |
 | --- | --- |

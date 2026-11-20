@@ -55,14 +55,14 @@
 set_split_strategy_by_idx：基于梯度的索引id，在集合通信group内设置反向梯度切分策略。
 
 ```python
-from hccl.split.api import set_split_strategy_by_idx  
+from hccl.split.api import set_split_strategy_by_idx
 set_split_strategy_by_idx([20, 100, 159])
 ```
 
 set_split_strategy_by_size：基于梯度数据量百分比，在集合通信group内设置反向梯度切分策略。
 
 ```python
-from hccl.split.api import set_split_strategy_by_size  
+from hccl.split.api import set_split_strategy_by_size
 set_split_strategy_by_size([60, 20, 20])
 ```
 

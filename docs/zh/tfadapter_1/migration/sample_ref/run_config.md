@@ -9,7 +9,7 @@
 1. 在“official/r1/resnet/resnet_run_loop.py“增加以下头文件：
 
     ```python
-    from npu_bridge.estimator.npu.npu_config import NPURunConfig 
+    from npu_bridge.estimator.npu.npu_config import NPURunConfig
     from npu_bridge.estimator.npu.npu_estimator import NPUEstimator
     ```
 
@@ -33,7 +33,7 @@
           hcom_parallel=True
       )
       ############## NPU modify end ###############
-    
+
       # 原代码中运行参数配置如下：
       # run_config = tf.estimator.RunConfig(
       #     train_distribute=distribution_strategy,

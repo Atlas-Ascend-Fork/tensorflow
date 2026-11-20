@@ -36,7 +36,7 @@ custom_op.parameter_map["static_memory_policy"].i = 0
 
 ## variable_use_1g_huge_page
 
-在推荐模型中，嵌入层\(Embedding层\)在TensorFlow中使用的是变量，当嵌入层作为索引类算子\(Gather、ScatterNd等\)的输入或输出地址时，若内存较大会存在大范围的离散访问，可能会出现算子性能下降问题。此时可尝试通过配置此参数，为变量和常量使用1G大页申请内存，从而提升访存性能。
+在推荐模型中，嵌入层（Embedding层）在TensorFlow中使用的是变量，当嵌入层作为索引类算子（Gather、ScatterNd等）的输入或输出地址时，若内存较大会存在大范围的离散访问，可能会出现算子性能下降问题。此时可尝试通过配置此参数，为变量和常量使用1G大页申请内存，从而提升访存性能。
 
 - 0（默认值）：使用系统默认的4K或者2M页申请内存。
 - 1：使用1G大页申请内存，如果申请失败立即打印ERROR日志，并终止业务执行。
@@ -62,11 +62,11 @@ custom_op.parameter_map["variable_use_1g_huge_page"].i = 2
 同一个session内同时加载多个模型时，如果多个模型间的权重能够复用，建议通过此配置项将网络中Const/Constant节点的权重外置，实现多个模型间的权重复用，从而减少权重的内存占用。
 
 - False（默认值）：权重不外置，保存在图中。
-- True：权重外置，将网络中所有Const/Constant节点的权重文件落盘，并将Const/Constant类型转换为FileConstant。权重文件以“weight_<hash值\>”命名。
+- True：权重外置，将网络中所有Const/Constant节点的权重文件落盘，并将Const/Constant类型转换为FileConstant。权重文件以`weight_<hash值>`命名。
 
-若环境中未配置环境变量ASCEND_WORK_PATH，则权重文件落盘至当前执行目录“tmp_weight_<pid\>_<sessionid\>”下。
+若环境中未配置环境变量ASCEND_WORK_PATH，则权重文件落盘至当前执行目录`tmp_weight_<pid>_<sessionid>`下。
 
-若环境中配置了环境变量ASCEND_WORK_PATH，则权重文件会落盘至\$\{ASCEND_WORK_PATH\}/tmp_weight_<pid\>_<sessionid\>目录下，关于ASCEND_WORK_PATH的详细说明，可参见《[环境变量参考](https://hiascend.com/document/redirect/CannCommunityEnvRef)》中的“安装配置相关”章节。
+若环境中配置了环境变量ASCEND_WORK_PATH，则权重文件会落盘至`${ASCEND_WORK_PATH}/tmp_weight_<pid>_<sessionid>`目录下，关于ASCEND_WORK_PATH的详细说明，可参见《[环境变量参考](https://hiascend.com/document/redirect/CannCommunityEnvRef)》中的“安装配置相关”章节。
 
 模型卸载时，会自动删除“tmp_weight_<pid\>_<sessionid\>”目录。
 

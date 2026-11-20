@@ -31,13 +31,13 @@
     > [!NOTE]说明
     > 如需退出，可按下Ctrl+C组合键。
 
-5. 使用[vc -lt \[left_path\] -rt \[right_path\] -g \[graph\]](precision_tool_ommand_ref.md#vc--lt-left_path--rt-right_path--g-graph)命令进行整网数据对比。
+5. 使用[vc -lt \[left_path\] -rt \[right_path\] -g \[graph\]](precision_tool_command_ref.md#vc--lt-left_path--rt-right_path--g-graph)命令进行整网数据对比。
 
     **vc -lt precision_data/npu/debug_1/dump/20211016164504/1/ge_default_20211016164504_1/1/0  -rt precision_data/npu/debug_0/dump/20211016180613/1/ge_default_20211016180613_1/1/0**
 
     在out_dir目录生成精度比对结果，可参考[整网精度比对结果文件说明](network_accuracy_comparison_result_file.md)进行数据分析。
 
-6. 针对以上结果，还可以使用precision_tool的[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_ommand_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令进行单层数据比对分析。
+6. 针对以上结果，还可以使用precision_tool的[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_command_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令进行单层数据比对分析。
 
     **python3 precision_tool/cli.py**
 
@@ -52,15 +52,15 @@
 基于整网比对结果，一般采用余弦相似度做初步的可疑算子筛选（注意：余弦相似度较高也不一定说明没有问题，但较低一般代表可能存在问题），精度对比结果可以给出一个大致的分析方向。
 
 1. 根据算子类型，可以判断该算子是否为用户自定义算子：
-    - 对于自定义算子，一般由用户自行分析算子的实现逻辑是否与标杆一致，可以根据[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_ommand_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令提供的算子参数信息，以及dump数据进行单算子分析。
+    - 对于自定义算子，一般由用户自行分析算子的实现逻辑是否与标杆一致，可以根据[ni \(-n\) \[op_name\] -g \[graph\] -a \[attr\] -s \[save subgraph depth\]](precision_tool_command_ref.md#ni--n-op_name--g-graph--a-attr--s-save-subgraph-depth)命令提供的算子参数信息，以及dump数据进行单算子分析。
     - 对于CANN内置算子，如果算子输入或输出类型为float16，则可以切换算子类型至float32计算，用户可以尝试以下两种方法：
         1. （推荐）方法一：修改混合精度模式算子黑白灰名单，调整算子精度模式，请参考[混合精度训练](../performance_tuning/mixed_precision_training.md)。
         2. 方法二：通过keep_dtype_scope接口，指定哪些算子保持原有精度。
 
             ```python
             from npu_bridge.npu_init import *
-            with npu_scope.keep_dtype_scope():   
-              y = tf.mul(x1,x2)
+            with npu_scope.keep_dtype_scope():
+              y = tf.multiply(x1,x2)
             ```
 
 2. 如果依旧无法解决，请在本源码仓提issue。

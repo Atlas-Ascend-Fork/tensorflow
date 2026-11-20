@@ -27,7 +27,7 @@ AllReduce是主流的数据并行架构，各个节点按照算法协同工作�
     ```python
     mirrored_strategy = tf.distribute.MirroredStrategy()
     config = tf.estimator.RunConfig(
-      train_distribute=mirrored_strategy, 
+      train_distribute=mirrored_strategy,
       eval_distribute=mirrored_strategy,
       session_config=session_config,
       save_checkpoints_secs=60*60*24)
@@ -44,14 +44,14 @@ AllReduce是主流的数据并行架构，各个节点按照算法协同工作�
 2. 然后调用[npu_distributed_optimizer_wrapper](../../../apiref/npu_optimizer/npu_distributed_optimizer_wrapper.md)，对传入的optimizer梯度函数添加NPU的allreduce操作，最终返回输入的优化器，从而在AI处理器上实现分布式计算。具体方法为：
 
     ```python
-    def cnn_model_fn(features,labels,mode):    
-      #搭建网络   
-      xxx    
+    def cnn_model_fn(features,labels,mode):
+      #搭建网络
+      xxx
       #计算loss
-      xxx    
-    
-      #Configure the TrainingOp(for TRAIN mode)    
-      if mode == tf.estimator.ModeKeys.TRAIN:      
+      xxx
+
+      #Configure the TrainingOp(for TRAIN mode)
+      if mode == tf.estimator.ModeKeys.TRAIN:
         optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001) # 使用SGD优化器
         optimizer = npu_distributed_optimizer_wrapper(optimizer) # 使用NPU分布式计算，更新梯度
         train_op=optimizer.minimize(loss=loss,global_step=tf.train.get_global_step()) # 最小化loss
@@ -84,12 +84,12 @@ Estimator模式下，使用npu_distributed_optimizer_wrapper实现allreduce功�
 
     ```python
     from npu_bridge.npu_init import *
-    
+
     def broadcast_global_variables(root_rank, index):
       """Broadcasts all global variables from root rank to all other processes.
       Arguments:
       root_rank: rank of the process from which global variables will be broadcasted
-      to all other processes. 
+      to all other processes.
       index: rank_id
       """
       op_list = []
@@ -98,12 +98,12 @@ Estimator模式下，使用npu_distributed_optimizer_wrapper实现allreduce功�
         if "float" in var.dtype.name:
           inputs = [var]
           outputs=hccl_ops.broadcast(tensor=inputs,root_rank=root_rank)
-        if outputs is not None:
-          op_list.append(outputs[0].op)
-          op_list.append(tf.assign(var, outputs[0]))
-    
+          if outputs is not None:
+            op_list.append(outputs[0].op)
+            op_list.append(tf.assign(var, outputs[0]))
+
       return tf.group(op_list)
-    
+
     ...
     bcast_op = broadcast_global_variables(root_rank, index)
     sess = tf.Session()
@@ -158,7 +158,7 @@ labels = xxx
 
 opt = tf.keras.optimizers.Adam(learning_rate=0.001)
 keras_model.compile(optimizer=opt,loss='sparse_categorical_crossentropy')
-keras_model.fit(data, labels, epochs=10, batch_size=32) 
+keras_model.fit(data, labels, epochs=10, batch_size=32)
 ```
 
 迁移后：
@@ -173,7 +173,7 @@ opt = tf.keras.optimizers.Adam(learning_rate=0.001)
 opt = npu_distributed_optimizer_wrapper(opt)           # allreduce
 keras_model.compile(optimizer=opt,loss='sparse_categorical_crossentropy')
 callbacks = [NPUBroadcastGlobalVariablesCallback(0)]  # 变量进行广播
-keras_model.fit(data, labels, epochs=10, batch_size=32, callbacks=callbacks) 
+keras_model.fit(data, labels, epochs=10, batch_size=32, callbacks=callbacks)
 ```
 
 > [!NOTE]说明

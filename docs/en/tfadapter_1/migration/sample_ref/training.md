@@ -31,7 +31,7 @@ The following table describes the APIs of the training module.
         init_sess, npu_init = resnet_run_loop.init_npu()
         init_sess.run(npu_init)
         ############## NPU modify end ###############
-    
+
         with logger.benchmark_context(flags.FLAGS):
             run_imagenet(flags.FLAGS)
     ```
@@ -52,14 +52,14 @@ The following table describes the APIs of the training module.
         """
         npu_init = npu_ops.initialize_system()
         config = tf.ConfigProto()
-    
+
         config.graph_options.rewrite_options.remapping = rewriter_config_pb2.RewriterConfig.OFF
         custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
         # custom_op.parameter_map["precision_mode"].b = True
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
         custom_op.parameter_map["use_off_line"].b = True
-    
+
         init_sess = tf.Session(config=config)
         return init_sess, npu_init
     ############## NPU modify end ###############
@@ -73,7 +73,7 @@ The following table describes the APIs of the training module.
     for cycle_index, num_train_epochs in enumerate(schedule):
           tf.compat.v1.logging.info('Starting cycle: %d/%d', cycle_index,
                                     int(n_loops))
-    
+
           if num_train_epochs:
             # Since we are calling classifier.train immediately in each loop, the
             # value of num_train_epochs in the lambda function will not be changed
@@ -84,7 +84,7 @@ The following table describes the APIs of the training module.
                     num_train_epochs, input_context=input_context),
                 hooks=train_hooks,
                 max_steps=flags_obj.max_train_steps)
-    
+
           ############## NPU modify begin #############
           # When a single training process is complete, destroy the NPU allocations. You need to reinitialize the NPU before starting a new training process so that the HCCL API is available in the new training process:
         # Add the following content to the code.
@@ -93,17 +93,17 @@ The following table describes the APIs of the training module.
           init_sess.run(npu_shutdown)
           init_sess.run(npu_init)
           ############## NPU modify end ###############
-    
+
           tf.compat.v1.logging.info('Starting to evaluate.')
           eval_results = classifier.evaluate(input_fn=input_fn_eval,
                                              steps=flags_obj.max_train_steps)
-    
+
           benchmark_logger.log_evaluation_result(eval_results)
-    
+
           if model_helpers.past_stop_threshold(
               flags_obj.stop_threshold, eval_results['accuracy']):
             break
-    
+
           ############## NPU modify begin #############
           # When a single training process is complete, destroy the NPU allocations. You need to reinitialize the NPU before starting a new training process so that the HCCL API is available in the new training process:
         # Add the following content to the code.
@@ -132,17 +132,17 @@ The following table describes the APIs of the training module.
                     shape, batch_size=flags_obj.batch_size, dtype=export_dtype)
             classifier.export_savedmodel(flags_obj.export_dir, input_receiver_fn,
                                          strip_default_attrs=True)
-    
+
         ############## NPU modify begin #############
         # After training or validation is complete, destroy the NPU allocations through the npu_ops.shutdown_system API. Add the following content to the code.
         npu_shutdown = npu_ops.shutdown_system()
         init_sess.run(npu_shutdown)
         ############## NPU modify end ###############
-    
+
         stats = {}
         stats['eval_results'] = eval_results
         stats['train_hooks'] = train_hooks
-    
+
         return stats
     ```
 

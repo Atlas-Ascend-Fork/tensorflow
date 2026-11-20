@@ -54,7 +54,7 @@ You can set this option by operator type (low priority) or node name (high prior
 - enable_float_32_execution: The FP32 data type is used for internal processing of operators. In this scenario, the FP32 data type is not automatically converted to the HF32 data type. If you are using the HF32 data type for computation and find that the accuracy drop exceeds your expectation, you can enable this configuration to specify the use of FP32 for internal computation of certain operators in order to maintain accuracy.
 
   This option is supported only by the following products:
-  
+
   Ascend 950PR&950DT products
 
   Atlas A3 products
@@ -88,7 +88,7 @@ DNN_VM_AICPU is the name of the AI CPU engine. In this example, the number of co
 
 AIcoreEngine is the name of the AI Core engine. In this example, the number of concurrent tasks on the AI Core engine is 1.
 
-The parallelism of the AICPU/AICORE engine defaults to 1, with a valid range of [1, 13].
+The parallelism of the AICPU/AI Core engine defaults to 1, with a valid range of [1, 13].
 
 Example:
 
@@ -100,7 +100,7 @@ npu.global_options().stream_max_parallel_num="DNN_VM_AICPU:10,AIcoreEngine:1"
 
 This option applies only to Bidirectional Encoder Representations from Transformers (BERT) networks.
 
-Whether to enable communication tailing optimization to improve training performance in distributed training scenarios. By changing a computation dependency relationship, a computation operation that does not depend on the last AR (gradient aggregation fragment) is scheduled to be performed in parallel with the last AR, to optimize communication tailing. 
+Whether to enable communication tailing optimization to improve training performance in distributed training scenarios. By changing a computation dependency relationship, a computation operation that does not depend on the last AR (gradient aggregation fragment) is scheduled to be performed in parallel with the last AR, to optimize communication tailing.
 
 Values:
 

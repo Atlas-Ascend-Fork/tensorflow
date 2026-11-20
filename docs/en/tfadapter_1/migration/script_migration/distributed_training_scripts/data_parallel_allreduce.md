@@ -27,7 +27,7 @@ During distributed training, you can use the TensorFlow APIs to split datasets. 
     ```python
     mirrored_strategy = tf.distribute.MirroredStrategy()
     config = tf.estimator.RunConfig(
-      train_distribute=mirrored_strategy, 
+      train_distribute=mirrored_strategy,
       eval_distribute=mirrored_strategy,
       session_config=session_config,
       save_checkpoints_secs=60*60*24)
@@ -44,14 +44,14 @@ During distributed training, you can use the TensorFlow APIs to split datasets. 
 2. Call  [npu_distributed_optimizer_wrapper](../../../apiref/npu_optimizer/npu_distributed_optimizer_wrapper.md)  to add the AllReduce operation of NPU to the input gradient function of the optimizer and return the input optimizer so that distributed computing can be implemented on the  AI processor. The specific method is as follows:
 
     ```python
-    def cnn_model_fn(features,labels,mode):    
+    def cnn_model_fn(features,labels,mode):
       # Construct the network.
-      xxx    
+      xxx
       # Calculate the loss.
-      xxx    
-    
-      #Configure the TrainingOp(for TRAIN mode)    
-      if mode == tf.estimator.ModeKeys.TRAIN:      
+      xxx
+
+      #Configure the TrainingOp(for TRAIN mode)
+      if mode == tf.estimator.ModeKeys.TRAIN:
         optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001) # Use the SGD optimizer.
         optimizer = npu_distributed_optimizer_wrapper(optimizer) # Use NPU-based distributed computing to update gradients.
         train_op=optimizer.minimize(loss=loss,global_step=tf.train.get_global_step()) # Minimize the loss.
@@ -80,16 +80,16 @@ During distributed training, you can use the TensorFlow APIs to split datasets. 
 
 In  **Estimator**  mode, when  **npu_distributed_optimizer_wrapper**  is used to implement the AllReduce function,  **NPUBroadcastGlobalVariablesHook**  is automatically added to  **NPUEstimator**. Therefore, you do not need to manually implement broadcast. But in  **sess.run**  mode, you need manual implementation. The implementation is as follows:
 
-1. After variable initialization and before training, broadcast variables using the  **broadcast**  collective communication API. 
+1. After variable initialization and before training, broadcast variables using the  **broadcast**  collective communication API.
 
     ```python
     from npu_bridge.npu_init import *
-    
+
     def broadcast_global_variables(root_rank, index):
       """Broadcasts all global variables from root rank to all other processes.
       Arguments:
       root_rank: rank of the process from which global variables will be broadcasted
-      to all other processes. 
+      to all other processes.
       index: rank_id
       """
       op_list = []
@@ -98,12 +98,12 @@ In  **Estimator**  mode, when  **npu_distributed_optimizer_wrapper**  is used to
         if "float" in var.dtype.name:
           inputs = [var]
           outputs=hccl_ops.broadcast(tensor=inputs,root_rank=root_rank)
-        if outputs is not None:
-          op_list.append(outputs[0].op)
-          op_list.append(tf.assign(var, outputs[0]))
-    
+          if outputs is not None:
+            op_list.append(outputs[0].op)
+            op_list.append(tf.assign(var, outputs[0]))
+
       return tf.group(op_list)
-    
+
     ...
     bcast_op = broadcast_global_variables(root_rank, index)
     sess = tf.Session()
@@ -158,7 +158,7 @@ labels = xxx
 
 opt = tf.keras.optimizers.Adam(learning_rate=0.001)
 keras_model.compile(optimizer=opt,loss='sparse_categorical_crossentropy')
-keras_model.fit(data, labels, epochs=10, batch_size=32) 
+keras_model.fit(data, labels, epochs=10, batch_size=32)
 ```
 
 After porting
@@ -173,7 +173,7 @@ opt = tf.keras.optimizers.Adam(learning_rate=0.001)
 opt = npu_distributed_optimizer_wrapper(opt)           # allreduce
 keras_model.compile(optimizer=opt,loss='sparse_categorical_crossentropy')
 callbacks = [NPUBroadcastGlobalVariablesCallback(0)]  # Broadcast variables.
-keras_model.fit(data, labels, epochs=10, batch_size=32, callbacks=callbacks) 
+keras_model.fit(data, labels, epochs=10, batch_size=32, callbacks=callbacks)
 ```
 
 > [!NOTE]NOTE

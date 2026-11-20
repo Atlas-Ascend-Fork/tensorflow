@@ -13,7 +13,7 @@
 分析用户的训练脚本：
 
 ```python
-sess.run(tf.group(      
+sess.run(tf.group(
     tf.global_variables_initializer(),  # 变量初始化
     tf.local_variables_initializer(),   # 变量初始化
     iterator.initializer                # 数据预处理初始化
@@ -29,7 +29,7 @@ sess.run(tf.group(
 为保证TensorFlow在图拆分时，将变量初始化和数据预处理初始化拆分成不同的子图，建议用户脚本分开执行：
 
 ```python
-sess.run(tf.group(      
+sess.run(tf.group(
     tf.global_variables_initializer(),  # 变量初始化
     tf.local_variables_initializer()    # 变量初始化
     ))

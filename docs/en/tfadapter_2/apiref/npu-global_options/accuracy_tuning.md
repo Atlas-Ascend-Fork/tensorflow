@@ -75,7 +75,7 @@ A string for the operator precision mode.
     3. If the float32 input and output data types are not supported, set both the input and output data types to float16.
     4. If the float16 input and output data types are not supported, an error is reported.
   - For vector compute operators, the operator precision in the original graph is float16 or bfloat16, and float32 is forcibly selected.
-  
+
     This option is invalid if the original graph contains operators not supporting float32 in the AI Core, for example, an operator that supports only float16. In this case, float16 is retained. If the operator in the AI Core does not support float32 and it is configured to the blocklist of precision reduction (by setting precision_reduce to false), the counterpart AI CPU operator supporting float32 is used. If the AI CPU operator does not support float32, an error is reported.
 - must_keep_origin_dtype:
 
@@ -101,6 +101,7 @@ A string for the operator precision mode.
   Note: This configuration is supported by the Ascend 950PR&950DT products, Atlas A3 products, and Atlas A2 products.
 
 Default value:
+
 - For the Ascend 950PR&950DT products, the default value is must_keep_origin_dtype.
 - For the Atlas A3 products, the default value is must_keep_origin_dtype.
 - For the Atlas A2 products, the default value is must_keep_origin_dtype.
@@ -183,7 +184,7 @@ Set it to the path (including the name of the configuration file), for example, 
 Example:
 
 ```python
-npu.global_options().customize_dtypes = "/home/testcustomize_dtypes.cfg"
+npu.global_options().customize_dtypes = "/home/test/customize_dtypes.cfg"
 ```
 
 List the names or types of operators whose precision needs customization in the configuration file. Each operator occupies a line, and the operator type must be defined based on Ascend IR. If both operator name and type are configured for an operator, the operator name applies during building.

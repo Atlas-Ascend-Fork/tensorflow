@@ -55,11 +55,11 @@ The code snippet is ready-to-use in normal cases. Manual tweaking is required on
     Original TensorFlow code:
 
     ```python
-    def gelu(x): 
+    def gelu(x):
       cdf = 0.5 * (1.0 + tf.tanh(
-         (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3))))) 
+         (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3)))))
       return x*cdf
-    layers = gelu()
+    layers = gelu(x)
     ```
 
     Code after porting:
@@ -93,19 +93,19 @@ Original TensorFlow code:
 
 ```python
 # Construct an iterator.
-iterator=Iterator.from_structure(train_dataset.output_types,train_dataset.output_shapes) 
- 
+iterator=Iterator.from_structure(train_dataset.output_types,train_dataset.output_shapes)
+
 # Obtain the batch data.
-next_batch=iterator.get_next() 
- 
+next_batch=iterator.get_next()
+
 # Initialize the iterator.
-training_init_op=iterator.make_initializer(train_dataset) 
-  
+training_init_op=iterator.make_initializer(train_dataset)
+
 # Initialize the variables.
-init=tf.compat.v1.global_variables_initializer() 
-sess=tf.compat.v1.Session() 
-sess.run(init) 
-  
+init=tf.compat.v1.global_variables_initializer()
+sess=tf.compat.v1.Session()
+sess.run(init)
+
 # Get the number of training/validation steps per epoch.
 train_batches_per_epoch=int(np.floor(train_size/batch_size))
 ```
@@ -114,26 +114,26 @@ Code after porting:
 
 ```python
 # Construct an iterator.
-iterator=Iterator.from_structure(train_dataset.output_types,train_dataset.output_shapes) 
- 
+iterator=Iterator.from_structure(train_dataset.output_types,train_dataset.output_shapes)
+
 # Obtain the batch data.
-next_batch=iterator.get_next() 
- 
+next_batch=iterator.get_next()
+
 # Initialize the iterator.
-training_init_op=iterator.make_initializer(train_dataset) 
-  
+training_init_op=iterator.make_initializer(train_dataset)
+
 # Initialize the variables.
-init=tf.compat.v1.global_variables_initializer() 
- 
+init=tf.compat.v1.global_variables_initializer()
+
 # Create a session.
-config = tf.compat.v1.ConfigProto() 
-custom_op = config.graph_options.rewrite_options.custom_optimizers.add() 
-custom_op.name = "NpuOptimizer" 
+config = tf.compat.v1.ConfigProto()
+custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
+custom_op.name = "NpuOptimizer"
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # Must be disabled explicitly.
 config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # Must be disabled explicitly.
-sess = tf.compat.v1.Session(config=config) 
-sess.run(init) 
-  
+sess = tf.compat.v1.Session(config=config)
+sess.run(init)
+
 # Get the number of training/validation steps per epoch.
 train_batches_per_epoch=int(np.floor(train_size/batch_size))
 ```
@@ -151,7 +151,7 @@ The code snippet is ready to use. See the following example.
 for epoch in range(num_epochs):
   ##Initialize iterator with the training dataset
   sess.run(training_init_op)
-  for step in range(train_batches_per_epoch):  
+  for step in range(train_batches_per_epoch):
     #get next batch of data
     img_batch,label_batch=sess.run(next_batch)
     #run the training op

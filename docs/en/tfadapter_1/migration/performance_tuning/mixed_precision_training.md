@@ -20,12 +20,12 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
 
             ```python
             if __name__ == '__main__':
-            
+
               session_config = tf.ConfigProto(allow_soft_placement=True)
               custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
               custom_op.name = "NpuOptimizer"
               custom_op.parameter_map["precision_mode_v2"].s = tf.compat.as_bytes("mixed_float16")
-            
+
               (npu_sess, npu_shutdown) = init_resource(config=session_config)
               tf.app.run()
               shutdown_resource(npu_sess, npu_shutdown)
@@ -42,12 +42,12 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
 
         ```python
         session_config = tf.ConfigProto(allow_soft_placement=True)
-        
+
         run_config = tf.estimator.RunConfig(
           train_distribute=distribution_strategy,
           session_config=session_config,
           save_checkpoints_secs=60*60*24)
-        
+
         classifier = tf.estimator.Estimator(
           model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
         ```
@@ -59,12 +59,12 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
         custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = 'NpuOptimizer'
         custom_op.parameter_map["precision_mode_v2"].s = tf.compat.as_bytes("mixed_float16")
-        
+
         run_config = tf.estimator.RunConfig(
           train_distribute=distribution_strategy,
           session_config=session_config,
           save_checkpoints_secs=60*60*24)
-        
+
         classifier = tf.estimator.Estimator(
           model_fn=model_function, model_dir=flags_obj.model_dir, config=npu_run_config_init(run_config=run_config))
         ```
@@ -75,7 +75,7 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
 
     ```python
     from npu_bridge.npu_init import *
-    
+
     npu_config=NPURunConfig(
       model_dir=FLAGS.model_dir,
       save_checkpoints_steps=FLAGS.save_checkpoints_steps,
@@ -96,7 +96,7 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
               custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
               custom_op.name = 'NpuOptimizer'
               custom_op.parameter_map["precision_mode_v2"].s = tf.compat.as_bytes("mixed_float16")
-            
+
               (npu_sess, npu_shutdown) = init_resource(config=session_config)
               tf.app.run()
               shutdown_resource(npu_sess, npu_shutdown)
@@ -127,16 +127,16 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
     ```python
     import tensorflow as tf
     from npu_bridge.npu_init import *
-    
+
     config = tf.ConfigProto(allow_soft_placement=True)
-    
+
     custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
-    custom_op.name =  "NpuOptimizer" 
+    custom_op.name =  "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True
     custom_op.parameter_map["precision_mode_v2"].s = tf.compat.as_bytes("mixed_float16")
     config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
     config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
-    
+
     with tf.Session(config=config) as sess:
       print(sess.run(cost))
     ```
@@ -149,13 +149,13 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
 
             ```python
             if __name__ == '__main__':
-            
+
               session_config = tf.ConfigProto(allow_soft_placement=True )
               custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
-              custom_op.name = "NpuOptimizer" 
+              custom_op.name = "NpuOptimizer"
               custom_op.parameter_map["precision_mode_v2"].s = tf.compat.as_bytes("mixed_float16")
               ... ...
-            
+
               (npu_sess, npu_shutdown) = init_resource(config=session_config)
               tf.app.run()
               shutdown_resource(npu_sess, npu_shutdown)
@@ -173,13 +173,13 @@ This section uses setting  **precision_mode_v2**  to  **mixed_float16**  as an e
         import tensorflow.python.keras as keras
         from tensorflow.python.keras import backend as K
         from npu_bridge.npu_init import *
-        
+
         config_proto = tf.ConfigProto(allow_soft_placement=True)
         custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = 'NpuOptimizer'
         custom_op.parameter_map["precision_mode_v2"].s = tf.compat.as_bytes("mixed_float16")
         npu_keras_sess = set_keras_session_npu_config(config=config_proto)
-        
+
         # Preprocess data...
         # Construct a model...
         # Build the model...
@@ -197,13 +197,13 @@ When automatic mixed precision is enabled, the system automatically reduces the 
 You can find the built-in tiling policy in  **/opp/built-in/op_impl/ai_core/tbe/config/<soc_version\>/aic-<soc_version\>-ops-info-<opType\>.json**  under the CANN installation directory.
 
 ```json
-"Conv2D":{
-    "precision_reduce":{
-        "flag":"true"
+{
+    "Conv2D":{
+        "precision_reduce":{
+            "flag":"true"
+        }
     },
-    {
-    ... ...
-    }
+    ...
 }
 ```
 
@@ -246,7 +246,7 @@ In the training script, use the  **modify_mixlist**  parameter to specify the co
     # In sess.run mode
     config = tf.ConfigProto()
     custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
-    custom_op.name =  "NpuOptimizer" 
+    custom_op.name =  "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True
     custom_op.parameter_map["precision_mode_v2"].s = tf.compat.as_bytes("mixed_float16")
     custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("/home/test/ops_info.json")
@@ -254,7 +254,7 @@ In the training script, use the  **modify_mixlist**  parameter to specify the co
     config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
     with tf.Session(config=config) as sess:
       print(sess.run(cost))
-    
+
     # In Keras mode
     The modification method is similar to that in sess.run mode.
     ```
@@ -289,7 +289,7 @@ Assume that operator A is in the trustlist by default. If you want to move it to
 
     ```json
     {
-      "black-list": { 
+      "black-list": {
          "to-add": ["A"]
       }
     }
@@ -377,7 +377,7 @@ For  Atlas training products, the default overflow/underflow mode of floating-po
         8. Update weights using the optimizer.
         9. If no Inf or NaN is found in the last  _N_  iterations, increase  **S**.  _N_  is configurable.
 
-        **Figure  1**  Compute procedure with dynamic loss scale  
+        **Figure  1**  Compute procedure with dynamic loss scale
         ![](../figures/Loss-Scale_compute_process.png)
 
 ### Using Loss Scale
@@ -421,7 +421,7 @@ For  Atlas training products, the default overflow/underflow mode of floating-po
 
     ```python
     from npu_bridge.npu_init import *
-    
+
     if FLAGS.use_fp16 and (FLAGS.bert_loss_scale not in [None, -1]):
       opt_tmp = opt
       if FLAGS.bert_loss_scale == 0:
@@ -512,10 +512,10 @@ class _LogSessionRunHook(tf.train.SessionRunHook):
    def before_run(self, run_context):
        return tf.estimator.SessionRunArgs(
                fetches=['loss_scale:0'])
- 
+
    def after_run(self, run_context, run_values):
        print('loss scale value=%d' % run_values.results[0], flush=True)
-  
+
 ...
 
 if 'train' in params.exec_mode:
@@ -542,7 +542,7 @@ for step in range(restore_step, FLAGS.max_steps):
 
     ml, tl,ce_loss, bbox_loss, _, summary_str = sess.run([
                                        model_loss,
-                                       total_loss, 
+                                       total_loss,
                                        rpn_cross_entropy,
                                        rpn_loss_box,
                                        train_op, summary_op],
